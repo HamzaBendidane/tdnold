@@ -1,0 +1,10 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>{{ conseils|length }} demande{% if conseils|length > 1 %}s{% endif %} de conseil attendent une réponse de votre part :</p>
+<ul>
+	{% for c in conseils %}
+	<li style="margin-bottom:10px"><strong>Du {{ c.dateSoumission|date('d/m/Y') }}</strong> : {{ c.question|striptags }}</li>
+	{% endfor %}
+</ul>
+{% endblock %}

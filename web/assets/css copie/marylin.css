@@ -1,0 +1,576 @@
+
+html {font-size: 100%;} /*new*/
+body{
+	font: normal 13px droid sans; /*avant 1.1em*/
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+body.theme-alaune {
+	background: url(../images/theme/tetiere/body/bg_body-alaune.jpg) repeat-x scroll left top #FFF;
+	margin: 0;
+}
+body.theme-beaute {
+	background: url(../images/theme/tetiere/body/bg_body-beaute.jpg) repeat-x scroll left top #FFF;
+	margin: 0;
+}
+body.theme-bienetre {
+	background: url(../images/theme/tetiere/body/bg_body-bienetre.jpg) repeat-x scroll left top #FFF;
+	margin: 0;
+}
+body.theme-deco {
+	background: url(../images/theme/tetiere/body/bg_body-deco.jpg) repeat-x scroll left top #FFF;
+	margin: 0;
+}
+body.theme-geekette {
+	background: url(../images/theme/tetiere/body/bg_body-geekette.jpg) repeat-x scroll left top #FFF;
+	margin: 0;
+}
+body.theme-mode {
+	background: url(../images/theme/tetiere/body/bg_body-mode.jpg) repeat-x scroll left top #FFF;
+	margin: 0;
+}
+body.theme-sexo {
+	background: url(../images/theme/tetiere/body/bg_body-sexo.jpg) repeat-x scroll left top #FFF;
+	margin: 0;
+}
+body.theme-recettes {
+	background: url(../images/theme/tetiere/body/bg_body-recettes.jpg) repeat-x scroll left top #FFF;
+	margin: 0;
+}
+body.theme-tdn {
+	background: url(../images/theme/tetiere/body/bg_body-tdn.jpg) repeat-x scroll left top #FFF;
+	margin: 0;
+}
+
+h1 {
+	font: bold 2.4em Questrial;/*new*//* Modif cham 29/12/12 */	
+	color:#000;/*new*//* Modif cham 28/12/12 */
+}
+
+.titre-document {
+	font-style: normal;
+	padding-bottom:5px;/*new*//* Modif cham 28/12/12 */
+	border-bottom: 2px dotted #FF6699;/*new*//* Modif cham 04/01/13  */	
+	color:#48585E;/*new*//* Modif cham 04/01/13 */	
+}
+
+.titre-document::first-letter { /*new*//* Modif cham 28/12/12 */
+	text-transform: uppercase;
+	background-color:#FFE5ED;
+	font: bold 1.4em Questrial;
+	padding:0px 3px 0px 3px;
+	border-radius: 40px 40px 40px 0px;
+}
+
+h2 {
+	font: bold 1.3em Questrial;
+}
+
+h3.titre {
+	font: normal Questrial; /*new*/
+	font-style: italic;
+}
+
+.vertical {
+	-webkit-transform:rotate(-90deg);
+	-moz-transform:rotate(-90deg);
+	-o-transform: rotate(-90deg);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+	white-space:nowrap;
+}
+
+@import url("header.css");
+
+#tdn-wrapper {
+	margin: 0 auto;
+	width: 1040px;
+	position: relative;
+}
+/* MENU NAVIGATION */
+#menu-principal {
+	background: #FFF;
+	-webkit-border-radius: 40px;
+	border-radius: 40px;
+	display: table;
+	margin: 0 auto;
+	position: relative;
+	top: -20px; /*modif > valeur avant -12px*/
+	width:1040px;/*new*/
+	height:40px;/*new*/
+}
+
+#menu-principal > div {
+	display: table-cell;
+}
+
+#fonctions-sociales {/*new*/
+	float:left;	
+	margin-right:40px;/*new*/
+	}
+	
+#fonctions-sociales > img {
+	position: relative;
+	top: 8px; /*modif > valeur avant 6px*/
+	left: 11px;
+	z-index: 610;
+}
+
+#navigation {
+	position: relative;
+	z-index: 600;
+}
+
+#navigation ul {
+    float: left; /*new*/
+    height: 20px;
+    margin: 0;
+    padding: 6px 10px 0 10px; /*modif*/
+    z-index: 610;
+}
+
+#navigation li { 
+	display: inline-block;
+	/*font-size: 1.1em; supprimer*/
+	font-weight: bold;
+	float:left;/*new*/
+	list-style: none;
+	padding: 4px;
+	font: bold 18px Questrial;/*new ! avec une valeur en "em" la taille est mal interprété selon les navigateurs ?? */
+}
+
+#navigation li ul {
+	border-bottom: 2px solid #FFF;
+	border-left: 2px solid #FFF;
+	border-right: 2px solid #FFF;
+	border-radius:	0 0 16px 16px; /*modif > avant: 0 0 8px 8px*/
+	position: absolute;
+	top: -130px;
+	opacity: 0;
+	z-index: 400;
+	-moz-transition-property: top, opacity;
+	-moz-transition-duration: 0s;
+	-moz-transition-timing-function: ease-out;
+	height:30px; /*new*/
+}
+
+#navigation li:hover ul {
+	border-bottom: 2px solid #FFF;
+	border-left: 2px solid #FFF;
+	border-right: 2px solid #FFF;
+	border-radius:	0 0 16px 16px; /*modif > avant: 0 0 8px 8px*/
+	position: absolute;
+	top: 40px; /*modif > avant valeur 30px*/
+	opacity: 1;
+	z-index: 400;
+	-moz-transition-property: top, opacity;
+	-moz-transition-duration: 0s;
+	-moz-transition-timing-function: ease-out;
+	height:30px; /*new*/
+}
+
+#navigation li li {
+	color: #333;
+	font: bold 13px "Questrial"; /*new*/
+}
+
+#navigation .menu-alaune ul {
+	background-color: #FFD28C; /*changement de couleur ! avant >#FF9A00 */
+	left: 10px;
+	background-image: url(../images/theme/tetiere/navigation/bg_sous-rubrique_alaune.png); /*new*/
+	background-repeat: repeat-x; /*new*/
+}
+#navigation .menu-beaute ul {
+	background-color: #FFB2CB; /*changement de couleur ! avant >#FAB2CA */
+	left: 60px;
+	background-image: url(../images/theme/tetiere/navigation/bg_sous-rubrique_beaute.png); /*new*/
+	background-repeat: repeat-x; /*new*/
+}
+#navigation .menu-geekette ul {
+	background-color: #DADADA; /*changement de couleur ! avant >#656565 */
+	left: 200px; /*modif ! avant > 110px */
+	background-image: url(../images/theme/tetiere/navigation/bg_sous-rubrique_geekette.png); /*new*/
+	background-repeat: repeat-x; /*new*/
+}
+#navigation .menu-deco ul {
+	background-color: #A8CADC; /*changement de couleur ! avant >#408BB2 */
+	left: 260px; /*modif ! avant > 160px */
+	background-image: url(../images/theme/tetiere/navigation/bg_sous-rubrique_deco.png); /*new*/
+	background-repeat: repeat-x; /*new*/
+}
+
+#navigation .menu-mode ul {
+	background-color: #C4F1FF; /*changement de couleur ! avant >#65DBFF */
+	left: 300px; /*modif ! avant > 210px */
+	background-image: url(../images/theme/tetiere/navigation/bg_sous-rubrique_mode.png); /*new*/
+	background-repeat: repeat-x; /*new*/
+}
+
+#navigation .menu-bienetre ul {
+	background-color: #A6EDCA; /*changement de couleur ! avant >#34CC00 */
+	left: 410px; /*modif ! avant > 260px */
+	background-image: url(../images/theme/tetiere/navigation/bg_sous-rubrique_bien-etre.png); /*new*/
+	background-repeat: repeat-x; /*new*/
+}
+#navigation .menu-sexopsycho ul {
+	background-color: #FFA58F; /*changement de couleur ! avant >#FA3201 */
+	left: 490px; /*modif ! avant > 230px */
+	background-image: url(../images/theme/tetiere/navigation/bg_sous-rubrique_sexo.png); /*new*/
+	background-repeat: repeat-x; /*new*/
+}
+#navigation .menu-recettes ul {
+	background-color: #E2D5C6; /*changement de couleur ! avant >#986631 */
+	left: 620px; /*modif ! avant > 300px */
+	background-image: url(../images/theme/tetiere/navigation/bg_sous-rubrique_recettes.png); /*new*/
+	background-repeat: repeat-x; /*new*/
+}
+
+#navigation .menu-alaune {
+	color: #FF9900; /*changement de couleur ! avant >#FF9A00 */
+}
+
+#navigation .menu-beaute { 
+	color: #FF6699;/*changement de couleur ! avant >#FAB2CA */
+}
+
+#navigation .menu-bienetre {
+	color: #00CC66; /*changement de couleur ! avant >#34CC00 */
+}
+
+#navigation .menu-deco {
+	color: #006699; /*changement de couleur ! avant >#408BB2 */
+}
+
+#navigation .menu-geekette {
+	color: #666666; /*changement de couleur ! avant >#656565 */
+}
+
+#navigation .menu-mode {
+	color: #33CCFF; /*changement de couleur ! avant >#65DBFF*/
+}
+
+#navigation .menu-sexopsycho {
+	color: #FF3300; /*changement de couleur ! avant >#FA3201*/
+}
+
+#navigation .menu-recettes {
+	color: #A27951; /*changement de couleur ! avant >#986631*/
+}
+
+#recherche-rapide {
+	background: url(../images/theme/tetiere/navigation/loupe.png) no-repeat scroll 7px 6px #FECCFD;
+	-webkit-border-radius: 40px;
+	border-radius: 40px;
+	height: 17px; /*new*/
+	width: 160px; /*modif ! avant  > 140px*/
+	margin-top: 6px;
+	margin-right: 8px;
+	margin-bottom: 6px; 
+	display: block;
+	float: right; /*new*/
+    padding: 8px 10px 3px 30px; /*modif ! avant  > 3px 10px 3px 40px*/
+}
+
+#recherche-rapide input {
+	border: none;
+	position: relative;
+	top: -3px;
+	width: 130px; /*new*/
+}
+
+#recherche-rapide .submitter {
+	display: none;
+}
+
+/* CONTENU */
+#contenu-principal {
+	display: table;
+	position: relative;
+}
+
+#contenu {
+	display: table-cell;
+	padding: 0 30px;
+	position: relative;
+	width: 775px;
+	vertical-align: top;
+}
+
+#sommaire {
+	display: table;
+}
+
+#redaction {
+	display: table-cell;
+	width: 540px;
+	vertical-align: top;
+}
+
+#sidebar {
+	display: table-cell;
+	width: 265px;
+	vertical-align: top;
+}
+
+#communaute {
+	background: #98e3df; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzk4ZTNkZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlMGUwZTgiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top,  #98e3df 0%, #e0e0e8 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#98e3df), color-stop(100%,#e0e0e8)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #98e3df 0%,#e0e0e8 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #98e3df 0%,#e0e0e8 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #98e3df 0%,#e0e0e8 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #98e3df 0%,#e0e0e8 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#98e3df', endColorstr='#e0e0e8',GradientType=0 ); /* IE6-8 */
+	position: relative;
+	min-height: 390px;
+	border-radius: 16px 16px 0px 0px; /* new */
+	padding: 20px 0 ; /* new */
+}
+#direct { /* new */
+	display: table;
+	border: 2px solid #98E3E0;
+	background-color:#FFF;
+	padding:0px 12px 12px 12px;
+	margin-right:7px;
+}
+#membres { /* new */
+	display: table;
+	border: 2px solid #B9ECEA;
+	background-color:#99CCCC;
+	padding:0px 12px 12px 12px;
+	margin-right:7px;
+}
+#questions-nanas { /* new */
+	display: table;
+	border: 2px solid #98E3E0;
+	background-color:#FFF;
+	padding:0px 12px 12px 12px;
+}
+
+#actus-communaute {
+	display: table;
+	margin-left: 40px; /* Modif ! avant > 74px */
+	margin-right: 10px; /*new*/
+	min-height: 354px; /*new*/
+	font: normal 11px "droid sans"; /*new*/
+}
+
+#actus-communaute h4 { /* new */
+	color:#1DC0BA;
+	margin-top:10px;
+	width:260px;
+	font: bold 16px "Questrial"; /*new*/
+}
+
+
+.titre-communaute {
+	left: -90px; /* Modif ! avant > 72px */
+	position: absolute;
+	top: 140px;
+	font-size:23px /* new */
+}
+
+#actus-communaute > div {
+	display: table-cell;
+	width: 315px;
+}
+
+/* Footer */
+
+
+footer {
+	-webkit-border-radius: 40px 40px 0px 0px;
+	border-radius: 40px 40px 0px 0px;
+	display: table;
+	background: #93117e; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzkzMTE3ZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM2NjBlNWMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top,  #93117e 0%, #660e5c 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#93117e), color-stop(100%,#660e5c)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #93117e 0%,#660e5c 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #93117e 0%,#660e5c 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #93117e 0%,#660e5c 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #93117e 0%,#660e5c 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#93117e', endColorstr='#660e5c',GradientType=0 ); /* IE6-8 */
+	padding: 10px 40px 10px 40px; /* modif !avant > 10px*/
+	position: relative;
+	top: -30px;
+	width: 962px; /* modif !avant > 1022px*/
+}
+
+footer h4 {
+	color: #A9E7E5; /* modif ! changement de couleur */
+	font: normal 0.8em "droid sans";/* modif ! avant > font Lucida */
+	text-transform: uppercase;
+}
+
+footer li {
+	font-size: 0.8em;
+	margin: 0px;
+	padding: 0px;
+}
+
+#trucdenana { /* new */
+	font-size: 0.7em;
+	color:#A098BE;
+	width:229px;
+	text-align:center;
+}
+footer .colonne-footer { /* new */
+	border-right-width: 1px;
+	border-right-style: dashed;
+	border-right-color: #A098BE;
+	width:150px;
+	margin-right:20px;
+	display: table-cell;
+	color: #EAA6E9; 
+	font-size: 1.1em;
+	padding:0 10px;
+}
+footer .colonne-footer ul{ /* new */
+	margin-left: 16px !important;
+	padding: 0px !important;
+}
+
+
+.centre {
+	margin: 0 auto;
+	text-align: center;
+}
+
+#suivre-tdn {
+	background: url(../images/theme/sidebar/bg_cadre_pince.png) no-repeat scroll center bottom transparent;
+}
+
+#videos {
+	margin-top: 20px;
+	position: relative;
+}
+
+#videos .pinned {
+	position: absolute;
+	top: -10px;
+	left: 5px;
+}
+
+#videos h2 {
+	margin-left: 90px;
+	padding-top: 10px;
+}
+
+#social-clipper h2 {
+	background: none repeat scroll 0 0 #000000;
+	border-radius: 16px 16px 0 0;
+	color: #FFFFFF;
+	font-size: 16px;
+	left: none;
+	padding: 4px 15px;
+	position: fixed;
+	right: -77px;
+	top: 200px;
+}
+
+/* Formulaires */
+
+label {
+	display: block;
+	font: bold 0.9em Questrial ;
+	margin-top: 2.7em;
+	margin-bottom: 0.9em;
+}
+
+textarea {
+	width: 500px;
+	height: 200px;
+}
+
+ input[type='submit'] {
+	border: 0;
+	border-radius: 12px;
+	color: white;
+	display: block;
+	margin-top: 2.7em;
+	background-attachment: scroll;
+	background-color: #752670;
+	background-image: url(../images/theme/forms/bt_fleche_droite.png);
+	background-repeat: no-repeat;
+	background-position: 93% 4px;
+	padding-top: 4px;
+	padding-right: 40px;
+	padding-bottom: 4px;
+	padding-left: 10px;
+	font-size: 1em;
+	font-weight: bold;
+	height: 24px;
+ }
+
+ #formCommentaire #avatar {
+ 	width: 50px;
+ }
+
+ #formCommentaire > * {
+ 	vertical-align: middle;
+ }
+
+ #raw-source {
+ 	display: none;
+ }
+ 
+ /* Ajouts MC 27/12/12 */
+
+.indicateurs-sociaux {
+	margin-left: 80px; 
+}
+
+.indicateurs-tdn {
+	display: table-cell;
+	text-align: left;
+}
+
+.indicateurs-externes {
+	display: table-cell;
+	text-align: right;
+}
+
+.indicateurs-externes > span,
+.indicateurs-tdn > span {
+	border-radius: 5px;
+	display: inline-block;
+	padding: 8px 20px 8px 8px;
+}
+
+.indicateurs-tdn > span {
+	background-color: #A4E6E4;
+}
+ 
+.indicateurs-externes > span {
+	background-color: #A4E6E4;
+}
+
+.fer-droite {
+	text-align: right;
+}
+
+.bottom-link {
+	/*background: url("../images/theme/tetiere/mytdn/bt_fleche droite.png") no-repeat scroll 98% 50% #742671;*/
+	background-color:  #742671;
+	border-radius: 5px;
+	color: white;
+	display: inline-block;
+	font-style: italic;
+	font-weight: bold;
+	padding: 0px 20px 5px;
+	text-align: right;
+}
+
+.bottom-link:after {
+	content: url("../images/theme/forms/bt_fleche_droite.png");
+	position: relative;
+	top: 4px;
+	left: 10px;
+}

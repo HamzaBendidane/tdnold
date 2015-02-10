@@ -1,0 +1,7 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>{{ auteur }} a posé une nouvelle question à la communauté des nanas :</p>
+<div>{{ question | raw }}</div>
+<p>Tu peux consulter la page à cette adresse : {{ url }} et y répondre</p>
+{% endblock %}

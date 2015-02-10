@@ -1,0 +1,67 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+{% endblock %}
+
+{% block title "Liste pour le rôle : " ~ role.name %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/administration_titre.png')}}" />
+</div>
+<h1 class="titrePage">Liste pour le rôle : {{ role.role }}</h1>
+
+<section>
+	<h2>Accréditer une nouvelle personne pour ce rôle</h2>
+	<form action={{ path('NanaRole_ajouterCredit')}} name="formCreditAjout" id="formCreditAjout" method="post" >
+		<input name="role" id="role" type="hidden" value="{{ role.role }}" />
+		<label for="pseudo">Pseudo </label>
+		<input name="pseudo" id="pseudo" type="text" size="50" />
+	    <input type="submit" value="Accréditer" />
+	</form>
+</section>
+
+<table class="adminLog">
+	<thead>
+		<tr>
+			<th class="colonneId">Id</th>
+			{% for colonne in colonnesList %}
+			<th> 
+			<a href='{{ path('NanaBundle_log', {'ordre' : colonne}) }}'>{{ colonne }} </a>
+			</th>
+			{% endfor %}
+			{% for colonne in actionsRoutes|keys %}
+			<th class="colonneAction"> {{ colonne }} </th>
+			{% endfor %}
+		</tr>
+	</thead>
+	<tbody>
+	{% if false %}
+		<tr>
+		<td colspan='3' class='no-content'>Personne n'est accrédité pour ce rôle</td>
+	</tr>
+	{% else %}
+	{% for personne in role.groupe %}
+	<tr class="nana">
+		<td class="colonneId">{{ personne.idNana }}</td>
+   		<td>
+      		<a href="{{ path('NanaBundle_profil', {'id': personne.idNana}) }}">{{ personne.username}}</a>
+   		</td>
+   		<td>
+   			{{ personne.prenom~" "~personne.nom }}
+   		</td>
+   		{% for route, action in actionsRoutes %}
+   		<td class="colonneAction">
+       		<a href='{{ path( action[0], {'role_id': role.role, 'nana_id': personne.idNana }) }}'>Faire</a>
+   		</td>
+   		{% endfor %}
+	</tr>
+	{% endfor %}
+	{% endif %}
+	</tbody>
+</table>
+{% endblock %}

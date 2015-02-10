@@ -1,0 +1,7 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<div style="margin:auto 20px;color:#333">{{ question | raw }}</div>
+<p>La question que tu as posée à la communauté TDN n'a pas pu être publiée. Nous sommes désolés. Voici la raison de ce refus :</p>
+<div>{{ motif }}</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>Hello {{ pseudo }}! </p>
+<p>Merci d'avoir participé au jeu-concours {{ nomdujeu }} sur Trucs De Nana. C'est top !<br />
+Qui sait, tu seras peut être l'heureuse gagnante? Surveille ta boite mail pour ne pas passer à côté 
+de ta chance.</p>
+<p>N'oublie pas de commenter, liker, et partager ce jeu concours avec tes copines.</p>
+<p>Au fait, as-tu pensé à t'inscrire à la News de TDN ? Tu pourras recevoir ton Astro Love si tu
+précises bien ta date de naissance ! Et tu gagneras un escarpin virtuel. Au bout de 5 escarpins 
+cumulés, tu remporteras une véritable paire de chaussures si tu es tirée au sort.</p><br />
+{{ $nana->getPopularite() | stiletto }}
+<p>A très vite sur TrucsDeNana</p>
+{% endblock %}

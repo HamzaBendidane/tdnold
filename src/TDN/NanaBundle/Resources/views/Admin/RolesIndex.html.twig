@@ -1,0 +1,58 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+{% endblock %}
+
+{% block title "Liste des rôles " %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/administration_titre.png')}}" />
+</div>
+<h1 class="titrePage">Liste des rôles</h1>
+
+<table class="adminLog">
+	<thead>
+		<tr>
+			<th class="colonneId">Id</th>
+			{% for colonne in colonnesList %}
+			<th> 
+			<a href='{{ path('NanaBundle_log', {'ordre' : colonne}) }}'>{{ colonne }} </a>
+			</th>
+			{% endfor %}
+			{% for colonne in actionsList %}
+			<th class="colonneAction"> {{ colonne }} </th>
+			{% endfor %}
+		</tr>
+	</thead>
+	{% if Liste is empty %}
+		<tr>
+		<td colspan='3' class='no-content'>Aucune rôle n’est créé sur TDN</td>
+	</tr>
+	{% else %}
+	{% for role in Liste %}
+	<tr class="nana">
+		<td class="colonneId">-</td>
+   		<td>
+      		<a href="{{ path('NanaBundle_roleAccredites', {'role': role.role}) }}">{{role.role}}</a>
+   		</td>
+   		<td>
+   			{{ role.name }}
+   		</td>
+  		<td>
+   			{{ role.groupe|length }}
+   		</td>
+   		{% for action in actionsRoutesList %}
+   		<td class="colonneAction">
+      		<a href='{{ path( action, {'id' : role.role	}) }}'>Faire</a>
+   		</td>
+   		{% endfor %}
+	</tr>
+	{% endfor %}
+	{% endif %}
+</table>
+{% endblock %}

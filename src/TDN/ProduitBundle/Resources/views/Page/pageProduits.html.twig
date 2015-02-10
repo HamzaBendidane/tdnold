@@ -1,0 +1,122 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title vedette.titre %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/concours.css') }}" type="text/css">
+<script type="text/javascript" src="{{ asset('assets/js/custom-form-elements.js') }}"></script>
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+	<img src="{{ asset('assets/images/theme/centre/titres/selection-shopping_titre_299x80.png')}}" />
+</div>
+<article id="article-wrapper" class="main sommaire-produits">
+
+	<!-- Contenu de l'article -->
+
+	<!-- Bloc pour l'affichage des métadonnées de l'article -->
+	<div id="search">
+		<div id="metadata" class="metadata">
+			<p class="auteur"><span class="standardEtiquette">Fiche produit</span> </p>
+		     <p class="liste-rubriques">
+		      <span class="standardEtiquette">Rubrique :</span> 
+		      {% for r in vedette.rubriques %}
+		        <a href="{{path('Core_sommaire', {'slug': r.slug})}}">
+		          <span class="rubrique-{{ rubriquePrincipale(r) }}">{{ r.titre }}
+		        </a>
+		      {% endfor %}
+		      </span>
+		     </p>
+		</div>
+	</div>
+
+	<!-- Bloc pour l'affichage du contenu de l'article -->
+	<section class="vedette catalogueProduit">
+		<img src="{{ illustration(vedette) }}"/>
+		<div id="data-gondole">
+			<h1>{{ vedette.titre }}</h1>
+			<p class="marque"><span class="standardEtiquette">Marque :</span> {{ vedette.marque }}</p>
+			<p class="prix"><span class="standardEtiquette">Prix :</span> {{ vedette.prix }}</p>
+			<h3>Le produit</h3>
+			<div class="description">{{ vedette.abstract|raw }}</div>
+			<h3>L'avis de TDN</h3>
+			<div class="critique">{{ vedette.critique|raw }}</div>
+			{% if vedette.codePromoTDN is not null%}
+			<p class="codePromo">Code Promo TDN : {{ vedette.codePromoTDN }}</p>
+			{% endif %}
+
+			{% if vedette.lnSelection is not null and vedette.lnSelection.statut == 'SELECTION_PUBLIEE' %}
+			<p class="selectionShopping">
+				<a href="{{ vedette.lnSelection|targetURL }}">Toute la sélection shopping</a>
+			</p>
+			{% endif %}
+
+			{% if vedette.citation is not null %}
+			<p class="lienArticle">
+				<a href="{{ vedette.citation|targetURL }}">Lire l'article qui en parle</a>
+			</p>
+			{% endif %}
+
+			<div class="bouton"><a href="{{ vedette.url }}" target="_blank">Découvrir</a></div>
+		</div>
+
+	</section>
+	<!-- Catalogue des produits -->
+	<section id="corps" class="table-content">  
+		<div id="more">
+			<h1>Catalogue de TDN</h1>
+			<div class="moteur">
+				<form name="triTag" id="triRubrique" action="{{ path('Produit_catalogue') }}" method="post">
+					<input type="text" name="tag" id="tag" placeholder="Cherche par mot-clef" />
+				</form>
+				<a class="lien-mince" style="display:block; margin:10px 0 5px 0;" href="{{ path('Produit_catalogue', {'set': 'tout'}) }}">Tout voir</a>
+			</div>
+
+			<div style="clear:both; height:10px"> </div>
+			{% for p in produits %}
+			<div class="snapshot-wrapper">
+				<div class="vignette-video-wrapper">
+					<div class="vignette-video cornered-{{ rubriquePrincipale(p.lnThematique) }}">
+						<img src="{{ illustration(p) }}" class="" />
+					</div>
+				</div>
+				<h3 class="titre-resume">
+					<a href="{{ path('Produit_showProduit', {'id': p.idDocument, 'slug': p.slug}) }}">{{ p.titre }}</a>
+				</h3>
+				<p class="pop">{{ p.marque }}</p>
+				{% if p.critique != '' %}
+	            <h3>L’avis de TDN</h3>
+    	        <div class="produitAvis">{{ p.critique|raw }}</div>
+				{% endif %}
+				<p class="lien-standard"><a href="http://{{ p.url }}" target="_blank">Découvrir</a></p>
+				</div>
+			{% endfor %}
+			{% if derniere > 1 %}
+			<form name="pager" id="pagerForm" action="{{ path('Produit_showProduit', {'id': vedette.idDocument , 'slug': vedette.slug}) }}" method="get">
+				Page : <input type="text" name="page" id="page" size="2" style="border: 0; color: #000; font-weight: bold;" /> <span class="totalSlides">(sur {{ derniere }})</span>
+				<div id="pageSlider" style="display:inline-block;width:160px;position:relative;top:3px"></div>
+			</form>
+			<script>
+			$(document).ready(function() {
+				$( "#pageSlider" ).slider({
+					value:{{ page }},
+					min: 1,
+					max: {{ derniere }},
+					step: 1,
+					slide: function(event, ui) {
+						$("#page").val(ui.value );
+					},
+					stop: function(event, ui) {
+						$("#page").val(ui.value );
+						$("#pagerForm").submit();
+					}
+				});
+				$( "#page" ).val($( "#pageSlider" ).slider( "value" ) );
+			});
+			</script>
+			{% endif %}
+		</div>
+	</section>
+</article>
+{% endblock %}

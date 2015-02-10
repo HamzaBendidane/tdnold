@@ -1,0 +1,361 @@
+li {
+	list-style-image: url(../images/theme/centre/article/puce_liste.png);
+}
+
+#contenu .postit-contenu {
+	position: absolute;
+	top: -20px; /*changement! avant > -10px*/
+	left: 60px;
+}
+
+article,
+div#main-wrapper {
+	background: #FFF;
+	/*border: 1px solid #C8D1D5; Les bordures sont transférées aux sections - MC 16/02 */ 
+	border-radius: 8px;
+	color: #333;
+	font-size: 0.9em;
+	/*padding: 20px; Les padding sont transférés aux sections - MC 16/02 */
+	margin-bottom:20px; /*new*/
+    }
+
+article.main section { 
+	border-radius: 12px;
+	padding: 20px;
+}
+
+article h1 {
+	margin-top: 30px; /*avant > 40px*/
+}
+
+/* Metadata des contenus */
+
+#metadata,
+article #ours,
+article .ours {
+	height: 30px;
+	text-align: right;
+	font-size: 0.9em;
+	/*margin-top: 20px;*/
+}
+
+
+#metadata p,
+article #ours p,
+article .ours p {
+	margin: 0 0 3px 0;
+}
+
+#metadata .rubrique-a-la-une {
+	border-left: 16px solid #ff9900; /*changement de couleur! avant > #336699*/
+	margin-left: 1em;
+	padding-left: 0.5em;
+	color: #ff6699; /*new*/
+	font-weight:bold; /*new*/
+}
+
+#metadata .rubrique-beaute {
+	border-left: 16px solid #ff6699; /*changement de couleur! avant > #336699*/
+	margin-left: 1em;
+	padding-left: 0.5em;
+	color: #ff6699; /*new*/
+	font-weight:bold; /*new*/
+}
+
+#metadata .rubrique-bien-etre {
+	border-left: 16px solid #00cc66; /*changement de couleur! avant > #336699*/
+	margin-left: 1em;
+	padding-left: 0.5em;
+	color: #ff6699; /*new*/
+	font-weight:bold; /*new*/
+}
+
+#metadata .rubrique-deco {
+	border-left: 16px solid #006699; /*changement de couleur! avant > #336699*/
+	margin-left: 1em;
+	padding-left: 0.5em;
+	color: #ff6699; /*new*/
+	font-weight:bold; /*new*/
+}
+
+#metadata .rubrique-geekette {
+	border-left: 16px solid #666; /*changement de couleur! avant > #336699*/
+	margin-left: 1em;
+	padding-left: 0.5em;
+	color: #ff6699; /*new*/
+	font-weight:bold; /*new*/
+}
+
+#metadata .rubrique-mode {
+	border-left: 16px solid #33ccff; /*changement de couleur! avant > #336699*/
+	margin-left: 1em;
+	padding-left: 0.5em;
+	color: #ff6699; /*new*/
+	font-weight:bold; /*new*/
+}
+
+#metadata .rubrique-sexo-psycho {
+	border-left: 16px solid #ff3300; /*changement de couleur! avant > #336699*/
+	margin-left: 1em;
+	padding-left: 0.5em;
+	color: #ff6699; /*new*/
+	font-weight:bold; /*new*/
+}
+
+#metadata .rubrique-recettes {
+	border-left: 16px solid #a27951; /*changement de couleur! avant > #336699*/
+	margin-left: 1em;
+	padding-left: 0.5em;
+	color: #a27951; /*new*/
+	font-weight:bold; /*new*/
+}
+
+article.main .main-section {
+	background-color: #E8F8F8;
+	background-image: url(../images/theme/centre/bg_main-section.png);
+	background-repeat: no-repeat;
+	background-position: center top;	
+}
+
+article .recommandation {
+	text-align: right;
+}
+
+#corps {
+	background: white;
+	color: #48585E; /*mofif cham - 04/01/13*/
+	/*font-size: 0.9em;modifs! avant > 40px*/
+	padding: 0 20px 0.7em; /*modifs! avant > 40px*/
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #A5E5E4;
+}
+
+article #corps h2 {
+	color: #448A8A;
+}
+
+article #more {
+	background-image: linear-gradient(top, #C8EFEE 0%, #EFF7F7 54%);
+	background-image: -o-linear-gradient(top, #C8EFEE 0%, #EFF7F7 54%);
+	background-image: -moz-linear-gradient(top, #C8EFEE 0%, #EFF7F7 54%);
+	background-image: -webkit-linear-gradient(top, #C8EFEE 0%, #EFF7F7 54%);
+	background-image: -ms-linear-gradient(top, #C8EFEE 0%, #EFF7F7 54%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #C8EFEE), color-stop(0.54, #EFF7F7));
+	border-radius: 8px;
+	margin: 20px 0;
+	padding: 20px;
+}
+
+article #more h1 {
+	font-size: 1.6em;
+	font-style: italic;
+	font-weight: normal;
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+
+article #more h2 {
+	font-size: 0.9em;
+	font-weight: normal;
+	margin: 0;
+}	
+
+article #more .suite-article {
+	background: url(../images/theme/centre/article/bg_trombone_article.png) no-repeat scroll left top transparent;
+	border-radius: 8px;
+	display: table;
+	overflow:  hidden;
+	margin: 10px 0;
+	padding: 20px 0 10px 100px; 
+}
+
+article #more .suite-article > * {
+	display: table-cell;
+	vertical-align:  top;	
+}
+
+article #more .suite-article .picto-suite-article {
+	position: relative;
+	z-index: 10;
+}
+
+.vignette-sommaire-wrapper {
+	position: relative;
+	padding: 0 20px 0 10px;
+}
+
+.vignette-sommaire:before {
+	background: #1D47B0;
+	content: "";
+	display:  block;
+	height: 40px;
+	width:	40px;
+	position: absolute;
+	z-index: 1;
+}
+
+.vignette-sommaire img {
+	padding: 6px 0 0 6px;
+	position: relative;
+	width: 50px;
+	z-index: 10;
+
+}
+
+article #more .suite-article .suite-abstract {
+	width: 460px; /*avant >360px*/
+	padding-right: 20px; 
+}
+
+article #more .suite-abstract p {
+	color: #333;
+	font-size: 0.8em;
+	margin: 0;
+}
+
+article #commentaires {
+	background: #E8F8F8;
+	border-radius: 8px;
+	margin: 20px 0;
+	padding: 20px
+}
+
+article #commentaires textarea {
+	width: 400px;
+	height: 40px;
+	vertical-align: middle;
+}
+
+article #commentaires #commenter {
+	background: #92117E;
+	border-radius: 4px;
+	border: none;
+	color: #FFF;
+	font: italic 0.8em Droid, Arial;
+	padding: 4px;
+}
+
+#bloc-liens-sociaux {
+	padding: 20px;
+	background-color: #E8F8F8;
+}
+
+#bloc-liens-sociaux .liens-tdn {
+	display: table-cell;
+	text-align: left;
+}
+
+#bloc-liens-sociaux .liens-externes {
+	display: table-cell;
+	text-align: right;
+}
+
+#bloc-liens-sociaux .bouton-social {
+    border: none;
+    font-weight: bold;
+    height: 26px;
+    margin: 0 10px;
+    text-align: right;
+}
+
+#bloc-liens-sociaux .bouton-like {
+	background: url("../images/theme/centre/commentaires/picto_coeur.png") no-repeat scroll left top transparent;
+    width: 76px;
+}
+
+#bloc-liens-sociaux .bouton-partage {
+	background: url("../images/theme/centre/commentaires/picto_partage.png") no-repeat scroll left top transparent;
+	width: 107px;
+}
+
+/* Sélections shopping */
+
+.diapoActive {
+	display: block;
+}
+
+.diapoMasquee {
+	display: none;
+}
+
+.diapoProduit {
+	position: relative;
+	z-index: 1;
+}
+
+.diapoProduit .imageProduit {
+	background-color: white;
+	border: 12px solid #E4EDF6;
+	display: table-cell;
+	height: 300px;
+	vertical-align: top;
+	width: 300px;
+}
+
+.diapoProduit .imageProduit:after {
+	border-radius: 100px 100px 100px 100px / 10px 10px 10px 10px;
+    bottom: 0;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+    content: "";
+    left: 10px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    width: 300px;
+    z-index: -2;
+}
+
+.diapoProduit .ficheProduit {
+	display: table-cell;
+	padding-left: 20px;
+	vertical-align: top;
+}
+
+.coupDeCoeur {
+	float: right;
+	margin: 0 0 10px 10px ;
+}
+
+#paginationSelectionShopping {
+	margin: 20px 0 10px 20px;
+}
+
+.boutonDiapo {
+	display: inline-block;
+	margin: 0 4px;
+	padding: 4px 8px;
+}
+
+.boutonActif {
+	background-color: black;
+	color: white;
+}
+
+.boutonPrecedent {
+	border: none;
+	background: url(../images/theme/boutons/bt_fleche_gauche_40x42.png) no-repeat scroll left top transparent;
+	display: inline-block;
+	height: 52px;
+	width: 55px;
+}
+
+.boutonSuivant {
+	border: none;
+	background: url(../images/theme/boutons/bt_fleche_droite_40x42.png) no-repeat scroll left top transparent;
+	display: inline-block;
+	height: 52px;
+	width: 55px;
+}
+
+.boutonInactif {
+	background-color: transparent;
+	border: 1px solid #C0EAE8;
+	color: #742671;
+}
+
+.legacyIllustration {
+	border: 5px solid #E8F8F8;
+    float: right;
+    margin: 0 0 20px 20px;
+}

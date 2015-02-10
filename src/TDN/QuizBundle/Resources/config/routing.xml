@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="Quiz_sommaire" pattern="/quiz/{rubrique}">
+        <default key="_controller">QuizBundle:Public:quizSommaire</default>
+    </route>
+
+    <route id="Quiz_show" pattern="/quiz/{slug}">
+        <default key="_controller">QuizBundle:Public:show</default>
+    </route>
+
+    <route id="quiz_expose" pattern="/quiz/{slug},{id},{question}">
+        <default key="_controller">QuizBundle:Public:quizQuestion</default>
+    </route>
+
+    <route id="quiz_profil" pattern="/quiz/profil/{slug},{id},{question}">
+        <default key="_controller">QuizBundle:Public:quizProfil</default>
+    </route>
+
+    <!-- Routes administratives -->
+
+    <route id="quiz_profil" pattern="/quiz/statistiques/{id}">
+        <default key="_controller">QuizBundle:Public:quizStats</default>
+    </route>
+
+    <route id="quiz_list" pattern="/admin/quiz">
+        <default key="_controller">QuizBundle:Admin:quizListe</default>
+    </route>
+
+    <route id="quiz_nouveau" pattern="/admin/quiz/creer">
+        <default key="_controller">QuizBundle:Admin:quizCreer</default>
+    </route>
+
+    <route id="quiz_mofidier" pattern="/admin/quiz/editer/{id}">
+        <default key="_controller">QuizBundle:Admin:quizModifier</default>
+    </route>
+
+    <route id="quiz_supprimer" pattern="/admin/quiz/supprimer/{id}">
+        <default key="_controller">QuizBundle:Admin:quizSupprimer</default>
+    </route>
+
+    <route id="quiz_enregistrer" pattern="/admin/quiz/enregistrer">
+        <default key="_controller">QuizBundle:Admin:quizEnregistrer</default>
+    </route>
+
+    <route id="quiz_enregistrer_profils" pattern="/admin/quiz/{id}/profils/enregistrer">
+        <default key="_controller">QuizBundle:Admin:quizEnregistrerProfils</default>
+    </route>
+
+    <route id="quiz_enregistrer_questions" pattern="/admin/quiz/questions/enregistrer">
+        <default key="_controller">QuizBundle:Admin:quizEnregistrerQuestions</default>
+    </route>
+
+    <route id="quiz_recherche" pattern="/admin/quiz/recherche">
+        <default key="_controller">QuizBundle:Admin:quizRecherche</default>
+    </route>
+
+</routes>

@@ -1,0 +1,14 @@
+<div class="contenu-suivre-tdn"> 
+	<img src="{{ asset('assets/images/theme/sidebar/cadre_pince_dossier.png') }}" />
+	{% if dossier is not empty %}
+	<ul>
+		<li>
+			<a href="{{ path('DossierRedaction_dossier', { 'id': dossier.idDocument, 'slug': dossier.slug, 'rubrique': dossier.rubriques[0].slug }) }}">{{ dossier.titre }}</a>
+		</li>
+	</ul>
+	{% else %}
+	<p>Aucun dossier en ligne</p>
+	{% endif %}
+	<a href="{{ path('DossierRedaction_sommaire')}}">Tous les dossiers</a>
+</div>
+<img src="{{ asset('assets/images/theme/sidebar/foot_cadre-blanc-cadre pince.png') }}" />

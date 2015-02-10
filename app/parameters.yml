@@ -1,0 +1,18 @@
+parameters:
+    database_driver: pdo_mysql
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: trucdenana_marylin_v3
+    database_user: trucdenana
+    database_password: ju75via
+    mailer_transport: smtp
+    mailer_host: localhost
+    mailer_user: null
+    mailer_password: null
+    locale: en
+    secret: 4954b367bded7d23bc25bec1d4e1ff565b0311ef
+    database_path: null
+
+    transport: mail
+
+	secret: FourmisSansOmbres

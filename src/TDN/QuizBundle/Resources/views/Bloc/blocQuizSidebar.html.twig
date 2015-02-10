@@ -1,0 +1,13 @@
+<img src="{{ asset('assets/images/theme/sidebar/cadre_pince_quizz.png') }}" />
+<div class="contenu-suivre-tdn2"> 
+	{% if quiz is not empty %}
+	<ul>
+		<li>
+			<a href="{{ path('Quiz_show', { 'slug': quiz.slug }) }}">{{ quiz.titre }}</a>
+		</li>
+	</ul>
+	{% else %}
+	<p>Aucun quiz disponible</p>
+	{% endif %}
+	<a href="{{ path('Quiz_sommaire', {'rubrique': 'tous'})}}">Tous les quiz</a>
+</div>

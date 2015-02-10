@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="image_homepage" pattern="/hello/{name}">
+        <default key="_controller">ImageBundle:Default:index</default>
+    </route>
+
+    <!-- Migration -->
+
+    <route id="Image_migration" pattern="/migration/images/{fichier}">
+        <default key="_controller">ImageBundle:Migration:migration</default>
+    </route>
+
+    <!-- Legacy -->
+
+    <route id="Image_fichierCorrectionNom" pattern="/legacy/images/fichier/correction">
+        <default key="_controller">ImageBundle:Legacy:fichierCorrectionNom</default>
+    </route>
+
+    <route id="Image_avatarCorrectionNom" pattern="/legacy/images/avatar/correction">
+        <default key="_controller">ImageBundle:Legacy:avatarCorrectionNom</default>
+    </route>
+
+</routes>

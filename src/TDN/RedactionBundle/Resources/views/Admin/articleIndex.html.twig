@@ -1,0 +1,90 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+{% endblock %}
+
+{% block title "Index des articles" %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/administration_titre.png')}}" />
+</div>
+
+<h1 class="titrePage">Index des articles</h1>
+
+<form action="{{ path('RedactionBundle_articleIndex') }}" method="post" name="form_selectionArticle" id="form_selectionArticle" class="formSelection">
+<label for="selectField">Champ</label>
+<select name="selectField" id="selectField" class="selectInput">
+{% for critere in selectList %}
+<option value="{{ critere.value }}">{{ critere.texte }}</option>
+{% endfor %}
+</select>
+<label for="selectValeur">Valeur</label>
+<input type="text" name="selectValeur" id="selectValeur" class="textInput" size="30" />
+<input type="submit" name="selectSubmitter" class="selectSubmitter" value="Chercher" />
+</form>
+
+{% if isSelectedField is not empty %}
+<p class="rappelSelection"> {{ isSelectedField }} = {{ isSelectedValeur }}</p>
+{% endif %}
+
+<table class="adminLog">
+	<thead>
+		<tr>
+			<th class="colonneId">Id</th>
+			{% for colonne in colonnesList %}
+			<th> 
+			<a href='{{ path('RedactionBundle_articleIndex', {'ordre' : colonne}) }}'>{{ colonne }} </a>
+			</th>
+			{% endfor %}
+			{% for colonne in actionsList %}
+			<th class="colonneAction"> {{ colonne }} </th>
+			{% endfor %}
+		</tr>
+	</thead>
+	{% if articlesList is empty %}
+		<tr>
+		<td colspan='3' class='no-content'>Aucune article n'a été écrit à cette heure</td>
+	</tr>
+	{% else %}
+	<tbody>
+	{% for article in articlesList %}
+	<tr class="article">
+		<td class="colonneId">{{ article.idDocument }}</td>
+   		<td>
+      		<a href='{{ path('RedactionBundle_articleModifier', {'id' : article.idDocument}) }}'>{{article.titre}}</a>
+   		</td>
+   		<td>
+   			{#% for role in nana.roles %#}
+   			{#{ role.name }#} {{ article.lnAuteur.username}}
+      		{#% endfor %#}
+   		</td>
+   		{% for action, options in actionsRoutesList %}
+   		<td class="colonneAction">
+   			{% if options is iterable %}
+   			{% set label = 0 %}
+   			{% for clef, statut in options %}
+   			{% if clef == article.statut %}
+   			{% set label = statut %}
+   			{% endif %}
+   			{% endfor %}
+   			{% else %}
+   			{% set label = options %}
+   			{% endif %}
+   			{% if label is not defined%}{% set label = "Faire" %}{% endif %}
+      		<a href='{#{ path( action, {'id' : article.idDocument}) }#}'>{{ label }}</a>
+   		</td>
+   		{% endfor %}
+	</tr>
+	{% endfor %}
+	</tbody>
+	{%if page is defined %}
+	<caption>page {{ page }}</caption>
+	{% endif %}
+	{% endif %}
+</table>
+{% endblock %}

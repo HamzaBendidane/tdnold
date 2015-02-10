@@ -1,0 +1,45 @@
+{% extends 'DocumentBundle:Admin:documentDetail.html.twig' %}
+
+{% block form_contenuDocument %}
+<section id="contenuquestion" class="form-section section-contenu">
+    <p class="date-soumission">La question a été soumise le : {{ dateSoumission | date('d/m/Y H:i:s')}}</p>
+	<div id="abstractArticle" class="blockWidget">
+		{{ form_row(form.abstract, {'attr' : {'class':'tiroirFerme' }}) }}
+		<div id="source-abstract" style="border:1px solid #999; min-height:200px; overflow:visible"></div>
+	</div>
+	<div id="corpsQuestion" class="blockWidget">
+		{{ form_row(form.question, {'attr' : { 'class':'tiroirFerme' }}) }}
+		<div id="source-question" style="border:1px solid #999; min-height:200px; overflow:visible"></div>
+	</div>
+
+    {% if (reponseAcceptee) %}
+    <p>Voici la réponse préférée par {{ pseudoDemandeur }} :</p>
+    <div class="reponse-preferee">{{ reponseAcceptee.reponse }}</div>
+    {% else %}
+    <p>Aucune réponse n'a été préférée par {{ pseudoDemandeur }} pour l'instant.</p>
+    {% endif %}
+</section>
+{% endblock %}
+
+{% block form_script%}
+<script type="text/javascript">
+    Aloha.ready( function() {
+       Aloha.jQuery('#source-question').aloha();
+       Aloha.jQuery('#source-abstract').aloha();
+    });
+    $(document).ready(function () {
+    	$("#source-question").blur(function () {
+    		$("#causeuse_question_edit_question").html($("#source-question").html());
+    	});
+    	$("#source-abstract").blur(function () {
+    		$("#causeuse_question_edit_abstract").html($("#source-abstract").html());
+    	});
+    	$("#miseEnAvant").click(function () {
+    		$("#section_miseEnAvant").toggleClass('tiroirOuvert tiroirFerme');
+    	});
+    	$("#source-abstract").html($("#causeuse_question_edit_abstract").text());
+	   	$("#source-question").html($("#causeuse_question_edit_question").text());
+
+    })
+</script>
+{% endblock %}

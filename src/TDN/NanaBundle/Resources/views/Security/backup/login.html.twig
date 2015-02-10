@@ -1,0 +1,20 @@
+{# src/Acme/SecurityBundle/Resources/views/Security/login.html.twig #}
+
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{#% block title "Connecte-toi à Truc de Nana" %#}
+
+
+{% block contenu_principal %}
+{% if error %}
+    <div>{{ error.message }}</div>
+{% endif %}
+<form action="{{ path('login_check') }}" method="post">
+    {{ form_widget(form) }}
+ 
+    {# redirection #}
+    <input type="hidden" name="_target_path" value="/my-tdn/profil" />
+
+    <button type="submit">login</button>
+</form>
+{% endblock %}

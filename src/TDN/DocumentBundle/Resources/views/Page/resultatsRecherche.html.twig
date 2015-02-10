@@ -1,0 +1,95 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Résultats de recherche" %}
+
+{% block local_stylesheets %}
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/recherche_titre_299x70.png')}}" />
+</div>
+
+<article id="article-wrapper" class="main article-redaction" style="margin-top:60px">
+	<div class="avertissement">
+		<p>Pour affiner ta recherche, tu peux utiliser et combiner les astuces suivantes :</p>
+		<ul>
+			<li>Une suite de mots séparés par des espaces cherche tous les articles où l'un des mots apparaît (e.g. : cadeau Noël)</li>
+			<li>Une suite de mots séparés par le signe + cherche tous les articles où tous les mots apparaissent (e.g. : cadeau+Noël)</li>
+			<li>Une suite de mots entourés par des " cherche tous les articles l'expression entière apparaît (e.g. : "cadeau de Noël")</li>
+		</ul>
+	</div>
+	<div id="tabsResultats">
+		{% if contenus is defined %}
+		<ul class="tabsCategories">
+			{% for type, resultats in contenus %}
+			<li class="onglet">
+				<a  href="{{ '#tabsResultats-'~type }}">{{ type }} ({{ resultats|length }})</a>
+			</li>
+			{% endfor %}
+		</ul>
+		{% for type, resultats in contenus %}
+		<div  id="tabsResultats-{{type}}">
+			{% set cssType = type[0:-1]%}
+			{% for r in resultats %}
+			{% if r.lnThematique is defined %}
+			{% set RR = r.lnThematique %}
+			{% set RRslug = r.lnThematique.slug %}
+			{% elseif r.rubriques[0] is defined %}
+			{% set RR = r.rubriques[0] %}
+			{% set RRslug = r.rubriques[0].slug %}
+			{% else %}
+			{% set RR = 'tdn' %}
+			{% set RRslug = 'tdn' %}
+			{% endif %}
+			<div class="pinWrapper recommandation{{ cssType }}">
+				<div class="pinContent">
+					<div class="inlineSnapshot">
+						<div class="vignette-sommaire-wrapper">
+							<div class="cornered-{{ rubriquePrincipale(RR) }}">
+								<a href="{{ path(paths[type],{'id':r.idDocument, 'slug':r.slug, 'rubrique':RRslug}) }}">
+									{% if r.vignette is defined %}
+									<img class="vignette" src="{{ r.vignette }}" />
+									{% else %}
+									<img class="vignette" src="{{ documentImage(r.lnIllustration) }}" />
+									{% endif %}
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="suite-abstract">
+						<h3 style="width:92%; margin-top:0">
+							<a href="{{ path(paths[type],{'id':r.idDocument, 'slug':r.slug, 'rubrique':RRslug}) }}" >{{ r.titre }}</a>
+						</h3>
+						{% if r.abstract != '' %}
+						{% set abstract = r.abstract %}
+						{% elseif r.corps is defined %}
+						{% set abstract = r.corps %}
+						{% elseif r.question is defined %}
+						{% set abstract = r.question %}
+						{% else %}
+						{% set abstract = "" %}
+						{% endif %}
+						<p class="abstractSliced">
+							<a href="{{ path(paths[type],{'id':r.idDocument, 'slug':r.slug, 'rubrique':RRslug}) }}" >
+							{{ textCutter(abstract,200)|striptags|raw }} — publié {{ r.datePublication|laps }}
+							</a>
+						</p>
+					</div>
+				</div>
+				<div class="cascadeTags">{{ r.tags|tags|raw }}</div>
+			</div>
+			{% endfor %}
+		</div>
+		{% endfor %}
+		{% else %}
+		<h2>Pas de résultats pour l'expression que vous cherchez</h2>
+		{% endif %}
+	</div>
+</article>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#tabsResultats').tabs();
+	})
+</script>
+{% endblock %}

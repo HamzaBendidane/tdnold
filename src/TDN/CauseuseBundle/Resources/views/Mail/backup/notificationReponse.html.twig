@@ -1,0 +1,8 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<h1>{{ question }}</h1>
+<p>{{ pseudo }} a répondu à ta question :</p>
+<div>{{ reponse | raw }}</div>
+<p>Tu peux voir l'état de la discussion <a href="{{ url }}">sur cette page</a>.</p>
+{% endblock %}

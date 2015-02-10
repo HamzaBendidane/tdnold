@@ -1,0 +1,14 @@
+<section id="bloc-reponses">
+   <h1><span class="hot-number">{{ nbReponses }}</span> réponses de NANAS</h1>
+   {% if nbReponses > 0%}
+      {% for rep in reponses %}
+         {% if rep.expert %}
+           {#% include 'CauseuseBundle:Bloc:blocReponseExpert.html.twig' with {'reponse': rep} %#}
+         {% else %}
+           {#% include 'CauseuseBundle:Bloc:blocReponse.html.twig' with {'reponse': rep} %#}
+         {% endif %}
+      {% endfor %}
+   {% else %}
+   <p class="noReponse">Cette question n’a encore eu aucune réponse</p>
+   {% endif %}
+</section>

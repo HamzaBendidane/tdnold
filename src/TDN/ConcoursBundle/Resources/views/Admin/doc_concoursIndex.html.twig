@@ -1,0 +1,71 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+{% endblock %}
+
+{% block title "Index des jeux-concours" %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/administration_titre.png')}}" />
+</div>
+
+<h1 class="titrePage">Index des jeux-concours</h1>
+
+<form action="{{ path('ConcoursBundle_index') }}" method="post" name="form_selectionArticle" id="form_selectionArticle" class="formSelection">
+<label for="selectField">Champ</label>
+<select name="selectField" id="selectField" class="selectInput">
+{% for critere in selectList %}
+<option value="{{ critere.value }}">{{ critere.texte }}</option>
+{% endfor %}
+</select>
+<label for="selectValeur">Valeur</label>
+<input type="text" name="selectValeur" id="selectValeur" class="textInput" size="30" />
+<input type="submit" name="selectSubmitter" class="selectSubmitter" value="Chercher" />
+</form>
+
+{% if isSelectedField is not empty %}
+<p class="rappelSelection"> {{ isSelectedField }} = {{ isSelectedValeur }}</p>
+{% endif %}
+
+<table class="adminLog">
+	<thead>
+		<tr>
+			<th class="colonneId">Id</th>
+			{% for colonne in colonnesList %}
+			<th> 
+			<a href='{{ path('ConcoursBundle_index', {'ordre' : colonne}) }}'>{{ colonne }} </a>
+			</th>
+			{% endfor %}
+			{% for colonne in actionsList %}
+			<th class="colonneAction"> {{ colonne }} </th>
+			{% endfor %}
+		</tr>
+	</thead>
+	{% if concoursList is empty %}
+		<tr>
+		<td colspan='3' class='no-content'>Aucun jeu-concours n'a été ouvert</td>
+	</tr>
+	{% else %}
+	{% for article in articlesList %}
+	<tr class="article">
+		<td class="colonneId">{{ article.idDocument }}</td>
+   		<td>
+      		<a href='{{ path('ConcoursBundle_editer', {'id' : concours.idDocument}) }}'>{{concours.titre}}</a>
+   		</td>
+   		<td>{{ concours.nbParticipants }}</td>
+   		<td>{{ concours.statut }}</td>
+   		{% for action in actionsRoutesList %}
+   		<td class="colonneAction">
+      		<a href='{{ path( action, {'id' : concours.idDocument}) }}'>Faire</a>
+   		</td>
+   		{% endfor %}
+	</tr>
+	{% endfor %}
+	{% endif %}
+</table>
+{% endblock %}

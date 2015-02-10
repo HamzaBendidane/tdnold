@@ -1,0 +1,15 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Nouvelle info" %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/video.css') }}" type="text/css">
+{% endblock %}
+
+{% block contenu_principal %}
+<form action="{{ path('VideoBundle_poster') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+
+    <input type="submit" />
+</form>
+{% endblock %}

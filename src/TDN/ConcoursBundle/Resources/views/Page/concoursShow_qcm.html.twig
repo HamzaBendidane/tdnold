@@ -1,0 +1,32 @@
+{% extends 'ConcoursBundle:Page:concoursShow.html.twig' %}
+
+{% block variante_concours %}
+
+  <!-- Doit-on afficher des question ? -->
+  {% if concours.questions is not empty %}
+  <div class="participation">
+    {% set i = 1 %}
+    {% for q in concours.questions %}
+      <div class="block-question-qcm">
+        <p class="num-question standardEtiquette">Question {{ i }}</p>
+        <h3>{{ q.question }}</h3>
+        {% if q.filReponses is not empty %}
+        {% set j = 1 %}
+        {% for r in q.filReponses %}
+        <p class="option-qcm">
+          <span class="ordre-option">{{ j }}. </span>
+          <span class="texte-option">{{ r.reponse }}</span>
+          <span class="widget-option"><input type=radio value="{{j}}" name="qcm_reponse[{{i}}]" /></span>
+        </p>
+        {% set j = j+1 %}
+        {% endfor %}
+        {% endif %}
+      </div>
+      {% set i = i+1 %}
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="warning">Ce QCM ne contient aucune question !</p>
+  {% endif %}
+
+{% endblock %}

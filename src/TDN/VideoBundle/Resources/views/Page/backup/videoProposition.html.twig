@@ -1,0 +1,72 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Proposer une vidéo " %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/js/aloha/css/aloha.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/video.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/commentaire.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+<script src="{{ asset('assets/js/aloha/lib/require.js') }}"></script>
+<script src="{{ asset('assets/js/aloha/lib/aloha.js') }}" data-aloha-plugins="common/ui,common/format,common/highlighteditables,common/list"></script>
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/videos_titre_299x80.png')}}" />
+</div>
+<article id="article-wrapper" class="main article-redaction">
+<section class="contenu main-section">
+
+    <!-- Bloc pour l'affichage du contenu de l'article -->
+    <div id="corps" class="corps">
+	    <h1 class="titre-document titre-beaute">Propose une vidéo</h1>
+		<div class="avertissement">
+			<p>Tu peux proposer des vidéos pour TDN.</p>
+			<p>Si ces vidéos se trouvent sur YouTube, DailyMotion ou Vimeo, il suffit d'indiquer l'URL dans le champ ad hoc.</p>
+			<p>Sinon, tu peux indiquer le code d'intégration....</p>
+		</div>
+		<div id="avis">
+			<h2 class="fitreFormContribution">Ta vidéo ...</h2>
+			<form id="formCommentaire" class="formUser formCommentaire table-content" action="{{ path('Video_proposer') }}" method="post" {{ form_enctype(form) }}>
+				<figure class="avatar">
+					<img src="{{ avatar(app.user, 'sqr_') }}" alt="Avatar de {{ app.user.username }}"/>
+				</figure>
+				<div id="fields">
+				    <div id="videoHebergeur" class="blockWidget">
+				        {{ form_widget(form.idHebergeur) }}
+				    </div>
+				    <p>Tu peux indiquer : soit l'URL de la vidéo si elle est sur Viméo, DailyMotion ou YouTube</p>
+				    <div id="videoID" class="blockWidget">
+				        {{ form_row(form.idVideo) }}
+				    </div>
+				    <p>soit le code d’intégration donné par la plate-forme utilisée</p>
+				    <div id="videoCodeIntegration" class="blockWidget">
+				        {{ form_row(form.codeIntegration) }}
+				    </div>
+				    <p>Accompagne le lien d'un texte de présentation (sous réserve de relecture par la rédaction)</p>
+					<div id="videoAbstract" class="blockWidget">
+						{{ form_row(form.abstract, {'attr' : {'class':'tiroirFerme' }}) }}
+						<div id="source-abstract" style="border:1px solid #999; min-height:200px; overflow:visible"></div>
+					</div>
+				    {{ form_row(form._token) }}
+		    		<input type="submit" style="float:right; margin-top:10px; margin-right:20px" />
+				</div>
+			</form>
+	</div>
+</section>
+</article>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+	    Aloha.ready(function() {
+    	   Aloha.jQuery('#source-abstract').aloha();
+    	});
+    	$("#source-abstract").blur(function () {
+    		$("#video_abstract").html($("#source-abstract").html());
+    	});
+    });
+</script>
+{% endblock %}

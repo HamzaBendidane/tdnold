@@ -1,0 +1,111 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+{% endblock %}
+
+{% block title "Index des vidéos" %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/administration_titre.png')}}" />
+</div>
+
+<h1 class="titrePage">Index des vidéos</h1>
+
+<form action="{{ path('Video_index') }}" method="post" name="form_selectionArticle" id="form_selectionArticle" class="formSelection">
+<label for="selectField">Champ</label>
+<select name="selectField" id="selectField" class="selectInput">
+{% for critere in selectList %}
+<option value="{{ critere.value }}">{{ critere.texte }}</option>
+{% endfor %}
+</select>
+<label for="selectValeur">Valeur</label>
+<input type="text" name="selectValeur" id="selectValeur" class="textInput" size="30" />
+<input type="submit" name="selectSubmitter" class="selectSubmitter" value="Chercher" />
+</form>
+
+{% if isSelectedField is not empty %}
+<p class="rappelSelection"> {{ isSelectedField }} = {{ isSelectedValeur }}</p>
+{% endif %}
+
+<table class="adminLog">
+	<thead>
+		<tr>
+			<th class="colonneId">Id</th>
+			{% for colonne in colonnesList %}
+			<th> 
+			<a href='{{ path('Video_index', {'ordre' : colonne}) }}'>{{ colonne }} </a>
+			</th>
+			{% endfor %}
+			{% for colonne in actionsList %}
+			<th class="colonneAction"> {{ colonne }} </th>
+			{% endfor %}
+		</tr>
+	</thead>
+	{% if documentList is empty %}
+		<tr>
+		<td colspan='3' class='no-content'>Aucune vidéo n'a été proposée à cette heure</td>
+	</tr>
+	{% else %}
+	<tbody>
+	{% for doc in documentList %}
+	<tr class="article">
+		<td class="colonneId">{{ doc.idDocument }}</td>
+   		<td>
+      		<a href='{{ path('Video_inspecter', {'id' : doc.idDocument}) }}'>{{doc.titre}}</a>
+   		</td>
+   		<td>{#{ doc.lnAuteur.username}#}</td>
+   		{% for action, options in actionsRoutesList %}
+   		<td class="colonneAction">
+   			{% if options is iterable %}
+   			{% set label = 0 %}
+   			{% for clef, statut in options %}
+   			{% if clef == doc.statut %}
+   			{% set label = statut %}
+   			{% endif %}
+   			{% endfor %}
+   			{% else %}
+   			{% set label = options %}
+   			{% endif %}
+   			{% if label is not defined%}{% set label = "Faire" %}{% endif %}
+      		<a href='{#{ path( action, {'id' : doc.idDocument}) }#}'>{{ label }}</a>
+   		</td>
+   		{% endfor %}
+	</tr>
+	{% endfor %}
+	</tbody>
+	{%if page is defined %}
+	<caption>page {{ page }} - {{ totalVideos }}</caption>
+	{% endif %}
+	{% endif %}
+</table>
+{% if derniere > 1 %}
+<form name="pager" id="pagerForm" action="{{ path('Video_index') }}" method="get">
+	 <label for="page">page : </label>
+	 <input type="text" name="page" id="page" size="4" style="border: 0; color: #f6931f; font-weight: bold;" />
+	<div id="pageSlider" style="display:inline-block;width:250px;position:relative;top:3px"></div>
+</form>
+<script>
+	$(document).ready(function() {
+		$( "#pageSlider" ).slider({
+			value:{{ page }},
+			min: 1,
+			max: {{ derniere }},
+			step: 1,
+			slide: function(event, ui) {
+				$("#page").val(ui.value );
+			},
+			stop: function(event, ui) {
+				$("#page").val(ui.value );
+				$("#pagerForm").submit();
+			}
+		});
+		$( "#page" ).val($( "#pageSlider" ).slider( "value" ) );
+	});
+</script>
+{% endif %}
+{% endblock %}

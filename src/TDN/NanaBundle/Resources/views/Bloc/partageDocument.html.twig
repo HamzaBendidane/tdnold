@@ -1,0 +1,37 @@
+<div width="775" height="550">
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/web-tdn_titre_299x70.png')}}" />
+</div>
+
+<article id="article-wrapper" class="main article-redaction">
+   <section class="contenu main-section">
+
+      <!-- Bloc pour l'affichage du contenu de l'article -->
+      <div id="corps" class="corps">
+      <form name="formulaireMessage" id="formulaireMessage" method="post" action="{{ path('Nana_partageSend')}}" method="post">
+        <div id="listeDestinataires">
+            {% if app.user.username is not defined %}
+             <p class="stdFormLabel">Ton adresse électronique</p>
+            <input class="expediteur" type="mail" name="expediteur" value="" size="50" style="display:block" required />           
+            {% endif %}
+            <p class="stdFormLabel">Adresses des destinataires</p>
+             <input class="destinataire" type="mail" name="destinataire[]" value="" size="50" style="display:block" required />
+            <a class="lien-mince lien-bloc" id="ajoutDestinataire" href="#">Ajouter un destinataire</a>
+        </div>
+         <textarea cols="80" rows="20" name="message" id='message' class="texteContribution" placeholder="Accompagne le lien d'un message personnel" style="margin-top: 10px;"></textarea>
+        <p>Le lien sera ajouté automatiquement dans le mail</p>
+        <input type="submit" name="envoyer" value="Envoyer" />
+      </form>
+      </div>
+    </section>
+</article>
+<script type="text/javascript">
+  $(document).ready(function () {
+    console.log('chargé');
+    $('#ajoutDestinataire').click(function (event) {
+      event.preventDefault();
+      $('#listeDestinataires').append('<input class="destinataire" type="mail" name="destinataire[]" value="" size="50" style="display:block" />');
+    });
+  });
+</script>
+</div>

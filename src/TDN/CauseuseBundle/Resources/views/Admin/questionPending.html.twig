@@ -1,0 +1,77 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+{% endblock %}
+
+{% block title "Index des questions de nanas" %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/administration_titre.png')}}" />
+</div>
+
+<h1 class="titrePage">Index des questions de nanas</h1>
+
+<table class="adminLog">
+	<thead>
+		<tr>
+			<th class="colonneId">Id</th>
+			{% for colonne in colonnesList %}
+			<th> 
+			<a href='{{ path('CauseuseBundle_index', {'ordre' : colonne}) }}'>{{ colonne }} </a>
+			</th>
+			{% endfor %}
+			{% for colonne in actionsList %}
+			<th class="colonneAction"> {{ colonne }} </th>
+			{% endfor %}
+		</tr>
+	</thead>
+	{% if questionsList is empty %}
+		<tr>
+		<td colspan='3' class='no-content'>Aucune question n'a été posée</td>
+	</tr>
+	{% else %}
+	{% for question in questionsList %}
+	<tr class="article">
+		<td class="colonneId">{{ question.idDocument }}</td>
+   		<td>
+      		<a href='{{ path('CauseuseBundle_editer', {'id' : question.idDocument }) }}'>
+      		{% if question.titre %}
+      		{{question.titre}}
+      		{% else %}
+      		< Sans titre >
+      		{% endif %}
+      		</a>
+   		</td>
+   		<td>
+   			{{ question.lnAuteur.username}}
+   		</td>
+   		<td>
+   			{% for r in question.rubriques %}
+   			{{ r.titre }}
+      		{% endfor %}
+   		</td>
+   		{% for action in actionsRoutesList %}
+   		<td class="colonneAction">
+      		<a href='{{ path( action, {'id' : question.idDocument}) }}'>Faire</a>
+   		</td>
+   		{% endfor %}
+	</tr>
+	{% endfor %}
+	{% endif %}
+</table>
+
+<script type="test/javascript">
+	$(document).ready(function () {
+		$('.colonneAction > a').click(function () {
+			return confirmeDelete("Voulez-vous vraiment exécuter cette action ?")
+		})
+
+	})
+</script>
+{% endblock %}
+

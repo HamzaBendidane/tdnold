@@ -1,0 +1,89 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+{% endblock %}
+
+{% block title "Index des conseils " %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/administration_titre.png')}}" />
+</div>
+
+<h1 class="titrePage">Index des conseils</h1>
+
+<form action="{{ path('ConseilExpertBundle_index') }}" method="post" name="form_selectionConseil" id="form_selectionConseil" class="formSelection">
+<label for="selectField">Champ</label>
+<select name="selectField" id="selectField" class="selectInput">
+{% for critere in selectList %}
+<option value="{{ critere.value }}">{{ critere.texte }}</option>
+{% endfor %}
+</select>
+<label for="selectValeur">Valeur</label>
+<input type="text" name="selectValeur" id="selectValeur" class="textInput" size="30" />
+<input type="submit" name="selectSubmitter" class="selectSubmitter" value="Chercher" />
+</form>
+
+{% if isSelectedField is defined %}
+<p class="rappelSelection"> {{ isSelectedField }} = {{ isSelectedValeur }}</p>
+{% endif %}
+
+<table class="adminLog">
+	<thead>
+		<tr>
+			<th class="colonneId">Id</th>
+			{% for colonne in colonnesList %}
+			<th> 
+			<a href='{{ path('ConseilExpertBundle_logTri', {'ordre' : colonne}) }}'>{{ colonne }} </a>
+			</th>
+			{% endfor %}
+			{% for clef, action in actionsList %}
+			<th> {{ clef }} </th>
+			{% endfor %}
+		</tr>
+	</thead>
+	{% if conseilsList %}
+	{% for conseil in conseilsList %}
+	<tr class="conseil-{{conseil.statut}}">
+		<td>
+			{{ conseil.idDocument }}
+		</td>
+   		<td>
+   			{% if is_granted('ROLE_ADMIN') %}
+      		<a href='{{ path('ConseilExpertBundle_relire', {'id' : conseil.idDocument}) }}'>
+      		{% endif %}
+      			{% if conseil.titre is not empty %}{{conseil.titre}}{% else %}{{ conseil.question|slice(0,50)|raw }}{% endif %}
+   			{% if is_granted('ROLE_ADMIN') %}
+      		</a>
+      		{% endif %}
+   		</td>
+   		<td>
+   			{{ conseil.statut }}
+   		</td>
+  		<td>
+   			{% if conseil.lnAuteur is not null %}{{ conseil.lnAuteur.username }}{% endif %}
+   		</td>
+  		<td>
+   			{{ conseil.datesoumission|laps }}
+   		</td>
+		{% for clef, action in actionsList %}
+		{% if action['role'] is not defined or is_granted(action['role']) %}
+		{% if action['class'] is defined %}{% set style = action['class'] %}{% else %}{% set style = '' %}{% endif %}
+   		<td>
+      		<a href='{{ path(action['controleur'], {'id' : conseil.idDocument}) }}' class='{{ style }}'>{{ action['action'] }}</a>
+   		</td>
+   		{% endif %}
+   		{% endfor %}
+	</tr>
+	{% endfor %}
+	{% else %}
+	<tr>
+		<td colspan='3' class='no-content'>Aucune demande de conseil n'est enregistrée</td>
+	</tr>
+	{% endif %}
+</table>
+{% endblock %}

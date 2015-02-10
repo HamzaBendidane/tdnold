@@ -1,0 +1,255 @@
+.commentaire-wrapper {
+	display: table;
+	width: 100%;
+	background-color: #BBECEB;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #89DFDC;
+	margin-bottom: 0px;
+}
+
+.isMain {
+	margin-left: 0;	
+	background-color: #FFF;
+}
+
+.isReponse {
+	padding-left: 60px;
+	position: relative;
+	width: calc(100% - 60px);
+}
+
+#formCommentaire .avatar,
+.commentaire-wrapper .avatar {
+	display: table-cell;
+	margin: 0;
+	padding: 5px;
+	padding-left:10px;
+	vertical-align: top;
+	width: 50px;
+}
+
+#formCommentaire .avatar {
+	padding-top: 10px;
+}
+
+#formCommentaire .avatar-image,
+.commentaire-wrapper .avatar-image {
+	border: 3px solid #FFF;
+	width: 40px;
+}
+
+.commentaire-wrapper .commentaire {
+	display: table-cell;
+	padding: 5px;
+	vertical-align: top;
+}
+
+.commentaire-wrapper .metadata {
+	font-size: 1em;
+	margin: 0;
+}
+
+.commentaire-wrapper .metadata .auteur {
+	display: inline-block;
+	font-weight: bold;
+	color:#000
+}
+
+.commentaire-wrapper .metadata .statut-tdn {
+	display: inline-block;
+	margin: 0 5px;
+}
+
+.commentaire-wrapper .metadata .statut-tdn:before {
+	content: '(';
+}
+
+.commentaire-wrapper .metadata .statut-tdn:after {
+	content: ')';
+}
+
+.commentaire-wrapper .metadata .date-publication {
+	color: #1DC1BB;
+}
+
+.commentaire-wrapper .texte {
+	margin: 0;
+	min-height: 40px;
+}
+
+.commentaire-wrapper .actions-commentaires {
+	font-weight: 0.9em;
+	margin:	0;
+}
+
+
+.switchReponses {
+	margin: 0 0 0 5px;
+}
+
+#formCommentaire {
+	display: table;
+	width: 100%;
+}
+
+#avis .avatar img {
+	width: 50px;
+}
+
+.main-section > #avis {
+	border-top-width: 1px;
+	border-top-style: dashed;
+	border-top-color: #B3EAE8;
+	background-attachment: scroll;
+	background-image: url(../images/theme/commentaire/bg_avis.png);
+	background-repeat: no-repeat;
+	background-position: center bottom;
+	background-size: cover;
+	padding-bottom: 40px;
+	position: relative;
+	z-index: 999;
+}
+
+.main-section > #avis h2.titreFormContribution {
+	font-weight: normal;
+	margin:20px 0 10px 21px; 
+	color:#444;
+}
+
+.main-section > #avis textarea.texteContribution {
+	border: 1px solid #93117E;
+	height: 80px;
+}
+
+.commentaire-reponses > #avis {
+	display: table;
+	width: 500px;
+	background-color: #BBECEB;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #89DFDC;
+	margin-bottom: 10px;
+	padding-left: 60px;
+	padding-bottom: 10px;
+}
+.commentaire-reponses > #avis h2 {
+	color: #488C8C;
+	font-size: 12px;
+	font-weight: normal;
+	margin-top: 8px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 12px;
+}
+.commentaire-reponses > #avis textarea {
+	width:510px;
+	border: 1px solid #FF91FF;
+	height: 30px;
+	padding: 10px;
+	margin-right: 20px;
+}
+
+
+
+
+#avis .invite-avis {
+	margin-bottom:0px;
+	margin-left:10px; 
+	margin-top:10px;
+	color:#FF91FF;
+}
+
+#formCommentaire .fields {
+	display: table-cell;
+	vertical-align: top;
+}
+
+#formCommentaire .texteCommentaire {
+	border: 2px solid #FF91FF;
+	height: 30px;
+	padding: 10px;
+}
+
+#formCommentaire #bouton-submit {
+	display: table-cell;
+	vertical-align: top;
+	padding-top:40px;
+	width: 100px;
+	padding-right: 10px;
+}
+
+.stalled {
+	display: none;
+}
+
+.unstall {
+	/*display: inline;*/
+}
+
+.unstall,
+.stalled {
+	cursor: pointer;
+	color: #752670;
+	text-decoration: none;
+}
+
+.form-element:not(:first-child) {
+	margin-top: 1em;
+}
+
+.inline-label,
+.inline-label ~ label {
+	display: inline-block;
+	margin: 0 0.5em 0 0;
+}
+
+.block-label {
+	display: block;
+	margin: 0;
+}
+
+/* Liens */
+
+.bottomTextLink {
+	display: inline-block;
+	margin: 0 0 0 5px;
+	color: #752670;
+	text-decoration: none;
+}
+.commentaire a:hover {
+	text-decoration: underline;
+}
+
+/*  .bottomTextLink:after {
+	content: ' . ';
+	margin: 0 0 0 5px;
+	font-family: Questrial;
+	font-size: 2em;
+	font-weight: bold;
+	color: #FFF;
+	text-decoration: none !important;
+}*/
+
+.formCellAntispam {
+	display: table-cell;
+	padding-top: 10px;
+}
+
+.formCellFollow {
+	display: table-cell;
+	padding: 10px 20px 0 0;
+	width: 330px;
+}
+
+
+.separateur_link {
+	color: #1ABFB8;
+	margin-right: 5px;
+	margin-left: 5px;
+	font-family: Questrial;
+}
+
+label[for='tdn3_commentaire_simple_texteCommentaire'] {
+	display: none;
+}

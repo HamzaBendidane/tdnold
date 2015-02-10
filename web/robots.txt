@@ -1,0 +1,29 @@
+# www.robotstxt.org/
+# www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449
+
+User-agent: *
+Disallow: /admin/
+Disallow: /commentaire/
+Disallow: /aime/
+Disallow: /question-de-nanas/voter/
+Disallow: /partage/
+Disallow: /concours/voter/
+Disallow: /assets/
+Disallow: /bundles/
+Disallow: /logs/
+Disallow: /mail/
+Disallow: /photos/
+Disallow: /uploads/
+Disallow: /config
+Disallow: /test
+Disallow: /adserver_web.html
+Disallow: /recherche
+
+Allow: /uploads/documents/public/
+
+Sitemap: articlemap_2007.xml
+Sitemap: articlemap_2008.xml
+Sitemap: articlemap_2009.xml
+Sitemap: articlemap_2010.xml
+Sitemap: articlemap_2011.xml
+Sitemap: articlemap_2012.xml

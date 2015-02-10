@@ -1,0 +1,8 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>La question que tu as posée à la communauté des nanas a été publiée. Voici le texte de la question :</p>
+<div>{{ question | raw }}</div>
+<p>Tu peux consulter la page à cette adresse : {{ path('CauseuseBundle_conversation', {'rubrique': rubrique, 'slug': slug, 'id': id}) }}</p>
+<p>Tu recevras des alertes automatiques lorsque des réponses seront proposées.</p>
+{% endblock %}

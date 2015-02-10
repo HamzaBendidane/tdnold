@@ -1,0 +1,8 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>La prochaine Nana de la semaine sera : {{ pseudo }} inscrite depuis le {{ inscription|date('d/m/Y')}}</p>
+<p>
+	<a href="{{ path('NanaBundle_profil', {'id': id}) }}">Accéder à son profil</a>
+</p>
+{% endblock %}

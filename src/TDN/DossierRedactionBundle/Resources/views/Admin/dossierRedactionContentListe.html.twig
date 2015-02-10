@@ -1,0 +1,21 @@
+{% extends 'DocumentBundle:Admin:documentListe.html.twig' %}
+
+{% block displayContent %}
+    <td>
+      {{ doc.idDocument }}
+    </td>
+    <td>
+      <a href='{{ path('DossierRedaction_relire', {'id' : doc.idDocument}) }}'>
+        {% if doc.titre is not empty %}{{doc.titre}}{% else %}Sans titre{% endif %}
+      </a>
+    </td>
+    <td>
+      {{ doc.statut }}
+    </td>
+    <td>
+      {% if doc.lnAuteur is not null %}{{ doc.lnAuteur.username }}{% endif %}
+    </td>
+    <td>
+      {{ doc.datePublication|laps }}
+    </td>
+{% endblock %}

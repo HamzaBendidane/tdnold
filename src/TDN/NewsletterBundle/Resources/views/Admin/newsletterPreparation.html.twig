@@ -1,0 +1,96 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block title "Nouvelle lettre d'info" %}
+
+{% block local_stylesheets %}
+{% endblock %}
+
+{% block contenu_principal %}
+{% if parametres is not defined %}
+{% set parametres = {} %}
+{% endif %}
+<form action="{{ path('Newsletter_'~controleur, parametres) }}" method="post" {{ form_enctype(form) }}>
+
+	<div id="entiteTitre" class="blockWidget">
+		{{ form_row(form.titre) }}
+	</div>
+	<div id="entiteBonPlan" class="blockWidget">
+		{{ form_row(form.datePublication) }}
+	</div>
+	<div id="entiteBonPlan" class="blockWidget">
+		{{ form_row(form.lnBonPlan) }}
+	</div>
+	<div id="entiteLire" class="blockWidget">
+		{{ form_row(form.lnLire) }}
+	</div>
+	<div id="entiteSponsor" class="blockWidget">
+		{{ form_row(form.lnArticleSponsor) }}
+	</div>
+	<div id="entiteVideo" class="blockWidget">
+		{{ form_row(form.lnVideo) }}
+	</div>
+	<div id="entiteQuestion" class="blockWidget">
+		{{ form_row(form.lnQuestion) }}
+	</div>
+	<div id="textEditorial" class="blockwidget">
+		{{ form_row(form.editorial) }}
+	</div>
+	<div id="textAstroBelier" class="blockwidget">
+		{{ form_row(form.AstroLoveBelier) }}
+	</div>
+	<div id="textAstroTaureau" class="blockwidget">
+		{{ form_row(form.AstroLoveTaureau) }}
+	</div>
+	<div id="textAstroGemeaux" class="blockwidget" >
+		{{ form_row(form.AstroLoveGemeaux) }}
+	</div>
+	<div id="textAstroCancer" class="blockwidget">
+		{{ form_row(form.AstroLoveCancer) }}
+	</div>
+	<div id="textAstroBelier" class="blockwidget">
+		{{ form_row(form.AstroLoveLion) }}
+	</div>
+	<div id="textAstroVierge" class="blockwidget">
+		{{ form_row(form.AstroLoveVierge) }}
+	</div>
+	<div id="textAstroBalance" class="blockwidget">
+		{{ form_row(form.AstroLoveBalance) }}
+	</div>
+	<div id="textAstroScorpion" class="blockwidget">
+		{{ form_row(form.AstroLoveScorpion) }}
+	</div>
+	<div id="textAstroSagittaire" class="blockwidget">
+		{{ form_row(form.AstroLoveSagittaire) }}
+	</div>
+	<div id="textAstroCapricorne" class="blockwidget">
+		{{ form_row(form.AstroLoveCapricorne) }}
+	</div>
+	<div id="textAstroVerseau" class="blockwidget">
+		{{ form_row(form.AstroLoveVerseau) }}
+	</div>
+	<div id="textAstroPoissons" class="blockwidget">
+		{{ form_row(form.AstroLovePoissons) }}
+	</div>
+
+	{{ form_row(form._token) }}
+
+    <input class="" type="submit" name="enregistrer" value="Enregistrer" />
+    {% if is_granted('ROLE_ADMIN') %}
+
+    {% endif %}
+</form>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		var longueurMax = 250;
+		$(".longueurLimitee").keyup(function () {
+			if ($(this).val().length > longueurMax) {
+				$(this).val($(this).val().substr(0,longueurMax));
+				alert("Le texte des horoscopes est limité à "+longueurMax+" signes.");
+			}
+		});
+	});
+
+</script>
+
+{% endblock %}

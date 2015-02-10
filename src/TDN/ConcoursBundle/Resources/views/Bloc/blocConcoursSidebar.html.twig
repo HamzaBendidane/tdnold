@@ -1,0 +1,24 @@
+<div class="contenu-suivre-tdn">
+	<a href="{{ path('Concours_sommaire')}}">
+		<img src="{{ asset('assets/images/theme/sidebar/cadre_pince_concours.png') }}" />
+	</a>
+	{% if concours is not empty %}
+	<ul>
+	{% if concours is iterable %}
+	{% for c in concours %}
+		<li>
+			<a href="{{ path('Concours_show', {'id': c.idDocument, 'slug': c.slug}) }}">{{ c.titre }}</a>
+		</li>
+	{% endfor %}
+	{% else %}
+		<li>
+			<a href="{{ path('Concours_show', {'id': concours.idDocument, 'slug': concours.slug}) }}">{{ concours.titre }}</a>
+		</li>
+	{% endif %}
+	</ul>
+	{% else %}
+	<p>Aucun concours ouvert</p>
+	{% endif %}
+	<a href="{{ path('Concours_sommaire')}}">Tous les concours</a>
+</div>
+<img src="{{ asset('assets/images/theme/sidebar/foot_cadre-blanc-cadre pince.png') }}" />

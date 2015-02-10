@@ -1,0 +1,93 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "L’équipe de Trucdenana.com" %}
+
+{% block local_stylesheets %}
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/web-tdn_titre_299x70.png')}}" />
+</div>
+<article id="article-wrapper" class="main article-redaction">
+
+  <!-- Contenu de l'article -->
+   <section class="contenu main-section">
+
+      <!-- Bloc pour l'affichage des métadonnées de l'article -->
+      <div id="metadata" class="metadata">
+         <p class="auteur"><span class="standardEtiquette">Ecrit par </span><span class="nom-auteur"> TDN</span></p>
+         <p>
+      </div>
+
+      <!-- Bloc pour l'affichage du contenu de l'article -->
+      <div id="corps" class="corps">
+        <h1 class="titre-document titre-tdn">L'équipe TDN</h1>
+        <div id="tabsEquipe">
+          <ul class="tabsRole">
+            <li class="onglet"><a  href="#tabsEquipe-1">Journalistes</a></li>
+            <li class="onglet"><a  href="#tabsEquipe-2">Experts</a></li>
+            <li class="onglet"><a  href="#tabsEquipe-3">Technique</a></li>
+          </ul>
+
+          <div id="tabsEquipe-1">
+            <h2>La rédaction</h2>
+            {% for j in admins %}
+            <div class="cartouche">
+              <p class="nom">{{ j.prenom~' '~j.nom }}</p>
+                <figure class="avatar">
+                  <img src="{{ avatar(j) }}" alt="Avatar de j.username" />
+                  <figcaption>Journaliste</figcaption>
+                </figure>
+              {{ j.popularite|stiletto|raw }}
+              <a class="lienStandard solid" href="{{ path('NanaBundle_profil', {'id': j.idNana}) }}">Voir son profil</a>
+              <a class="lienStandard solid" href="mailto:{{ j.email }}">Lui écrire</a>
+            </div>
+            {% endfor %}
+            {% for j in journalistes %}
+            <div class="cartouche">
+              <p class="nom">{{ j.prenom~' '~j.nom }}</p>
+                <figure class="avatar">
+                  <img src="{{ avatar(j) }}" alt="Avatar de j.username" />
+                  <figcaption>Journaliste</figcaption>
+                </figure>
+              {{ j.popularite|stiletto|raw }}
+              <a class="lienStandard solid" href="{{ path('NanaBundle_profil', {'id': j.idNana}) }}">Voir son profil</a>
+              <a class="lienStandard solid" href="mailto:{{ j.email }}">Lui écrire</a>
+            </div>
+            {% endfor %}
+          </div>
+
+          <div id="tabsEquipe-2">
+            <h2>Les experts</h2>
+            {% for j in experts %}
+            <div class="cartouche">
+              <p class="nom">{{ j.prenom~' '~j.nom }}</p>
+              <figure class="avatar">
+                <img src="{{ avatar(j) }}" alt="Avatar de j.username" />
+                <figcaption>
+                <p>{% for e in j.setExpertises %}<span class="domaineExpertise">{{ e.domaine }}</span>{% endfor %}</p>
+                <p>{% for e in j.setExpertises %}<span class="sticker-expertise puce-{{ e.rubrique.slug }}"></span>{% endfor %}</p>
+                </figcaption>
+              </figure>
+              {{ j.popularite|stiletto|raw }}
+              <a class="lienStandard solid" href="{{ path('NanaBundle_profil', {'id': j.idNana}) }}">Voir son profil</a>
+              <a class="lienStandard solid" href="mailto:{{ j.email }}">Lui écrire</a>
+            </div>
+            {% endfor %}
+          </div>
+
+          <div  id="tabsEquipe-3">
+            <h2>La technique</h2>
+          </div>
+
+      </div>
+    </section>
+</article>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#tabsEquipe').tabs();
+  })
+</script>
+
+{% endblock %}

@@ -1,0 +1,91 @@
+#question-de-nanas-wrapper #question {
+	background-color: #FFF;
+	border: 1px solid #1DBFB9;
+	padding: 10px;
+}
+
+#sujet-wrapper {
+	display: table;
+}
+
+#sujet-wrapper > * {
+	display: table-cell;
+	vertical-align: top;
+}
+
+#avatar-wrapper {
+	font-weight: bold;
+	padding: 0 20px;
+	text-align: center;
+	width: 100px;
+}
+
+img.avatar {
+	width:	60px;
+	height: 60px;
+	border: 1px solid black;
+}
+
+#form-reponse-de-nana {
+
+}
+
+#bloc-sujet > p {
+	margin: 0;
+}
+
+#bloc-sujet > p > span {
+	color: #1DBFB9;
+}
+
+#bloc-sujet > .sujet {
+	margin-top: 0.9em;
+}
+
+.indicateur-votes {
+	color: #FF3300;
+	font-size: 0.8em;
+	text-transform: uppercase;
+}
+
+.indicateur-votes > .stats {
+	display: block;
+	padding: 4px;
+	border: 1px solid #FF3300;
+	border-radius: 6px;
+	margin: 0 auto;
+	text-align: center;
+	width: 20px;
+}
+
+.indicateur-reponses {
+	color: #448A8A;
+	font-size: 0.8em;
+	text-transform: uppercase;
+}
+
+.indicateur-reponses > .stats {
+	display: block;
+	padding: 4px;
+	border: 1px solid #448A8A;
+	border-radius: 6px;
+	margin: 0 auto;
+	text-align: center;
+	width: 20px;
+}
+
+form#form-reponse-de-nana {
+	margin: 40px 0 0 0;
+}
+
+form#form-reponse-de-nana > fieldset {
+	background-color: #FFE5ED;
+	border-radius: 12px;
+	border: 0;
+	text-align: right;
+}
+
+form#form-reponse-de-nana textarea {
+	width:	75%;
+	height: 100px;
+}	

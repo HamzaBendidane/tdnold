@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="Newsletter_simpleInscription" pattern="/newsletter/inscription">
+        <default key="_controller">NewsletterBundle:Public:simpleInscription</default>
+    </route>
+
+    <route id="Newsletter_desinscription" pattern="/newsletter/desinscription/{clef}">
+        <default key="_controller">NewsletterBundle:Public:desinscription</default>
+    </route>
+
+    <!-- Administration -->
+
+    <route id="Newsletter_index" pattern="/admin/newsletter/index">
+        <default key="_controller">NewsletterBundle:Admin:index</default>
+    </route>
+
+    <route id="Newsletter_preparation" pattern="/admin/newsletter/preparation">
+        <default key="_controller">NewsletterBundle:Admin:preparation</default>
+    </route>
+
+    <route id="Newsletter_preview" pattern="/admin/newsletter/preview/{id}">
+        <default key="_controller">NewsletterBundle:Admin:preview</default>
+    </route>
+
+    <route id="Newsletter_apercu" pattern="/newsletter/apercu/{id}">
+        <default key="_controller">NewsletterBundle:Admin:preview</default>
+    </route>
+
+    <route id="Newsletter_reviser" pattern="/admin/newsletter/revision/{id}">
+        <default key="_controller">NewsletterBundle:Admin:reviser</default>
+    </route>
+
+    <route id="Newsletter_programmer" pattern="/admin/newsletter/programmation/{id}">
+        <default key="_controller">NewsletterBundle:Admin:programmer</default>
+    </route>
+
+    <route id="Newsletter_envoyerAbonnesAnonymes" pattern="/admin/newsletter/envoi/anonyme/{debut}/{fin}">
+        <default key="_controller">NewsletterBundle:Admin:envoyerAbonnesAnonymes</default>
+    </route>
+
+    <route id="Newsletter_envoyerNanas" pattern="/admin/newsletter/envoi/nanas/{debut}/{lot}">
+        <default key="_controller">NewsletterBundle:Admin:envoyerNanas</default>
+    </route>
+
+    <!-- cron -->
+
+    <route id="Newsletter_envoyer" pattern="/cron/newsletter/envoi">
+        <default key="_controller">NewsletterBundle:Admin:envoyer</default>
+    </route>
+
+    <!-- v2 -->
+
+    <route id="Newsletter_v2Index" pattern="/newsletter.{_format}">
+        <default key="_controller">CoreBundle:Legacy:home</default>
+        <requirement key="_format">html</requirement>
+    </route>
+
+</routes>

@@ -1,0 +1,39 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "envoie un message à TDN" %}
+
+{% block local_stylesheets %}
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/web-tdn_titre_299x70.png')}}" />
+</div>
+<article id="article-wrapper" class="main article-redaction">
+
+  <!-- Contenu de l'article -->
+   <section class="contenu main-section">
+
+      <!-- Bloc pour l'affichage des métadonnées de l'article -->
+      <div id="metadata" class="metadata">
+         <p class="auteur"><span class="standardEtiquette">Ecrit par </span><span class="nom-auteur"> TDN</span></p>
+         <p>
+      </div>
+
+      <!-- Bloc pour l'affichage du contenu de l'article -->
+      <div id="corps" class="corps">
+        <form name="formulaireContact" id="formulaireContact" method="post" action="{{ path('Core_contact')}}">
+          {{ form_row(formContact.requete) }}
+          {% if is_granted('ROLE_USER') %}
+          {{ form_row(formContact.email, {'attr' : { 'value':app.user.email }}) }}
+          {% else %}
+          {{ form_row(formContact.email) }}
+          {% endif %}
+          {{ form_row(formContact.message) }}
+          {{ form_row(formContact._token) }}
+          <input type="submit" name="envoyer" value="Envoyer" />
+        </form>
+      </div>
+    </section>
+</article>
+{% endblock %}

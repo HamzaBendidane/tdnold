@@ -1,0 +1,9 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<div>{{ question |raw }}</div>
+{% if message is not empty %}
+<p>La question que tu as soumise aux experts de TDN n’a malheureusement pas pu être validée. Voici pourquoi :</p>
+<div>{{ message }}</div>
+{% endif %}
+{% endblock %}

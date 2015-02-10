@@ -1,0 +1,45 @@
+<div id="questions-nanas">
+	<h4>Questions de nanas (sans tabou)</h4>
+	<p class="titre-caption">Ose, donne ton avis !</p>
+	{% if questionsRecentes is empty %}
+	<p class="warning">Aucune question n'a encore été posée</p>
+	{% else %}
+	<div class="setQuestions nano" style="height:380px">
+		<div class="content">
+			{% for q in questionsRecentes %}
+			<p class="separateurRubrique">
+				{% set r = q.rubriques[0] %}
+				<span class="{{ rubriquePrincipale(r) }}_texte">{{ r.titre }}</span>
+			</p>
+			<div class="questionEnveloppe">
+				<div class="stats">
+					{% set qlikes = 0%}
+					{% for r in q.filReponses %}
+					{% set qlikes = qlikes + r.likes %}
+					{% endfor %}
+					<a name="reponses" title="Nombre de réponses"><span class="reponses">{{ q.filReponses|length }}</span></a>
+					<a name="votes" title="Nombre de votes"><span class="votes">{{ qlikes }}</span></a>
+				</div>
+				<div class="corps">
+					<div class="question">
+						<a href="{{ path('CauseuseBundle_conversation', {'id':q.idDocument, 'slug':q.slug, 'rubrique':q.rubriques[0].slug}) }}">{{ q.abstract|striptags|raw }}</a>
+					</div>
+					<p class="credits">{{ q.lnAuteur|profilAccess|raw }}<span style="color:#BBC7CC">|</span> {{q.datePublication|date('d/m/Y H:i') }}</p>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	{% endif %}
+	<div id="liens-secondaires">
+		<!--a href="#" class="lien-marqué">Recherche avancée</a-->
+		<a href="{{ path('CauseuseBundle_sommaire') }}" class="lien-marque line-mince">Toutes les questions</a>
+	</div>
+	{% if is_granted('ROLE_USER') %}
+	<a href="{{ path('CauseuseBundle_creer') }}" class="tdn-link-solide">
+		<img src="{{ asset('assets/images/theme/boutons/bt-questionne-les-nanas.png') }}"  alt="Questionne les nanas !" />
+	</a>
+	{% else %}
+	<p>Connecte-toi pour poser une question aux nanas</p>
+	{% endif %}
+</div>

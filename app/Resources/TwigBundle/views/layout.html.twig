@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset={{ _charset }}"/>
+        <meta name="robots" content="noindex,nofollow" />
+        <title>{% block title '' %}</title>
+        <link href="{{ asset('bundles/framework/css/exception_layout.css') }}" rel="stylesheet" type="text/css" media="all" />
+        <link href="{{ asset('bundles/framework/css/exception.css') }}" rel="stylesheet" type="text/css" media="all" />
+    		<style type='text/css'>
+	@font-face { font-family: Droid Sans; src: url('/assets/css/fonts/DroidSans.ttf'); } 
+
+	body {
+		background-color: #EFF9FD;
+	}
+	.page-erreur {
+		background: url(/assets/images/theme/erreurs/404.png) no-repeat scroll 0 0 #EFF9FD;
+		font-family: "Droid Sans", Helvetica, Verdana, sans-serif;
+	}
+	.oups {
+		font-weight: 700;
+		color: #6B2A65;
+		font-size: 4em;
+		font-style: italic;
+		margin-left: 280px;
+		padding-top: 54px;
+	}
+	.message {
+		position: absolute;
+		margin: 400px 0 100px 600px;
+	}
+	.message .texte {
+		font-size: 1.5rem;
+	}
+	.message .redirection {
+		font-size: 0.9rem;
+	}
+	</style>
+    </head>
+    <body>
+        <div id="content">
+            {% block body '' %}
+        </div>
+    </body>
+</html>

@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="tdn.concours.participation.class">TDN\ConcoursBundle\Participation\Participant</parameter>
+   </parameters>
+
+    <services>
+        <service id="tdn.concours.participants" class="%tdn.concours.participation.class%">
+            <argument type="service" id="mailer" />
+            <argument type="service" id="templating" />
+        </service>
+    </services>
+
+</container>

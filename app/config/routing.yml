@@ -1,0 +1,88 @@
+slider:
+    resource: "@SliderBundle/Resources/config/routing.xml"
+    prefix:   /
+
+# Routes pour la gestion des utilisateurs
+login:
+    pattern:   /login
+    defaults:  { _controller: NanaBundle:Security:login }
+
+login_check:
+    pattern:   /login_check
+
+logout:
+    pattern: /logout
+
+# Routes TDNBundle
+advertise:
+    resource: "@AdvertiseBundle/Resources/config/routing.xml"
+    prefix:   /
+
+newsletter:
+    resource: "@NewsletterBundle/Resources/config/routing.xml"
+    prefix:   /
+
+nana:
+    resource: "@NanaBundle/Resources/config/routing.xml"
+    prefix:   /
+
+profil:
+    resource: "@ProfilBundle/Resources/config/routing.xml"
+    prefix:   /
+
+dossier_redaction:
+    resource: "@DossierRedactionBundle/Resources/config/routing.xml"
+    prefix:   /
+
+breve:
+    resource: "@BreveBundle/Resources/config/routing.xml"
+    prefix:   /
+
+causeuse:
+    resource: "@CauseuseBundle/Resources/config/routing.xml"
+    prefix:   /
+
+conseil_expert:
+    resource: "@ConseilExpertBundle/Resources/config/routing.xml"
+    prefix:   /
+
+concourd:
+    resource: "@ConcoursBundle/Resources/config/routing.xml"
+    prefix:   /
+
+core:
+    resource: "@CoreBundle/Resources/config/routing.xml"
+    prefix:   /
+
+produit:
+    resource: "@ProduitBundle/Resources/config/routing.xml"
+    prefix:   /
+
+video:
+    resource: "@VideoBundle/Resources/config/routing.xml"
+    prefix:   /
+
+commentaire:
+    resource: "@CommentaireBundle/Resources/config/routing.xml"
+    prefix:   /
+
+image:
+    resource: "@ImageBundle/Resources/config/routing.xml"
+    prefix:   /
+
+quiz:
+    resource: "@QuizBundle/Resources/config/routing.xml"
+    prefix:   /
+
+document:
+    resource: "@DocumentBundle/Resources/config/routing.xml"
+    prefix:   /
+
+redaction:
+    resource: "@RedactionBundle/Resources/config/routing.xml"
+    prefix:   /
+
+# Internal routing configuration to handle ESI
+#_internal:
+#    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
+#    prefix:   /_internal

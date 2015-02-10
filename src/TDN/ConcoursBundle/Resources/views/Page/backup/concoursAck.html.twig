@@ -1,0 +1,39 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Liste des concours" %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/commentaire.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/concours.css') }}" type="text/css">
+<script type="text/javascript" src="{{ asset('assets/js/custom-form-elements.js') }}"></script>
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/jeux-concours_titre.png')}}" />
+</div>
+<article id="article-wrapper" class="main sommaire-jeux-concours">
+
+  <!-- Contenu de l'article -->
+  <section class="contenu main-section">
+
+	<!-- Bloc pour l'affichage des métadonnées de l'article -->
+    <div id="metadata" class="metadata">
+    	<p class="auteur"></p>
+        <p></p>
+    </div>
+
+    <p>Bravo ! Ta participation a bien été enregistrée.</p>
+
+    <p>Ci-dessous, découvre d’autres contenus TDN : posts de la rédac, questions de nana, conseils d’experts, vidéos… Et, n’oublie pas, viens participer au prochain jeu-concours, dispo dès la semaine prochaine !</p>
+	</section>
+
+	<!-- Publications en rapport avec ce sujet -->
+	{% if similaires is defined and similaires is not empty %}
+	<section id="more">
+    {% include 'DocumentBundle:Bloc:documentsSimilaires.html.twig' with {'similaires': similaires, 'type': 'Article'} %}
+	</section>
+	{% endif %}
+
+</article>
+{% endblock %}

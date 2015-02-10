@@ -1,0 +1,66 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Résultats de recherche" %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/profil.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+{% endblock %}
+
+{% block contenu_principal %}
+<div id="contenu">
+	
+	<article id="article-wrapper">
+		<div class="entete-resultats">
+			<p class="cartoucheResultats">
+				<span class="cardinal-resultats">{{ reponses|length }}</span>réponses
+			</p>
+		</div>
+		<div id="corps" class="resultats-recherche corps">
+			{% if reponses is empty %}
+			<p class="warning">TDN n'a trouvé aucune réponse à votre recherche</p>
+			{% else %}
+			{% for nana in reponses %}
+			<div class="resultat-nana">
+				<div class="cell_top">
+			   		<img class="icone_40" src="{{ avatar(nana) }}" alt="Avatar de {{ nana.username }}" />
+			   	</div>
+				<div class="cell_top">
+					<p class="identite">
+						<a href="{{ path('NanaBundle_profil', {'id': nana.idNana}) }}">{{ nana.prenom ~" "~ nana.nom ~" ("~ nana.username ~")" }}</a>
+					</p>
+		    		<p class="precisions">
+		    			<span class="age">{{ nana.dateNaissance|age }}</span>
+		    			<span class="popularite">{{ nana.popularite|stiletto|raw }}</span>
+		    			<span class="activite">{{ nana.occupation }}. </span>
+		    			{% if nana.lnHobbies is not null %}
+		    			<span class="hobbies">Ses goûts :
+		    			{% for h in nana.lnHobbies %}
+		    			<span class="domaine">{{ h.domaine }}</span>
+		    			{% endfor %}
+		    			</span>
+		    			{% endif %}
+		    		</p>
+		    		{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+		    		<p>
+		    			<a class="lien-mince" href="{{ path('NanaBundle_follow', { 'nana': nana.idNana}) }}">Suivre l’activité de {{ nana.username }}</a> &ndash; 
+		    			<a class="lien-mince popin" href="{{ path('Nana_messagePriveShow', {'id': nana.idNana}) }}">Lui envoyer un message privé</a>
+		    		</p>
+		    		{% else %}
+		    		<p class='lien-mince'>
+		    			<a href="{{ path('NanaBundle_registerForm') }}" class="lienFleche popin">
+		    			Connecte-toi ou inscris-toi pour échanger avec la communauté TDN
+		    			</a>
+		    		</p>
+		    		{% endif %}
+				</div>
+
+			</div>
+			{% endfor %}
+			{% endif %}
+		</div>
+	</article>
+</div>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>TDN Vient de publier un article de {{ auteur }}</p>
+<div>{{ titre |raw }}</div>
+<p>Vous pouvez le lire <a href="http://www.trucsdenana.com{{ url }}">à cette adresse</a></p>
+{% endblock %}

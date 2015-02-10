@@ -1,0 +1,6 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>La question <strong>{{ titre }} a été relue et modifiée par {{ lecteur }}.</strong></p>
+<div>{{ question |raw }}</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'DocumentBundle:Admin:documentDetail.html.twig' %}
+
+{% block title "Demande de conseil à un expert" %}
+
+{% block form_contenuDocument %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/articles-redac_titre_299x80.png')}}" />
+</div>
+<div id="main-wrapper">
+  <section id="avertissment">
+   <p>La question a été postée par {{ conseil.lnAuteur.username }} le : {{ conseil.dateSoumission|date('d m Y') }}</p>
+   <p>{% if conseil.statut == 'CONSEIL_REPONDU' or conseil.statut == 'CONSEIL_PUBLIE' %}
+   La réponse a été envoyée par {{ conseil.lnExpert.prenom~" "~conseil.lnExpert.nom }} le : {{ conseil.dateSoumission|date('d m Y') }}
+   {% elseif conseil.statut == 'CONSEIL_TRANSMIS' %}
+   La question est en attente d'une réponse de {{ conseil.lnExpert.prenom~" "~conseil.lnExpert.nom }}
+   {% endif %}</p>
+    {% if conseil.lnIllustration is not empty %}
+    <p>
+      <img class="image-question" src="{{ illustration(conseil) }}" alt="{{ conseil.lnIllustration.alt }}" title="{{ conseil.lnIllustration.alt }}" style="max-width:400px" />
+    </p>
+    {% endif %}
+  </section>
+  <div id="abstractArticle" class="blockWidget">
+    {{ form_row(form.abstract) }}
+  </div>
+  <div id="corpsQuestion" class="blockWidget">
+    {{ form_row(form.question) }}
+  </div>
+  {% if conseil.lnImage is not empty %}
+  <div class="fileWidget">
+  <label for="moderationImageNana" >Image envoyée par l'auteur de la question</label>
+    {% set pathImageNana = documentImage(conseil.lnImage, 'sqr_', conseil.lnAuteur.idNana) %}
+    <a href="{{ pathImageNana }}" rel="apercu">
+      <img src="{{ pathImageNana }}" class="apercu" alt="{{ conseil.lnImage.alt }}" />
+    </a>
+  </div>
+  {% endif %}
+  <div id="corpsReponse" class="blockWidget">
+    {{ form_row(form.reponse) }}
+  </div>
+ 
+</div>
+{% endblock %}
+
+{% block form_script%}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#TDN3_ConseilExpert_Relecture_abstract").ckeditor();
+        $("#TDN3_ConseilExpert_Relecture_question").ckeditor();
+        $("#TDN3_ConseilExpert_Relecture_reponse").ckeditor();
+      $("#miseEnAvant").click(function () {
+        $("#section_miseEnAvant").toggleClass('tiroirOuvert tiroirFerme');
+      });
+    })
+</script>
+{% endblock %}

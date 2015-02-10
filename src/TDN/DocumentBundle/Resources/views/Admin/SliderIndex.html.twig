@@ -1,0 +1,77 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+{% endblock %}
+
+{% block title "Contenus promus en Une" %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/administration_titre.png')}}" />
+</div>
+
+<h1 class="titrePage">Contenus promus en Une</h1>
+
+<form action="{{ path('DocumentBundle_sliderIndex') }}" method="post" name="form_selectionSlider" id="form_selectionSlider" class="formSelection">
+<label for="selectField">Champ</label>
+<select name="selectField" id="selectField" class="selectInput">
+{% for critere in selectList %}
+<option value="{{ critere.value }}">{{ critere.texte }}</option>
+{% endfor %}
+</select>
+<label for="selectValeur">Valeur</label>
+<input type="text" name="selectValeur" id="selectValeur" class="textInput" size="30" />
+<input type="submit" name="selectSubmitter" class="selectSubmitter" value="Chercher" />
+</form>
+
+{% if isSelectedField is not empty %}
+<p class="rappelSelection"> {{ isSelectedField }} = {{ isSelectedValeur }}</p>
+{% endif %}
+
+<table class="adminLog">
+	<thead>
+		<tr>
+			<th class="colonneId">Id</th>
+			{% for colonne in colonnesList %}
+			<th> 
+			<a href='{{ path('DocumentBundle_sliderIndex', {'ordre' : colonne}) }}'>{{ colonne }} </a>
+			</th>
+			{% endfor %}
+			{% for colonne in actionsList %}
+			<th class="colonneAction"> {{ colonne }} </th>
+			{% endfor %}
+		</tr>
+	</thead>
+	{% if promsList is empty %}
+		<tr>
+		<td colspan='3' class='no-content'>Aucune article n'a été écrit à cette heure</td>
+	</tr>
+	{% else %}
+	{% set i = 0 %}
+	{% for contenu in promsList %}
+	<tr class="article">
+		<td class="colonneId">{{ contenu.idSlide }}</td>
+   		<td>
+      		<a href='{{ path('Document_sliderInspecteur', {'id' : contenu.idSlide}) }}'>{{contenu.lnSource.titre}}</a>
+   		</td>
+   		<td>
+   			{{ contenu.statut }}
+   		</td>
+   		<td>
+   			{{ promsClass[loop.index0] }}
+   		</td>
+   		{% for action in actionsRoutesList %}
+   		<td class="colonneAction">
+      		<a href='{{ path( action, {'id' : contenu.idSlide}) }}'>Faire</a>
+   		</td>
+   		{% endfor %}
+	</tr>
+	{% set i = i + 1 %}
+	{% endfor %}
+	{% endif %}
+</table>
+{% endblock %}

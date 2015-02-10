@@ -1,0 +1,146 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Question de nanas | " ~ question.titre ~ " | Trucdenana.com" %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/js/aloha/css/aloha.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/form.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/question-nanas.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/conseil.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/commentaire.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+<script src="{{ asset('assets/js/aloha/lib/require.js') }}"></script>
+<script src="{{ asset('assets/js/aloha/lib/aloha.js') }}" data-aloha-plugins="common/ui,common/format,common/highlighteditables,common/link,common/list,common/table"></script>
+{% endblock %}
+
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/questions-nanas_titre.png')}}" />
+</div>
+
+<article id="article-wrapper" class="main question-de-nana">
+
+  <!-- Contenu de l'article -->
+   <section class="contenu main-section">
+
+    <!-- Bloc pour l'affichage des métadonnées de l'article -->
+    <div id="metadata" class="metadata">
+       <p class="auteur">
+          <span class="standardEtiquette">Question posée le  </span>   
+          <span class="date-publication">{#{ question.datePublication | date('d m Y') }#}</span>
+       </p>
+       <p>
+        <span class="standardEtiquette">Rubrique :</span> 
+        {% for r in question.rubriques %}<span class="rubrique-{{ r.slug }}">{{ r.titre }}</span>{% endfor %}
+       </p>
+    </div>
+
+    <!-- Bloc pour l'affichage du contenu de l'article -->
+    <div id="corps" class="corps">
+      <h1 class="titre-document titre-{{ rubriquePrincipale(question.rubriques[0]) }}">{{question.titre}}</h1>
+      <div id="question">
+        <div class="col-1">
+          <img src="{{ avatar(question.lnAuteur) }}" class="" alt="" />
+          <div class="statistiques">
+            <p class="reponses"><span class="cardinal">{{ question.filReponses|length }}</span> réponses</p>
+            <p class="votes"><span class="cardinal">{{ totalVotes }}</span> votes</p>
+          </div>
+        </div>
+        <div class="col-2">
+          <p class="auteur-question"><span class="standardEtiquette">Question de :</span> <span class="pseudo">{{ question.lnAuteur.username }}</span></p>
+          <p class="auteur-age"><span class="standardEtiquette">Statut :</span> {% for role in question.lnAuteur.roles %}{{ role.name }}{% endfor %}<span class="standardEtiquette">Age : </span> {{ ageAuteur }} ans</p>
+    		  <div class="question">{{question.question|raw}}</div>
+           {% if question.lnIllustration.fichier %}
+           {% set Y = question.lnIllustration.datePublication|date('Y') %}
+           {% set m = question.lnIllustration.datePublication|date('m') %}
+           {% set source = "/web/uploads/documents/public/"~Y~"/"~m~"/n_/"~question.lnAuteur.idNana~"/"~question.lnIllustration.fichier %}
+           <a class="popin" href="{{ source }}">
+            <img class="vignette-causeuse" src="{{ source }}" alt="{{ question.lnIllustration.alt }}" />
+           </a>
+          {% endif %} 
+        </div>
+      </div>
+    </div>
+	  
+<!-- Formulaire pour la réponse -->
+<div id="avis" style="margin-top:20px">
+<h2 class="titreFormContribution">Ose, donne ton avis !</h2>
+{% if is_granted('ROLE_USER') %}
+<form name="form-reponse-de-nana" id="form-reponse-de-nana" class="formUser form-reponse-de-nana" method="post" action="{{ path('CauseuseBundle_postReponse')}}" {{ form_enctype(formReponse) }}" class="table-content">
+<figure class="avatar">
+    <img src="{{ avatar(app.user.lnAvatar) }}" alt="Avatar de {{ app.user.username }}"/>
+  </figure>
+  <fieldset class="no-border">
+    <input type="hidden" name='idQuestion' id="idQuestion" value="{{ question.idDocument }}" />
+    <a href="{{ path('Core_contact', {'type': 'ABUS'}) }}" class="abuse-warning">Signaler un abus à la rédaction</a>
+      {{ form_widget(formReponse.reponse, {'attr': {'class': 'texteContribution'}}) }}
+      {{ form_row(formReponse.lnIllustration) }}
+      {{ form_row(formReponse._token) }}
+  
+<input type="submit" name="envoyer" id="envoyer" value="Publie ta réponse"  style="float:right; margin-top:10px; margin-right:20px"/> 
+    </fieldset>
+  
+</form>
+{% else %}
+<p>Connecte-toi ou inscris-toi pour échanger sur TDN</p>
+{% endif %}		
+</div>
+
+    <!-- Les réponses -->
+    {% if nbReponses == 0 %}
+    <p class="warning">Aucune réponse à cette question pour le moment</p>
+    {% else %}
+    <h2 style="margin-left:10px; color:#488C8C">Réponses de nanas ({{ nbReponses }})</h2>
+    {% for rep in question.filReponses%}
+    <div id="reponse">
+      <div class="col-1">
+        <img src="{{ asset('assets/images/theme/centre/avatar_profil/avatar5%2080x95.png')}}" />
+      </div>
+      <div class="col-2">
+        {% set classePopularite = 0 %}
+        <p class="bandeau-nana">
+          <img src="{{ asset('assets/images/theme/centre/profil/' ~ classePopularite ~ '_escarpins.png')}}" />
+          <span class="auteur-reponse">{{ rep.lnAuteur.username }}</span>
+          <span class="publication-reponse">{{ rep.datePublication | date('d/m/y H:i') }}</span>
+        </p>
+        <div class="texte-reponse">
+        {{rep.reponse|raw}}
+        </div>
+      </div>
+      <div class="col-3">
+        <p class="approuve">
+        <a href="{{ path('CauseuseBundle_voteReponse', {'id' : rep.idDocument}) }}">{{ rep.likes }} vote{% if rep.likes > 1 %}s{% endif %}</a>
+        </p>
+        <p class="choixMeilleureReponse">
+        {% if question.reponseAcceptee %}
+        {% if question.reponseAcceptee == rep.idDocument %}
+        Mon choix
+        {% endif %}
+        {% else %}
+          <a href="{{ path('CauseuseBundle_accepteReponse', {'idQuestion' : question.idDocument, 'idReponse' : rep.idDocument}) }}">Je suis d'accord</a>
+        {% endif %}
+        </p>
+      </div>
+    </div>
+    <!-- Commentaires sur les réponses -->
+    {% set nbCommentaires = 1 %}
+    {#% include 'CommentaireBundle:Flux:flux.html.twig' with {'commentaires': rep.commentaires, 'nbCommentaires' : nbCommentaires, idDocument : 25 } %#}
+    {% endfor %}
+    {% endif %}
+  </section>
+ </article>
+ <script type="text/javascript">
+    Aloha.ready( function() {
+       Aloha.jQuery('#source-reponse').aloha();
+    });
+    $(document).ready(function () {
+      $("#source-reponse").blur(function () {
+        $("#tdn3_causeuse_reponse_reponse").html($("#source-reponse").html());
+      });
+    })
+</script>
+
+{% endblock %}

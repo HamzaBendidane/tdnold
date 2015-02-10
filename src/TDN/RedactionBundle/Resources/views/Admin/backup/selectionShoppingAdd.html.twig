@@ -1,0 +1,40 @@
+{% extends 'DocumentBundle:Admin:documentDetail.html.twig' %}
+
+{% block form_contenuDocument %}
+<section id="contenuArticle" class="form-section section-contenu">
+    <div id="abstractArticle" class="blockWidget">
+        {{ form_row(form.abstract) }}
+    </div>
+	<div id="produitWidget" ></div>
+    <p><a href="#" id="boutonAjoutProduit" class="collectionPush">Ajouter un produit</a></p>
+    {{ form_row(form.setProduit, {'attr': {'class': 'modeleFormProduit'}}) }}
+</section>
+{% endblock %}
+
+{% block form_script%}
+<script type="text/javascript">
+    Aloha.ready( function() {
+       Aloha.jQuery('#source-abstract').aloha();
+    });
+    $(document).ready(function () {
+        //CKEDITOR.disableAutoInline = true;
+        //CKEDITOR.inline('corpsArticle');
+         CKEDITOR.replace('marylin_shopping_add_abstract', {
+          customConfig: 'config_chapo.js'
+        })
+
+    	$("#miseEnAvant").click(function () {
+    		$("#section_miseEnAvant").toggleClass('tiroirOuvert tiroirFerme');
+    	});
+
+        $("#boutonAjoutProduit").click(function (event) {
+            event.preventDefault();
+            var $holder = $("#marylin_shopping_add_setProduit");
+            var nbChamps = $('#produitWidget').children().length + $('.modeleFormProduit > div').length;
+            var prototype = $holder.attr('data-prototype');
+            var newForm = prototype.replace(/__name__/g, nbChamps);
+            $('#produitWidget').append(newForm);
+        });
+    })
+</script>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Concours " ~ titre %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/articles-redac_titre_299x80.png')}}" />
+</div>
+<article id="concours-wrapper">
+  <section id="presentation">
+    <p>Proposé par : {{auteur}} ({{role}}) &ndash; {{datePublication}}</p>
+    <p>Rubrique : <span class="rubrique-beaute">{{nomDeRubrique}}</span></p>
+  </section>
+  <section id="concours-actif">
+    <img src="{{ asset('assets/images/photos/{{annee}}/{{mois}}/{{concours.photo}}')}}" class="coverImage" />
+    <h1>{{concours.titre}}</h1>
+    {{concours.corps|raw}}
+  </section>
+  <section id="participation">
+
+  </section>
+  <section id="social-links">
+
+  </section>
+  
+  {#% include 'CommentaireBundle:FLux:flux.html.twig' with commentaires %#}
+  
+  {#% if more %#}
+    {#% include 'openConcours.html.twig' with more %#}
+  {#% endif %#}
+</article>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'ConcoursBundle:Page:concoursShow.html.twig' %}
+
+{% block variante_concours %}
+    <!-- Doit-on afficher des question ? -->
+    {% if concours.questions is not empty %}
+    <div class="participation">
+      <p class="question-concours">
+        <span class="etiquette-standard">Question : </span>
+        <span class="texte-question">{{ concours.questions[0].question|raw }}</span>
+      </p>
+      <div class="blockWidget">
+        {{ form_row(form.reponse) }}
+        {{ form_row(form._token) }}
+      </div>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block votes_reponses%}
+   <!-- Peut-on voter pour les réponses ? -->
+    {% if concours.reponsesVisibles %}
+    <h4>Liste des réponses enregistrées</h4>
+    <p class="avertissement">Ce jeu-concours prend en compte la popularité des réponses données. Partage la page avec tes ami-e-s pour qu'ils/elles puissent te soutenir.</p>
+    {% set i = 1 %}
+    {% for r in concours.filParticipants %}
+    {% set auteur = r.lnParticipant %}
+    {% if auteur is null %}
+    {% set pseudo = 'Anonyme' %}
+    {% else %}
+    {% set pseudo = auteur.username %}
+    {% endif%}
+    <div id="reponseConcours{{r.idParticipation}}" class='reponseConcoursOuvert'>
+      <figure class="avatar">
+        <img src="{{ avatar(auteur) }}" class="avatar-image" alt="Avatar {% if auteur.username is defined %}de {{ auteur.username }}{% endif %}"/>
+      </figure>
+      <div class="texteReponse">
+        <p class="metaAuteur">Réponse #{{ i }} par <span class="pseudoAuteur">{{ pseudo }}</span></p>
+        <div>{{ r.reponse }}</div>
+      </div>
+      <div class="voteConcours">
+        <p class="messageVote">
+        {% if r.votes > 1%}
+        {{ r.votes }} personnes aiment cette réponse
+        {% elseif r.votes == 1 %}
+        1 personne aime cette réponse
+        {% else %}
+        Personne n'a encore voté
+        {% endif %}
+        </p>
+        <p class="boutonVote">
+          <a href="{{ path('Concours_voter', {'participant': r.idParticipation}) }}">J'aime</a>
+        </p>
+      </div>
+    </div>
+    {% set i = i + 1 %}
+    {% endfor %}
+    {% endif %}
+{% endblock %}

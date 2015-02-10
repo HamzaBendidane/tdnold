@@ -1,0 +1,312 @@
+<?php
+
+namespace TDN\NanaBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+use TDN\NanaBundle\Form\Model\Inscription;
+use TDN\NanaBundle\Form\Type\InscriptionType;
+use TDN\NanaBundle\Form\Type\shortRegisterType;
+use TDN\NanaBundle\Entity\Nana;
+use TDN\NanaBundle\Entity\NanaRoles;
+use TDN\NanaBundle\Entity\NanaPortraitImageProxy;
+use TDN\NanaBundle\Form\Type\completeProfilType;
+use TDN\ImageBundle\Form\Type\simpleImageType;
+use TDN\ImageBundle\Entity\Image;
+use TDN\NanaBundle\Form\Type\HobbyType;
+use TDN\NanaBundle\Entity\NanaHobby;
+
+class PublicController extends Controller {
+
+    public function showMyProfilAction () {
+
+        $variables = array();  
+        $vars['rubrique'] = "tdn";
+
+        // Extraction de l'utilisateur courant
+        // $usr= $this->get('security.context')->getToken()->getUser();
+        // ou même $this->getUser() ?
+
+        // Récupération de l'entity manager qui va nous permettre de gérer les entités.
+        $em = $this->get('doctrine.orm.entity_manager');      
+        $rep_nana = $repository = $em->getRepository('TDN\NanaBundle\Entity\Nana');
+        $whoami = $this->container->get('security.context')->getToken()->getUser();
+        $vars['me'] = $rep_nana->find($whoami->getIdNana());
+        // $vars['countHobbies'] = $vars['me']->getHobbies()->count();
+        $vars['countGaleriePerso'] = $vars['me']->getGaleriePerso()->count();
+        $vars['my_followers'] = $vars['me']->getIsFollowed();
+        $vars['my_hobbies'] = $vars['me']->getLnHobbies();
+        $vars['countHobbies'] = count($vars['my_hobbies']);
+        // Instanciation du Repository
+        // $repository = $em->getRepository('TDNRedactionBundle:Article');
+        
+        $vars['productions'] = 0;
+        foreach ($vars['me']->getFilProductions() as $p) {
+            $classe = explode('\\', get_class($p));
+            $nomClasse = array_pop($classe);
+            $vars['my_'.strtolower($nomClasse)][] = $p;
+            $vars['productions'] += 1;
+             }
+
+        $vars['likes'] = NULL;
+
+       // Formulaire pour les données personnelles
+        $vars['form'] = $this->createForm(new completeProfilType(), $vars['me'])->createView();
+        // Formulaire pour changer d'avatar
+        $vars['form_avatar'] = $this->createForm(new simpleImageType(), new Image)->createView();
+        // Formulaire pour la galerie d'images
+        $vars['form_galerie'] = $this->createForm(new simpleImageType(), new Image)->createView();
+        // Formulaire pour les hobbies
+        $vars['form_hobby'] = $this->createForm(new HobbyType(), new NanaHobby)->createView();
+
+        // récupération des commentaires
+        // $rep_comms = $em->getRepository('TDN\CommentaireBundle\Entity\Commentaire');
+        // $variables['commentaires'] = $rep_comms->findAllThreaded();
+        // $variables['nbCommentaires'] = count($variables['commentaires']);
+        // print_r($variables['commentaires']); die;
+        // Rechercher l'article
+        // $article = $repository->find($id);
+        
+        // set_include_path(get_include_path().PATH_SEPARATOR."/home/www/client");
+        // echo get_include_path();
+        // echo dirname(__FILE__); 
+        // $p = file_get_contents("/justine75/v3_dev/src/TDN/RedactionBundle/Resources/views/Default/article.html.twig", FILE_USE_INCLUDE_PATH);
+
+        return $this->render('NanaBundle:Public:selfProfil.html.twig', $vars);
+    }
+
+    public function showProfilAction ($id) {
+
+        $variables = array();  
+        $vars['rubrique'] = "tdn";
+
+        // Récupération de l'entity manager qui va nous permettre de gérer les entités.
+        $em = $this->get('doctrine.orm.entity_manager');      
+        $rep_nana = $repository = $em->getRepository('TDN\NanaBundle\Entity\Nana');
+        $vars['me'] = $rep_nana->find($id);
+        // $vars['countHobbies'] = $vars['me']->getHobbies()->count();
+        $vars['countGaleriePerso'] = $vars['me']->getGaleriePerso()->count();
+        $vars['my_followers'] = $vars['me']->getFollows();
+        $vars['countFollow'] = 0;
+        $vars['countFollowed'] = 0;
+        $vars['my_hobbies'] = $vars['me']->getLnHobbies();
+        $vars['countHobbies'] = count($vars['my_hobbies']);
+
+        $vars['productions'] = 0;
+        foreach ($vars['me']->getFilProductions() as $p) {
+            $classe = explode('\\', get_class($p));
+            $nomClasse = array_pop($classe);
+            $vars['my_'.strtolower($nomClasse)][] = $p;
+            $vars['productions'] += 1;
+             }
+
+        $vars['likes'] = NULL;
+
+        // récupération des commentaires
+        // $rep_comms = $em->getRepository('TDN\CommentaireBundle\Entity\Commentaire');
+        // $variables['commentaires'] = $rep_comms->findAllThreaded();
+        // $variables['nbCommentaires'] = count($variables['commentaires']);
+        // print_r($variables['commentaires']); die;
+        // Rechercher l'article
+        // $article = $repository->find($id);
+        
+        // set_include_path(get_include_path().PATH_SEPARATOR."/home/www/client");
+        // echo get_include_path();
+        // echo dirname(__FILE__); 
+        // $p = file_get_contents("/justine75/v3_dev/src/TDN/RedactionBundle/Resources/views/Default/article.html.twig", FILE_USE_INCLUDE_PATH);
+
+        return $this->render('NanaBundle:Public:completeProfil.html.twig', $vars);
+    }
+
+    public function registerAction() {
+
+        $form = $this->createForm(new InscriptionType(), new Inscription());
+        $variables['form'] = $form->createView();
+        $variables['message'] = "";
+
+        return $this->render('NanaBundle:Public:register.html.twig', $variables);
+    }
+
+    public function registerCheckAction()	{
+	    
+        // Récupération de l'entity manager qui va nous permettre de gérer les entités.
+        $em = $this->get('doctrine.orm.entity_manager');
+        $factory = $this->container->get('security.encoder_factory');
+
+        $form = $this->createForm(new InscriptionType(), new Inscription);
+        $form->bindRequest($this->getRequest());
+
+        if ($form->isValid()) {
+            // Recherche de rôle
+            $repository = $em->getRepository('TDN\NanaBundle\Entity\NanaRoles');
+            $role = $repository->find('ROLE_USER');
+            
+            $registration = $form->getData();
+            $nana = $form->getData()->getUser();
+            $nana->addRole($role);
+            $nakedPasswd = $nana->getPasswd();
+            $nana->setSalt(md5(date('Ymd')));
+            $encoder = $factory->getEncoder($nana);
+            $pwd = $encoder->encodePassword($nakedPasswd, $nana->getSalt());
+            $nana->setPasswd($pwd);
+            $nana->setDateInscription(new \DateTime);
+	        $em->persist($nana);
+    	    $em->flush();
+			return $this->redirect($this->generateURL('DocumentBundle_homepage'));
+    	}
+
+        print_r($form->getErrors());
+
+	    return $this->render('NanaBundle:Public:register.html.twig', 
+            array(
+                'form' => $form->createView(), 
+                'message' => $form->getErrorsAsString()
+            ));
+	}
+
+    public function updateProfilAction () {
+
+        $request = $this->get('request');
+
+        $variables['rubrique'] = 'tdn';
+
+       // Récupération de l'entity manager qui va nous permettre de gérer les entités.
+        $em = $this->get('doctrine.orm.entity_manager');
+        $rep_nana = $em->getRepository('TDN\NanaBundle\Entity\Nana');
+        $usr= $this->get('security.context')->getToken()->getUser();
+        $nana = $rep_nana->find($usr->getIdNana());
+        $ancienPassword = $usr->getPassword();
+    
+        $form = $this->createForm(new completeProfilType(), $nana);
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            $p = $nana->getPassword();
+            if (empty($p)) {
+                $nana->setPassword($ancienPassword);
+            } else {
+                $factory = $this->get('security.encoder_factory');
+                $encoder = $factory->getEncoder($nana);
+                $password = $encoder->encodePassword($nana->getPassword(), $nana->getSalt());
+                $nana->setPassword($password);
+            }
+            $em->flush();
+        }
+
+        // print_r($form->getErrors()); die;
+
+        return $this->redirect($this->generateURL('NanaBundle_myProfil'));
+    }
+
+    public function updateAvatarAction () {
+
+        $request = $this->get('request');
+
+        $variables['rubrique'] = 'tdn';
+
+       // Récupération de l'entity manager qui va nous permettre de gérer les entités.
+        $em = $this->get('doctrine.orm.entity_manager');
+        $rep_nana = $em->getRepository('TDN\NanaBundle\Entity\Nana');
+        $usr= $this->get('security.context')->getToken()->getUser();
+        $nana = $rep_nana->find($usr->getIdNana());
+    
+       // Formulaire pour changer d'avatar
+        $avatar = new Image;
+        $form_avatar = $this->createForm(new simpleImageType(), $avatar);
+        $form_avatar->bind($request);
+
+        if ($form_avatar->isValid()) {      
+            // Création du nouvel avatar
+            $avatar->storeUploadCustom('/profils/'.$usr->getIdNana());
+            $avatar->setLikes(0);
+            $avatar->setHits(0);
+            $avatar->setSlug("");
+            $avatar->setStatut("IMG_PUBLIC");
+            $avatar->setVersion("1.0");
+            $avatar->setAlt($avatar->getTitre());
+            $avatar->setTags("");
+            $avatar->setDatePublication(new \DateTime);
+            $avatar->setDateModification($avatar->getDatePublication());
+            $avatar->setCommentThread(new \Doctrine\Common\Collections\ArrayCollection());
+            // Mise à jour du profil
+            $nana->setLnAvatar($avatar);
+
+            $em->flush();
+        }
+
+        // print_r($form->getErrors()); die;
+
+        return $this->redirect($this->generateURL('NanaBundle_myProfil'));
+    }
+
+    public function updateGalerieAction () {
+
+        $request = $this->get('request');
+
+        $variables['rubrique'] = 'tdn';
+
+       // Récupération de l'entity manager qui va nous permettre de gérer les entités.
+        $em = $this->get('doctrine.orm.entity_manager');
+        $rep_nana = $em->getRepository('TDN\NanaBundle\Entity\Nana');
+        $usr= $this->get('security.context')->getToken()->getUser();
+        $nana = $rep_nana->find($usr->getIdNana());
+    
+       // Formulaire pour changer d'avatar
+        $photo = new Image;
+        $form_galerie = $this->createForm(new simpleImageType(), $photo);
+        $form_galerie->bind($request);
+
+        if ($form_galerie->isValid()) {      
+            // Création du nouvel avatar
+            $photo->storeUploadCustom('/profils/'.$usr->getIdNana());
+            $photo->setLikes(0);
+            $photo->setHits(0);
+            $photo->setSlug("");
+            $photo->setStatut("IMG_PUBLIC");
+            $photo->setVersion("1.0");
+            $photo->setAlt($photo->getTitre());
+            $photo->setTags("");
+            $rep_type = $em->getRepository('TDN\DocumentBundle\Entity\DocumentType');
+            $type = $rep_type->findOneBy(array('type' => 'image'));
+            $photo->setTypeDocument($type);
+            $photo->setDatePublication(new \DateTime);
+            $photo->setDateModification($photo->getDatePublication());
+            $photo->setCommentThread(new \Doctrine\Common\Collections\ArrayCollection());
+
+            // Mise à jour du profil
+            $proxy = new NanaPortraitImageProxy;
+            $proxy->setLnImage($photo);
+            $proxy->setLnPortrait($nana);
+            $proxy->setIsAvatar(0);
+            // $nana->addGaleriePerso($proxy);
+
+            $em->persist($proxy);
+            $em->flush();
+        }
+
+        // print_r($form->getErrors()); die;
+
+        return $this->redirect($this->generateURL('NanaBundle_myProfil'));
+    }
+
+    function followAction ($nana) {
+
+        $request = $this->get('request');
+
+        // Récupération de l'entity manager qui va nous permettre de gérer les entités.
+        $em = $this->get('doctrine.orm.entity_manager');      
+        // $whoami = $this->container->get('security.context')->getToken()->getUser();
+        $rep_nana = $repository = $em->getRepository('TDN\NanaBundle\Entity\Nana');
+        // $me = $rep_nana->find($whoami->getIdNana());
+        $me = $rep_nana->find(3);
+        $target = $rep_nana->find($nana);
+
+        $me->addFollow($target);
+
+        $em->flush();
+
+       return $this->redirect($this->generateURL('NanaBundle_profil', array('id' => $nana)));
+
+    }
+
+}

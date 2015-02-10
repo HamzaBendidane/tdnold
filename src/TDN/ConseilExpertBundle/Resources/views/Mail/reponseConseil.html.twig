@@ -1,0 +1,7 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>{{ expert }} a répondu à une question de {{ pseudo }}</p>
+<div>{{ reponse |raw }}</div>
+<p>La réponse est maintenant en attente de publication.</p>
+{% endblock %}

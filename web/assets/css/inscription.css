@@ -1,0 +1,212 @@
+.inscription-rapide {
+	display: table-cell;
+	font: normal 13px "Droid sans";
+/*	max-width: 750px;
+	min-height: 400px;
+*/	padding: 10px;
+	vertical-align: top;
+	width: 50%;
+	
+}
+
+.inscription-page {
+	font: normal 13px "Droid sans";
+	padding: 10px;
+	vertical-align: top;
+	width: 100%;
+}
+
+#silhouette {
+	background-image: url(../images/theme/inscription/silhouette.png);
+    background-repeat: no-repeat;
+    background-position: 10px 0px;
+}
+
+#souhait {
+	font: italic 17px "Questrial";
+	font-weight:bold;
+	padding-left : 40px;
+	position: relative;
+	left: 10px;
+	/*top: 12px;*/
+}
+
+#pourquoi {
+	font: italic 22px "Questrial";
+	font-weight: bold;
+}
+
+.inscription-rapide #pourquoi {
+	padding-left : 40px;
+	text-shadow: 4px 4px 6px #92117E;
+}
+
+#inscription {
+	display: table-cell;
+}
+
+.inscription-page #inscription {
+	display: block;
+	max-width: 70%;
+}
+
+#services {
+	display: table-cell;
+	text-align:center;
+	margin: 0px 30px 0px 30px;	
+	vertical-align: top;
+}
+
+.inscription-page #services {
+	display: block;
+	margin: 0 10px;
+	text-align: left;
+	width: calc(100% - 35px);
+}
+
+.lien_default {
+	color: #752670;
+}
+.stitre {
+	font: italic 16px "Questrial";
+	font-weight:bold;
+}
+
+.inscription-rapide h1 {
+	color: white;
+}
+
+.inscription-page h1 {
+	color: #333;
+}
+
+.inv-degrade2 {
+	
+	background-image: linear-gradient(top, #92117E 30%, #FBD2F6 90%);
+	background-image: -o-linear-gradient(top, #92117E 30%, #FBD2F6 90%);
+	background-image: -moz-linear-gradient(top, #92117E 30%, #FBD2F6 90%);
+	background-image: -webkit-linear-gradient(top, #92117E 30%, #FBD2F6 90%);
+	background-image: -ms-linear-gradient(top, #92117E 30%, #FBD2F6 90%);
+	background-image: -webkit-gradient(linear,right top,right bottom,color-stop(0.3, #92117E),color-stop(0.9, #FBD2F6));
+}
+.degrade3 {
+     background-image: linear-gradient(top, #98E3E1 18%, #E6EAEC 62%);
+     background-image: -o-linear-gradient(top, #98E3E1 18%, #E6EAEC 62%);
+     background-image: -moz-linear-gradient(top, #98E3E1 18%, #E6EAEC 62%);
+     background-image: -webkit-linear-gradient(top, #98E3E1 18%, #E6EAEC 62%);
+     background-image: -ms-linear-gradient(top, #98E3E1 18%, #E6EAEC 62%);
+     background-image: -webkit-gradient(linear,right top,right bottom,color-stop(0.18, #98E3E1),color-stop(0.62, #E6EAEC));
+}
+
+.bloc-inscription {
+	padding: 10px;
+	border-radius: 16px;
+	box-shadow: 0px 0px 8px #000; 
+}
+
+.bloc-inscription > * {
+	display: table-cell;
+	vertical-align: top;
+	width: 400px;
+	padding: 10px;
+}
+
+.inscription-facebook {
+	border-left: 1px solid #24ACAD;
+	text-align:center;
+}
+
+.inscription-facebook .loginFields label {
+	display: inline-block;
+	width: 100px;
+	text-align: right;
+	padding-right: 4px;
+}
+
+.inscription-facebook .loginSubmit {
+	display: block;
+	position: relative;
+	left: 260px;
+}
+
+.inscription-facebook .rememberField label {
+	width: 170px;
+}
+
+.inscription-facebook .inviteInscription {
+	margin-top: 40px;
+}
+
+
+.inline-image {
+	vertical-align: middle
+}
+.texte-annexe {
+	font-size: 0.8em
+}
+.public-form label {
+	display: inline-block;
+	max-width: 300px;
+	min-width: 75px;
+	text-align: left;
+	padding-right: 4px;
+}
+.public-form {
+	text-align: left;
+}
+.blocwhy {
+	color:#FFF;
+	display: inline-block;
+	min-height: 40px;
+	text-align:left;
+	vertical-align: top;
+}
+
+.inscription-rapide .blocwhy {
+	width: 420px;	
+}
+
+.inscription-page .blocwhy {
+	color: #666;
+}
+
+	.blocwhy p{
+	margin-left: 30px;
+	margin-top: 8px;
+}
+
+#marylin_inscription_nana_user_sexe {
+	display: inline-block;
+	margin: 0 5px;
+}
+
+#marylin_inscription_nana_user_sexe,
+#marylin_inscription_nana_user_newsletter,
+#marylin_inscription_nana_user_offresPartenaires {
+	display: inline-block;
+}
+
+#marylin_inscription_nana_user_sexe label,
+#marylin_inscription_nana_user_newsletter label,
+#marylin_inscription_nana_user_offresPartenaires label
+ {
+	min-width: 30px;
+	padding-right: 5px;
+}
+
+#marylin_inscription_nana_user_dateNaissance{display:inline-block;margin-right:40px}
+
+.register-warning {
+	margin: 0 0 1em 80px;
+	font-size: 0.8em;
+	color: red;
+}
+
+.markRequirement > div > .required:after {
+	color: 'red';
+	content: '*';
+	display: inline;
+	font-size: 0.8em;
+	position: relative;
+	top: -5px;
+}

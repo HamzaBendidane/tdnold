@@ -1,0 +1,103 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Pose une question à la communauté des nanas" %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/js/aloha/css/aloha.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/question.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/form.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/commentaire.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+<script src="{{ asset('assets/js/aloha/lib/require.js') }}"></script>
+<script src="{{ asset('assets/js/aloha/lib/aloha.js') }}" data-aloha-plugins="common/ui,common/format,common/highlighteditables"></script>
+{% endblock %}
+
+{% block flashMessages %}
+{% for flashMessage in app.session.flashbag.get('success') %}
+    <div class="flash-success">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/questions-nanas_titre.png')}}" />
+</div>
+<article id="article-wrapper" class="main article-redaction">
+<section class="contenu main-section">
+<div id="corps" class="corps">
+
+  <h1 class="titre-document titre-tdn">Pose une question aux Nanas</h1>
+  <section id="profil" class="table-content">
+    <div id="avatar-wrapper">
+       <img src="{{ avatar(app.user, 'sqr_')}}" class="avatar" />
+    </div>
+    <div id="avertissement">
+      <p style="margin-top:0"><span class="standardEtiquette">De: </span> <strong> {{ pseudo }}</strong>  </p>
+      <p><span class="standardEtiquette">statut: </span> <strong> {{ statut }}</strong> </p>
+      <p>Les questions de nanas te permettent de demander l'avis des autres lectrices/~teurs sur un problème, une question que tu te poses, sur la thématique de ton choix : beauté, mode, minceur, couple, sexualité... Fais attention aux fautes d'orthographe et n'utilise pas le langage sms. Ta question sera validée par la rédaction avant d'être publiée.</p>
+      <p>N'hésite pas à poster un visuel pour illustrer ta question.</p>
+    </div>
+  </div>
+
+  <div id="avis">
+    <h2 class="titreFormContribution">Quelle est ta question ?</h2>
+    <form name="demande-question-de-nanas" id="formCommentaire" class="formUser formCommentaire constraintFile table-content" action="{{ path('CauseuseBundle_creer') }}" method="post"  {{ form_enctype(form) }}>
+   <figure class="avatar"></figure>
+	<div id="fields">
+    <div class="form-element">{{ form_widget(form.question, {'attr' : {'class': 'texteContribution'}}) }} </div>
+     <div class="form-element formCellFollow">
+         {{ form_widget(formRubrique, {'attr' : {'class': 'entityChoices'}}) }}
+    </div>
+    <div class="form-element formCellAntispam">
+        {{ form_row(form.lnIllustration) }}
+    </div>
+    {{ form_rest(form) }}
+    <input type="submit" name="poster" value="Soumets ta question à la rédac’" style="float:right; margin-top:10px; margin-right:20px" />
+  </div>
+  </form>
+</div>
+  <p>Tu peux aussi <a href="{{ path('ConseilExpert_creer') }}">t'adresser à un expert</a> pour lui poser ta question, si tu préfères.</p>
+</section>
+</article>
+<script type="text/javascript">
+    Aloha.ready( function() {
+       Aloha.jQuery('#source-question').aloha();
+    });
+    $(document).ready(function () {
+      $("#source-question").blur(function () {
+        //alert($("#source-question").html());
+        $("#tdn3_causeuse_soumission_question").html($("#source-question").html());
+      })
+    })
+</script>
+<script type="text/javascript">
+
+  $(document).ready(function () {
+    $(".constraintFile").submit(function(event) {
+      var obj = $(this).find('[type="file"]');
+      var fichier = obj['0'].files[0];
+      console.log(fichier);
+      if (fichier.size > 2*1024*1024) {
+        event.preventDefault();
+        alert("Ton image est trop volumineuse");
+      } else {
+        var mimeType = fichier.type;
+        var types = mimeType.match(/(\w+)\/(\w+)/);
+        console.log(types);
+        if (types[1] !== 'image') {
+          event.preventDefault();
+          alert('Ce fichier n’est pas une image');
+        } else if (['png','gif','jpeg','jpg','svg'].indexOf(types[2]) === -1) {
+          event.preventDefault();
+          alert('Ce fichier n’est pas un dans un format lisible : '+types[2]);
+        }
+      }
+    });
+
+  });
+</script>
+{% endblock %}

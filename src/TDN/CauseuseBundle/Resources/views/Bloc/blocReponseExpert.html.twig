@@ -1,0 +1,26 @@
+<div class="bloc-reponse-expert">
+   <div class="header-expert">
+      <span class="signaux">
+         <img src="{#{ asset('assets/images/theme/titres/avis-expert.png') }#}" />
+         {% for e in expertises %}
+         <img src="{#{ asset('assets/images/theme/puces/expert' ~ e ~ '.png') }#}" />
+         {% endfor %}
+      </span>
+      <span class="indicateur-vote"><span class="votes">{{ votes }}</span> VOTES</span>
+   </div>
+   <div class="reponse-expert">
+      <img class="vignette" src={{ asset('assets/images/profils/'~userId~'/avatar.jpg') }}
+      <div class="reponse">
+         <p class="credits">
+            <span class="identite">{{ pseudo }} ({{ grade }}</span> - <span class="publication">{{ datePublication }}</span>
+         </p>
+         <div class="corps">
+            {{ reponse }}
+         </div>
+      </div>
+      <div class="bloc-vote">
+         <a class="lien-vote">Je suis d'accord</a>
+      </div>
+   </div>
+  {#% include 'CommentaireBundle:FLux:flux.html.twig' with {'commentaires': commentaires} %#}
+</div>	

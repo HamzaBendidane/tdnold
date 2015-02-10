@@ -1,0 +1,222 @@
+@charset "utf-8";
+/* CSS Document */
+/* home page */
+#social #fil-info-header {
+	background: url(../images/theme/social/breves/home-page/fil-info-header.png) no-repeat scroll left top transparent;
+	width: 190px;
+	height: 91px;
+	text-align: center;
+}
+
+#social #fil-info-next {
+	width: 190px;
+	height: 27px;
+	background-color: transparent;
+	background-image: url(../images/theme/social/breves/home-page/fil-info-next.png);
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+
+#social #fil-info-previous {
+	width: 190px;
+	height: 22px;
+	background-color: transparent;
+	background-image: url(../images/theme/social/breves/home-page/fil-info-previous.png);
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+
+#social #fil-info-footer {
+	width: 190px;
+	height: 25px;
+	background-color: transparent;
+	background-image: url(../images/theme/social/breves/home-page/fil-info-footer.png);
+	background-repeat: no-repeat;
+	background-position: center top;
+	text-align: center;
+	padding-top: 4px;
+}
+#fil-home{
+	background-image: url(../images/theme/social/breves/home-page/fil.png);
+	background-repeat: repeat-y;
+	height: 408px;
+	width: 190px;
+	text-align: center;
+}
+
+/* communs */
+#fil-info .rubriqueFilInfo {
+	text-align: left;
+	font-weight: bold;
+	padding-top: 2px;
+	padding-bottom: 5px;
+	margin: 0px;
+	padding-left: 8px;
+}
+
+#fil-info-footer a {
+	color:#752670;
+	font-size: 13px;
+	font-style: italic;
+	font-weight: bold;
+}
+
+#fil-info .blocInfo{
+	font-size: 11px;
+	background-color: #FFF;
+	text-align: left;
+	padding: 8px;
+	width: 168px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+
+#fil-info .avatarInfo {
+	float: left;
+    margin-right: 10px;
+    width: 20px;
+}
+
+#fil-info .auteurInfo,
+#fil-info .auteurRole {
+	margin: 0;
+	font-size: 0.8em;
+}
+
+#fil-info .texteInfo {
+	clear: both;
+	margin-top: 8px;
+	margin-right: 0;
+	margin-bottom: 4px;
+	margin-left: 0;
+}
+
+#fil-info .urlInfo {
+	color: #CCC;
+	margin:	2px;
+}
+/* a la une*/
+#fil-alaune{
+	background-image: url(../images/theme/fil_infos/bg--cadre_fil_alaune_190x460.png);
+	background-repeat: no-repeat;
+	height: 460px;
+	width: 190px;
+	text-align: center;
+}
+#fil-beaute{
+	background-image: url(../images/theme/fil_infos/bg--cadre_fil_beaute_190x460.png);
+	background-repeat: no-repeat;
+	height: 460px;
+	width: 190px;
+	text-align: center;
+}
+#fil-bienetre{
+	background-image: url(../images/theme/fil_infos/bg--cadre_fil_bien-etre_190x460.png);
+	background-repeat: no-repeat;
+	height: 460px;
+	width: 190px;
+	text-align: center;
+}
+#fil-deco{
+	background-image: url(../images/theme/fil_infos/bg--cadre_fil_deco_190x460.png);
+	background-repeat: no-repeat;
+	height: 460px;
+	width: 190px;
+	text-align: center;
+}
+#fil-geekette{
+	background-image: url(../images/theme/fil_infos/bg--cadre_fil_geekette_190x460.png);
+	background-repeat: no-repeat;
+	height: 460px;
+	width: 190px;
+	text-align: center;
+}
+#fil-mode{
+	background-image: url(../images/theme/fil_infos/bg--cadre_fil_mode_190x460.png);
+	background-repeat: no-repeat;
+	height: 460px;
+	width: 190px;
+	text-align: center;
+}
+#fil-recettes{
+	background-image: url(../images/theme/fil_infos/bg--cadre_fil_recettes_190x460.png);
+	background-repeat: no-repeat;
+	height: 460px;
+	width: 190px;
+	text-align: center;
+}
+#fil-sexo{
+	background-image: url(../images/theme/fil_infos/bg--cadre_fil_sexo_190x460.png);
+	background-repeat: no-repeat;
+	height: 460px;
+	width: 190px;
+	text-align: center;
+}
+
+.poste {
+	background-color: #FFF;
+	height: 22px;
+	width: 170px;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-top-color: #25BEB5;
+	border-bottom-color: #25BEB5;
+	font: normal 11px "droid sans";
+	margin-top: 62px;
+	border-right-style: none;
+	border-left-style: none;
+	padding-left: 6px;
+}
+#fil-centre h4 {
+	padding: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 10px;
+	display: inline;
+	text-transform: uppercase;
+}
+
+#fil-centre {
+	height: 280px;
+	width: 190px;
+	text-align: left;
+}
+#fil-centre-home h4 {
+	padding: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 10px;
+	display: inline;
+	text-transform: uppercase;
+}
+
+#fil-centre-home {
+	height: 330px;
+	width: 190px;
+	text-align: left;
+}
+.fil-contenu {
+	background-color: #FFF;
+	padding: 6px;
+	margin-bottom: 5px;
+	font: normal 11px "droid sans";
+	width: 172px;
+	margin-left: 3px;
+}
+.fil-contenu p {
+	margin-top: 6px;
+	margin-bottom: 3px;
+}
+.fil-contenu p a {
+	text-decoration: none;
+	color: #333;
+}
+.fil-contenu p a:hover {
+	text-decoration: underline;
+	color: #752670;
+}

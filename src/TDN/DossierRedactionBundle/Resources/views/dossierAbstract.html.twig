@@ -1,0 +1,114 @@
+
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title dossier.titre ~ " | Dossier de la rédaction " ~ dossier.rubriques[0].titre  %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/dossier.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/commentaire.css') }}" type="text/css">
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/dossiers-redac_titre_299x80.png')}}" />
+</div>
+<article id="article-wrapper" class="main page-dossier">
+  <!-- Contenu de l'article -->
+   <section class="contenu main-section">
+
+      <!-- Bloc pour l'affichage des métadonnées de l'article -->
+      <div id="metadata" class="metadata">
+         <p class="auteur">
+           <span class="standardEtiquette">Conçu par </span> 
+            <a href="{{ path('NanaBundle_profil', { 'id' : dossier.lnAuteur.idNana }) }}" class="nom-auteur">{{dossier.lnAuteur.prenom ~ " " ~ dossier.lnAuteur.nom }} ({% for r in dossier.lnAuteur.roles %}{{ r.name }}{% endfor %})</a>,<span class="standardEtiquette">le </span>  
+            <span class="date-publication">{{ dossier.datePublication |date('d/m/Y') }}</span>
+         </p>
+         <p>
+          <span class="standardEtiquette">Rubrique :</span> 
+          {% for r in dossier.rubriques %}<span class="rubrique-{{ rubriquePrincipale(r) }}">{{ r.titre }}</span>{% endfor %}
+         </p>
+      </div>
+
+      <!-- Bloc pour l'affichage du contenu de l'article -->
+      <div id="corps" class="corps">
+         <h1 class="titre-document titre-{{ rubriquePrincipale(dossier.rubriques[0]) }}">{{dossier.titre}}</h1>
+         {% if dossier.v2ID is not null %}
+          {% if dossier.lnIllustration is not null%}
+            {% set fichier = dossier.lnIllustration.fichier %}
+            {% set an = dossier.lnIllustration.datePublication|date('Y') %}
+            {% set mois = dossier.lnIllustration.datePublication|date('m') %}
+            <img class="legacyIllustration" src="/uploads/documents/public/{{an}}/{{mois}}/{{fichier}}" />
+          {% endif %}
+         {% endif %}
+         <!-- Résumé du dossier -->
+          <div class="chapo">{{ dossier.abstract|raw }}</div>
+
+          <!-- Parties du dossier en tabulations -->
+          <div id="flipboard-feuillets">
+            <div id='ruler'>
+              <span>Feuillets du dossier : </span>
+              {#% for f in feuillets %#}
+              {% for f in 1..compte_parties %}
+              {% if f == 1 %}
+              {% set present = 'boutonActif' %}
+              {% else %}
+              {% set present = 'boutonInactif' %}
+              {% endif %}
+              <span class="lien-feuillet {{ present }}">
+                <a href="{#{ path('/dossier-de-la-redaction/feuillet/' ~ c.slug ~ ',' ~ c.id) }#}" title="{#{ f.titre }#}">
+                  {{ f }}
+                </a>
+              </span>
+            {% endfor %}
+            </div>
+            <div class="ombre-droite">
+              <div class="cover">
+                {% for f in 1..compte_parties %}
+                 <section id="feuillet_{{ f }}" class="abstract-feuillet {% if f == 1 %}diapoActive{% else %}diapoMasquee{% endif %}">
+                  <img src="{{ asset('assets/images/theme/image-test.jpg') }}" class="vignette" />
+                  <h2><span class="ordre">{{ f }}</span> {{ ftitre }}</h2>
+                  <p class="abstract">{{ fabstract|raw }}</p>
+                  <p class="lien-feuillet">Lire la suite</p>
+                </section>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <!-- Mots-clefs du dossier -->
+          <div class="tags">{{dossier.tags|tags|raw}}</div>
+      </div>
+
+      <!-- Bloc pour les boutons sociaux -->
+      {% include 'DocumentBundle:Bloc:socialTDNLinks.html.twig' with {'id': dossier.idDocument, 'likes': dossier.likes} %}
+
+      <!-- Bloc pour les commentaires -->
+      {% render 'CommentaireBundle:Public:flux' with {'id': dossier.idDocument } %}
+      </section>
+
+      {% if more is defined %}
+      <!-- Bloc des contenus proches -->
+      {% include 'DocumentBundle:Bloc:contenusAnalogues.html.twig' with {'more': 'more'} %}
+      {% endif %}
+
+  </section>
+</article>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      var diapoActive = 1;
+      var nbTabs = {{ feuillets|length }};
+      $(".boutonDiapo").click(function (e) {
+        e.preventDefault();
+        target = $(this).prop('href').split('_');
+        diapoActive = target[1];
+        diapoID = '#feuillet_'+diapoActive;
+        $('.diapoActive').toggleClass('diapoActive diapoMasquee');
+        $(diapoID).toggleClass('diapoActive diapoMasquee');
+        $('.boutonActif').toggleClass('boutonActif boutonInactif');
+        $(this).toggleClass('boutonActif boutonInactif');
+      });
+    })
+  </script>
+
+{% endblock %}

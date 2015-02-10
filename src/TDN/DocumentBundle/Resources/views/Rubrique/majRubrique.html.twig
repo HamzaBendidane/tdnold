@@ -1,0 +1,19 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+{% endblock %}
+
+{% block local_header_scripts %}
+{% endblock %}
+
+{% block title h1 %}
+
+{% block contenu_principal %}
+<h1>{{ h1 }}</h1>
+
+<form action="{{ path('DocumentRubrique_modifier', {'id' : id}) }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+
+    <input type="submit" />
+</form>
+{% endblock %}

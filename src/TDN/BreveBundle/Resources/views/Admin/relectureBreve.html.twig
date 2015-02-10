@@ -1,0 +1,24 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block title "Relecture d’une info" %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/video.css') }}" type="text/css">
+{% endblock %}
+
+{% block contenu_principal %}
+<form action="{{ path('BreveBundle_editer', {'id': id}) }}" method="post" {{ form_enctype(form) }}>
+
+	<div id="texteBreve" class="blockWidget">
+		{{ form_row(form.message) }}
+	</div>
+	<div id="urlBreve" class="lineWidget">
+		{{ form_row(form.url, { 'attr' : { 'size' : 50}} ) }}
+	</div>
+	<div id="urlBreve" class="choiceWidget">
+		{{ form_row(form.lnRubrique) }}
+	</div>
+
+    <input type="submit" />
+</form>
+{% endblock %}

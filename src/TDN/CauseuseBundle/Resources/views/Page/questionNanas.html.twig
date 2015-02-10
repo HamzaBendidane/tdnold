@@ -1,0 +1,258 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title question.titre ~ " | Question de nanas " ~ question.rubriques[0].titre  %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/js/aloha/css/aloha.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/form.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/question-nanas.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/conseil.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/commentaire.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+<script>
+  Aloha = window.Aloha || {};
+  Aloha.settings = Aloha.settings || {};
+  // Restore the global $ and jQuery variables of your project's jQuery
+  Aloha.settings.jQuery = window.jQuery;
+</script>
+<script src="{{ asset('assets/js/aloha/lib/require.js') }}"></script>
+<script src="{{ asset('assets/js/aloha/lib/aloha.js') }}" data-aloha-plugins="common/ui,common/format,common/highlighteditables,common/link,common/list,common/table"></script>
+{% endblock %}
+
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+  <a href= "{{ path('CauseuseBundle_sommaire') }}">
+   <img src="{{ asset('assets/images/theme/centre/titres/questions-nanas_titre.png')}}" />
+  </a>
+</div>
+
+<article id="article-wrapper" class="main question-de-nana">
+
+  <!-- Contenu de l'article -->
+  <section class="contenu main-section">
+
+    <!-- Bloc pour l'affichage des métadonnées de l'article -->
+    <div id="metadata" class="metadata">
+     <p class="auteur">
+      <span class="standardEtiquette">Question posée le  </span>   
+      <span class="date-publication">{{ question.datePublication|laps }}</span>
+    </p>
+     <p class="liste-rubriques">
+      <span class="standardEtiquette">Rubrique :</span> 
+      {% for r in question.rubriques %}
+        <a href="{{path('Core_sommaire', {'slug': r.slug})}}">
+          <span class="rubrique-{{ rubriquePrincipale(r) }}">{{ r.titre }}
+        </a>
+      {% endfor %}
+      </span>
+     </p>
+  </div>
+
+  <!-- Bloc pour l'affichage du contenu de l'article -->
+  <div id="corps" class="corps">
+    <h1 class="titre-document titre-{{ rubriquePrincipale(question.rubriques[0]) }}">{{question.titre}}</h1>
+    <div id="question">
+      <div class="col-1">
+        <img src="{{ avatar(question.lnAuteur) }}" class="" alt="" />
+        <div class="statistiques">
+          <p class="reponses"><span class="cardinal">{{ question.filReponses|length }}</span> réponses</p>
+          <p class="votes"><span class="cardinal">{{ totalVotes }}</span> votes</p>
+        </div>
+      </div>
+      <div class="col-2">
+        <p class="auteur-question"><span class="standardEtiquette">Question de :</span> <span class="pseudo">{{ question.lnAuteur.username }}</span></p>
+        <p class="auteur-age"><span class="standardEtiquette">Statut :</span> {% for role in question.lnAuteur.roles %}{{ role.name }}{% endfor %}<span class="standardEtiquette">Age : </span> {{ ageAuteur }} ans</p>
+        <div class="question">{{question.question|raw}}</div>
+        {% if question.lnIllustration is not null %}
+        {% set Y = question.lnIllustration.datePublication|date('Y') %}
+        {% set m = question.lnIllustration.datePublication|date('m') %}
+        {% set source = "/uploads/documents/public/"~Y~"/"~m~"/n_/"~question.lnAuteur.idNana~"/"~question.lnIllustration.fichier %}
+        <a class="popin" href="{{ source }}">
+          <img class="vignette-causeuse" src="{{ source }}" alt="{{ question.lnIllustration.alt }}" />
+        </a>
+        {% endif %} 
+      </div>
+    </div>
+  </div>
+
+  <!-- Formulaire pour la réponse -->
+  <div id="avis" style="margin-top:20px">
+    <h2 class="titreFormContribution">Ose, donne ton avis !</h2>
+    {% if is_granted('ROLE_USER') %}
+    <form name="form-reponse-de-nana" id="form-reponse-de-nana" class="formUser form-reponse-de-nana constraintFile" method="post" action="{{ path('CauseuseBundle_postReponse')}}" {{ form_enctype(formReponse) }} class="table-content">
+      <figure class="avatar">
+        <img src="{{ avatar(app.user) }}" alt="Avatar de {{ app.user.username }}" />
+      </figure>
+      <fieldset class="no-border">
+        <input type="hidden" name='idQuestion' id="idQuestion" value="{{ question.idDocument }}" />
+        <a href="{{ path('Core_contact', {'type': 'ABUS'}) }}" class="abuse-warning">Signaler un abus à la rédaction</a>
+        {{ form_widget(formReponse.reponse, {'attr': {'class': 'texteContribution'}}) }}
+        {{ form_row(formReponse.lnIllustration) }}
+        {{ form_row(formReponse._token) }}
+
+        <input type="submit" name="envoyer" id="envoyer" value="Publie ta réponse"  style="float:right; margin-top:10px; margin-right:20px"/> 
+      </fieldset>
+
+    </form>
+    {% else %}
+    <p>Connecte-toi ou inscris-toi pour échanger sur TDN</p>
+    {% endif %}		
+  </div>
+
+  <!-- Les réponses -->
+  {% if nbReponses == 0 %}
+  <p class="warning">Aucune réponse à cette question pour le moment</p>
+  {% else %}
+  {% set a = 0 %}
+  {% if question.reponseAcceptee %}
+  {% set a = 1%}
+  {% for rep in question.filReponses%}
+  {% if question.reponseAcceptee == rep.idDocument %}
+  <h2 style="margin-left:10px; color:#488C8C">La réponse préférée</h2>
+  <div id="reponse">
+    <div style="display:table">
+      <div class="col-1">
+        <a href="{{ path('NanaBundle_profil', {'id': rep.lnAuteur.idNana}) }}">
+          <img src="{{ avatar(rep.lnAuteur) }}" />
+        </a>
+      </div>
+      <div class="col-2">
+        {% set classePopularite = 0 %}
+        <p class="bandeau-nana">
+          {{ rep.lnAuteur.popularite|stiletto|raw }}
+          <span class="auteur-reponse">{{ rep.lnAuteur.username }}</span>
+          <span class="publication-reponse">{{ rep.datePublication | date('d/m/y H:i') }}</span>
+        </p>
+        <div class="texte-reponse">
+          {{rep.reponse|raw}}
+        </div>
+      </div>
+      <div class="col-3">
+        <p class="approuve">
+          <a href="{{ path('CauseuseBundle_voteReponse', {'id' : rep.idDocument}) }}">{{ rep.likes }} vote{% if rep.likes > 1 %}s{% endif %}</a>
+        </p>
+      </div>
+    </div>
+    {% if rep.lnIllustration is not null %}
+    <figure class="icone-reponse">
+      <a href="{{ illustration(rep, NULL, rep.lnAuteur.idNana) }}" class='popin'>
+       <img src="{{ illustration(rep, 'SQUARE', rep.lnAuteur.idNana) }}" style="width:80px" alt="Avatar de {{ rep.lnAuteur.idNana }}" title="{{ rep.lnAuteur.idNana }}" />
+     </a>
+     <figcaption></figcaption>
+   </figure>
+   {% endif %}
+ </div>      
+ {% endif %}
+ {% endfor %}
+ {% endif %}
+
+ <h2 style="margin-left:10px; color:#488C8C">Réponses de nanas ({{ nbReponses - a }})</h2>
+ {% for rep in question.filReponses%}
+ {% if question.reponseAcceptee != rep.idDocument %}
+ <div id="reponse">
+  <div style="display:table">
+    <div class="col-1">
+     <a href="{{ path('NanaBundle_profil', {'id': rep.lnAuteur.idNana}) }}">
+      <img src="{{ avatar(rep.lnAuteur) }}" />
+    </a>
+  </div>
+
+  <div class="col-2">
+    {% set classePopularite = 0 %}
+    <p class="bandeau-nana">
+      {{ rep.lnAuteur.popularite|stiletto|raw }}
+      <span class="auteur-reponse">{{ rep.lnAuteur.username }}</span>
+      <span class="publication-reponse">{{ rep.datePublication | date('d/m/y H:i') }}</span>
+    </p>
+    <div class="texte-reponse">
+      {{rep.reponse|raw}}
+    </div>
+    {% if is_granted('ROLE_USER') %}
+    {% if (question.reponseAcceptee is null) and (app.user.idNana == question.lnAuteur.idNana) %}
+    <p class="choixMeilleureReponse">
+      <a class="lien-mince" href="{{ path('CauseuseBundle_accepteReponse', {'idQuestion' : question.idDocument, 'idReponse' : rep.idDocument}) }}">C'est ma réponse préférée</a>
+    </p>
+    {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="col-3">
+    <p class="approuve">
+      <a href="{{ path('CauseuseBundle_voteReponse', {'id' : rep.idDocument}) }}">{{ rep.likes }} vote{% if rep.likes > 1 %}s{% endif %}</a>
+    </p>
+    {% if is_granted('ROLE_ADMIN') %}
+    <p class="lien-admin">
+      <a class="actionValidation" href="{{ path('Causeuse_reponseSupprimer', {'id': rep.idDocument}) }}">Supprimer</a>
+    </p>
+    {% endif %}
+  </div>
+</div>
+{% if rep.lnIllustration is not null %}
+<figure class="icone-reponse">
+  <a href="{{ illustration(rep, NULL, rep.lnAuteur.idNana) }}" class='popin'>
+       <img src="{{ illustration(rep, 'SQUARE', rep.lnAuteur.idNana) }}" style="width:80px" alt="Avatar de {{ rep.lnAuteur.idNana }}" title="{{ rep.lnAuteur.idNana }}" />
+  </a>
+  <figcaption></figcaption>
+</figure>
+{% endif %}
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+       <!-- Bloc pour les boutons sociaux -->
+      {% include 'DocumentBundle:Bloc:socialTDNLinks.html.twig' with {'id': question.idDocument, 'likes': question.likes} %}
+
+</section>
+
+  <!-- Publications en rapport avec ce sujet -->
+  {% if similaires is defined and similaires is not empty %}
+  <section id="more">
+    {% include 'DocumentBundle:Bloc:documentsSimilaires.html.twig' with {'similaires': similaires, 'type': 'Article'} %}
+  </section>
+  {% endif %}
+
+</article>
+<script type="text/javascript">
+  Aloha.ready( function() {
+    Aloha.jQuery('#source-reponse').aloha();
+});
+$(document).ready(function () {
+  $("#source-reponse").blur(function () {
+  $("#tdn3_causeuse_reponse_reponse").html($("#source-reponse").html());
+  $(".actionValidation").click(function() {
+    return confirmeDelete("Voulez-vous vraiment exécuter cette action ?")
+  })
+});
+})
+</script>
+<script type="text/javascript">
+
+  $(document).ready(function () {
+    $(".constraintFile").submit(function(event) {
+      var obj = $(this).find('[type="file"]');
+      var fichier = obj['0'].files[0];
+      console.log(fichier);
+      if (fichier.size > 2*1024*1024) {
+        event.preventDefault();
+        alert("Ton image est trop volumineuse");
+      } else {
+        var mimeType = fichier.type;
+        var types = mimeType.match(/(\w+)\/(\w+)/);
+        console.log(types);
+        if (types[1] !== 'image') {
+          event.preventDefault();
+          alert('Ce fichier n’est pas une image');
+        } else if (['png','gif','jpeg','jpg','svg'].indexOf(types[2]) === -1) {
+          event.preventDefault();
+          alert('Ce fichier n’est pas un dans un format lisible : '+types[2]);
+        }
+      }
+    });
+
+  });
+</script>
+
+{% endblock %}

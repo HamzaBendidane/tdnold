@@ -1,0 +1,234 @@
+.corps-enveloppe {
+	background: none repeat scroll 0 0 #E8F8F8;
+}
+
+#corps,
+.ombre-droite {
+	border: 2px solid #1DBFB9;
+	margin-left: 20px;
+	padding: 0;
+	position: relative;
+	top: -2px;
+	z-index: 1;
+}
+
+#corps:after,
+.ombre-droite:after {
+	background-color: transparent;
+	content: " ";  
+    position: absolute;  
+    width: 75%;  
+    height: 100px;  
+    z-index: -10;  
+    bottom: 0;  
+    right: 0px;  
+    -webkit-transform: rotate(0.6deg);
+    -o-transform: rotate(0.6deg);
+    transform: rotate(0.6deg);
+    box-shadow: -7px 6px 15px #999;  
+}
+
+#corps > .cover,
+.ombre-droite > .cover {
+	background-color: #FFFFFF;
+    height: 100%;
+    padding: 20px;
+    width: 93%;
+}
+
+.ombre-droite > .cover {
+	min-height: 150px;
+}
+
+#ruler {
+	/*display: table;*/
+	position: relative;
+	z-index: 10
+}
+
+#ruler > * {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+#ruler > .label {
+	padding-right: 5px;
+}
+
+#ruler > .lien-feuillet {
+	background-color: #FFF;
+	border-top: 2px solid #1DBFB9;
+	border-left: 2px solid #1DBFB9;
+	border-right: 2px solid #1DBFB9;
+	border-spacing: 4px;
+	padding: 3px;
+	text-align: center;
+	width: 20px;
+}
+
+#ruler > .lien-feuillet:hover {
+	background-color: #93117E;
+	color: #FFF;
+}
+
+#ruler a {
+	text-decoration: none;
+	color: inherit;
+}
+
+#ruler > .present,
+#ruler > span:first-child {
+	border-bottom: 2px solid #FFF;	
+}
+#ruler > .lien-feuillet:not(.present) {
+	border-bottom: 2px solid #1DBFB9;	
+}
+
+#banniere {
+	display: table;
+	margin: 40px 0;
+	width: 100%;
+}
+
+#banniere h1 {
+	display: table-cell;
+	width: 75%;
+	text-align: left;
+}
+
+#banniere a {
+	display: table-cell;
+	width: 25%;
+	text-align: right;
+}
+
+#liens-retour {
+	display: table;
+	margin: 40px 0;
+	width: 100%;
+}
+
+#liens-retour span {
+	display: table-cell;
+}
+
+#liens-retour span:first-child {
+	text-align: left;
+}
+
+#liens-retour span:last-child {
+	text-align: right;
+}
+
+.page-feuillet .vignette-article {
+	float: left;
+	margin: 0 20px 20px 0;
+	width: 180px;
+}
+
+.abstract-feuillet {
+	clear: both;
+	position: absolute;
+}
+
+.abstract-feuillet .vignette {
+	float: left;
+	margin-right: 20px;
+}
+
+.abstract-feuillet h2 {
+	margin-top: 0;
+}
+
+.abstract-feuillet .lien-feuillet {
+	text-align: right;
+}
+
+.present {
+	display: block;
+}
+
+.cache {
+	display: none;
+}
+
+.page-dossier {
+	font-size: 0.8em;
+}
+
+.page-dossier #chapo {
+	margin: 40px 0;
+	overflow: auto;
+}
+
+.page-dossier #chapo h1{
+	margin-top: 0;
+}
+
+.page-dossier #chapo .vignette {
+	float: right;
+	/*z-index: 1;*/
+}
+
+.page-dossier #chapo .vignette img {
+	border: 5px solid #F1F5FA;
+	width: 180px;
+}
+
+.page-dossier #c_hapo .vignette:after {
+	background-color: #999;
+	border-radius: 50px 5px;
+	content: " ";  
+    position: absolute;  
+    width: 75%;  
+    height: 100px;  
+    z-index: -10;  
+    bottom: 0;  
+    right: 0px;  
+    box-shadow: -7px 6px 15px #999;  
+}
+
+.boite-ombree {
+	background: none repeat scroll 0 0 #FFFFFF;
+    /*box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;*/
+    /*float: left;*/
+    margin: 0 0 1em 20px;
+    position: relative;
+	z-index: 1;
+}
+
+.boite-ombree:before,
+.boite-ombree:after {
+	content: "";
+    position: absolute;
+    z-index: -2;
+}
+
+.ombre-ovale:before {
+	border-radius: 100px 100px 100px 100px / 10px 10px 10px 10px;
+	bottom: -10px;
+    left: 0px;
+    right: 10px;
+    top: 75%;
+}
+
+.ombre-ovale {
+	/*border: 2px solid #1DBFB9;*/
+	padding: 0;
+	/*position: relative;*/
+	/*top: -2px;*/
+}
+
+.ombre-ovale:after {
+	background-color: transparent;
+    border-radius: 100px 100px 100px 100px / 10px 10px 10px 10px;
+    bottom: 6px;
+    box-shadow: -7px 6px 15px #999999;
+    content: " ";
+    display: block;
+    left: 20px;
+    position: absolute;
+    right: 20px;
+    top: 90%;
+    z-index: -10;
+}

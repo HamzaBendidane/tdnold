@@ -1,0 +1,114 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Liste des concours" %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/commentaire.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/concours.css') }}" type="text/css">
+<script type="text/javascript" src="{{ asset('assets/js/custom-form-elements.js') }}"></script>
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/jeux-concours_titre.png')}}" />
+</div>
+<article id="article-wrapper" class="main sommaire-jeux-concours">
+
+  <!-- Contenu de l'article -->
+  <section class="contenu main-section">
+
+	<!-- Bloc pour l'affichage des métadonnées de l'article -->
+    <div id="metadata" class="metadata">
+    	<p class="auteur"></p>
+        <p></p>
+    </div>
+
+    <!-- Jeu-concours en vedette -->
+    {% if ouverts is not empty %}
+	{% for o in ouverts[0:1] %}
+	<div id="gondole">
+		<div class="bouton">
+			<a href="{{ path('Concours_show', {'id': o.idDocument, 'slug': o.slug})}}">C'est par ici</a>
+		</div>
+        <img src="{{ illustration(o) }}" alt="{{ o.lnIllustration.alt }}" title="{{ o.lnIllustration.alt }}" />
+        <div id="data-gondole">
+		  	<h1>{{ o.titre }}</h1>
+		  	<p class="gain">
+		  		<span class="standardEtiquette">A gagner</span> 
+		  		<span class="">{{ o.gain }}</span>
+		  	</p>
+		  	<p class="type">
+		  		<span class="standardEtiquette">Type de jeu</span> 
+		  		<span class="">{{ typesJeu[o.typeJeuConcours] }}</span>
+		  	</p>
+		  	<!--p class="pop">
+		  		<span class="standardEtiquette">Ont participé</span> 
+		  		<span class="">{#{ o.filParticipants|length }#} joueur(s)</span>
+		  	</p-->
+		  	<p class="limite">
+		  		<span class="standardEtiquette">Date limite</span> 
+		  		<span class="">{{ o.dateArret |date('d/m/Y') }}</span>
+		  	</p>
+        </div>
+	</div>
+	{% endfor %}
+	{% endif %}
+
+
+      <!-- Bloc pour l'affichage du contenu de l'article -->
+      <div id="corps" class="corps">
+	  	{% if ouverts is not empty %}
+		<div class="liste-concours">
+		  	<h2><span class="hot-number">{{ ouverts|length }}</span> jeu{% if ouverts|length > 1 %}x{% endif %}-concours ouvert{% if ouverts|length > 1 %}s{% endif %}</h2>
+		  	{% for o in ouverts[1:] %}
+		  	<div class="snapshot-wrapper resume-concours ouvert">
+		  		<div class="vignette-sommaire-wrapper">
+			  		<a href="{{ path('Concours_show', {'id': o.idDocument, 'slug': o.slug}) }}">
+	                     <img src="{{ illustration(o) }}" class="" alt="{{ o.lnIllustration.alt }}" title="{{ o.lnIllustration.alt }}" />
+	                 </a>
+		  		</div>
+		  		<h3 class="titre-resume">
+			  		<a href="{{ path('Concours_show', {'id': o.idDocument, 'slug': o.slug}) }}">
+			  		{{ o.titre }}
+			  		</a>
+		  		</h3>
+		  		<p class="limite">Date limite {{ o.dateArret |date('d/m/Y') }}</p>
+		  		<p class="lien-standard">
+		  			<a href="{{ path('Concours_show', {'id': o.idDocument, 'slug': o.slug}) }}">C'est par ici</a>
+		  		</p>
+		  	</div>
+		  	{% endfor %}
+	  	</div>
+	    {% endif %}
+	   	{% if fermes is not empty %}
+		<div class="liste-concours">
+		  	<h2>Derniers jeux-concours (fermés)</h2>
+		   	{% for f in fermes[0:10] %}
+		   	{% if f.rubriques is not empty %}
+		   	{% set rubPrinceps = f.rubriques[0].slug %}
+		   	{% else %}
+		   	{% set rubPrinceps = 'tdn' %}
+		   	{% endif %}
+		  	<div class="snapshot-wrapper resume-concours ferme">
+		  		<div class="snapshot-concours">
+			  		<div class="cornered-{{ rubriquePrincipale(rubPrinceps) }}">
+				  		<a href="{{ path('Concours_show', {'id': f.idDocument, 'slug': f.slug}) }}">
+		                     <img src="{{ illustration(f) }}" class="" alt="{{ f.lnIllustration.alt }}" title="{{ f.lnIllustration.alt }}" />
+	                     </a>
+			  		</div>
+			  		<h3 class="titre-resume">
+				  		<a href="{{ path('Concours_show', {'id': f.idDocument, 'slug': f.slug}) }}">
+				  		{{ f.titre }}
+				  		</a>
+				  	</h3>
+			  		<!--p class="pop">{#{ f.participants|length }#} participants</p-->
+			  		<p class="limite">Date limite {{ f.dateArret |date('d/m/Y') }}</p>
+		  		</div>
+		  	</div>
+		  	{% endfor %}
+		 </div>
+	   	{% endif %}
+      </div>
+	</section> 
+</article>
+{% endblock %}

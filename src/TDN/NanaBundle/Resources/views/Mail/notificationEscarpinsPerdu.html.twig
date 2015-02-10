@@ -1,0 +1,19 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>Bravo pour ta participation sur le site et tes 5 escarpins ! On est heureuse de t'avoir dans la 
+communauté TDN ! Tu viens de participer au fameux tirage au sort sur Trucs De Nana.</p>
+
+<p>Malheureusement, tu n'as pas été tirée au sort ce mois-ci et nous avons dû remettre ton solde 
+d'escarpins au nombre de 3.</p>
+
+<p>Ne t'inquiète pas ! Grâce à tes commentaires, tes réponses aux questions de nanas, ton profil 
+complété (…), tu récupèreras facilement des escarpins !</p>
+
+<p>Au fait, as-tu pensé à t'inscrire à la News de TDN ? Tu pourras recevoir ton Astro Love si tu 
+précises bien ta date de naissance ! Et tu gagneras un escarpin virtuel.</p>
+
+<p>{{ popularite|stiletto|raw }}</p>
+
+<p>Bien à toi, L'équipe TDN</p>
+{% endblock %}

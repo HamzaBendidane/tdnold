@@ -1,0 +1,30 @@
+{% extends 'DocumentBundle:Admin:adminSimple.html.twig' %}
+
+{% block form_contenuDocument %}
+    <p class="typeDocument">La publication est un(e) : {{ classe }}</p>
+    <p class="ttitreDocument">{{ slide.lnSource.titre }}</p>
+	<div id="pitchSlide" class="blockWidget">
+		{{ form_row(form.pitch, {'attr' : {'class':'' }}) }}
+	</div>
+    <div id="prioriteSlide" class="blockWidget">
+        {{ form_row(form.ordre, {'attr' : {'size': 5, 'class': '' }}) }}
+    </div>
+	<div id="statutSlide" class="checkboxWidget">
+        {{ form_row(form.statut, {'attr' : {'class': '' }}) }}
+	</div>
+    <div id="coverSlide" class="blockWidget">
+        {% if slide.lnCover is not empty %}
+        {% set Y = slide.lnCover.datePublication|date('Y') %}
+        {% set m = slide.lnCover.datePublication|date('m') %}
+        <a class="popin" href="{{ asset('uploads/documents/public/'~Y~'/'~m~'/'~slide.lnCover.fichier) }}">
+            <img src="{{ asset('uploads/documents/public/'~Y~'/'~m~'/'~slide.lnCover.fichier) }}" alt="{{ slide.lnCover.alt }}" style="max-height:100px;" />
+        </a>
+        {% endif %}
+        {{ form_row(form.lnCover, {'attr' : {'class': '' }}) }}
+    </div>
+{% endblock %}
+
+{% block form_script%}
+<script type="text/javascript">
+</script>
+{% endblock %}

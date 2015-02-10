@@ -1,0 +1,5 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<div>{{ message | raw }}</div>
+{% endblock %}

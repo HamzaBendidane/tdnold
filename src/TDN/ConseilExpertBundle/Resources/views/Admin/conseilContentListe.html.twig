@@ -1,0 +1,22 @@
+{% extends 'DocumentBundle:Admin:documentListe.html.twig' %}
+
+{% block displayContent %}
+    <td>
+      {{ doc.idDocument }}
+    </td>
+    <td>
+      <a href='{{ path('ConseilExpertBundle_relire', {'id' : doc.idDocument}) }}'>
+        {% if doc.titre is not empty %}{{doc.titre}}{% else %}{{ doc.question|slice(0,50)|raw }}{% endif %}
+      </a>
+    </td>
+    <td>
+      {{ doc.statut }}
+      {% if doc.lnExpert is not null%}<br/>({{ doc.lnExpert.username }}){% endif %}
+    </td>
+    <td>
+      {% if doc.lnAuteur is not null %}{{ doc.lnAuteur.username }}{% endif %}
+    </td>
+    <td>
+      {{ doc.datesoumission|laps }}
+    </td>
+{% endblock %}

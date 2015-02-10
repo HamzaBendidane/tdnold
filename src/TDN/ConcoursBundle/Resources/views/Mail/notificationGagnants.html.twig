@@ -1,0 +1,13 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>Bravo, tu viens d'être tirée au sort pour le jeu concours {{ concours.titre }} Tu as gagné ce {{ concours.gain }}. Pour le recevoir, donne vite ton adresse postale en réponse à ce mail</p>
+
+<p>Tu peux aussi tenter ta chance à notre grande opération pour gagner une paire d'escarpins mise en jeu chaque mois pour celle qui a le plus participé sur le site ! Si tu es une nouvelle lectrice, je t'invite à <a href="http://www.trucsdenana.com/actu-culture/article/20657/gagnez-une-paire-escarpins-zalando-cadeau-jeu-concours">découvrir ce concours</a></p>
+
+<p>Si tu connais le site, ce tirage au sort n'a plus de secret pour toi.</p>
+
+<p>Continue à participer à nos jeux concours, tu peux encore gagner !</p>
+
+<p>A bientôt sur TrucsDeNana.com</p>
+{% endblock %}

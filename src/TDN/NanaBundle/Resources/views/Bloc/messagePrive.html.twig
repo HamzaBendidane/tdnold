@@ -1,0 +1,17 @@
+ <div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/web-tdn_titre_299x70.png')}}" />
+</div>
+
+<article id="article-wrapper" class="main article-redaction">
+   <section class="contenu main-section">
+
+      <!-- Bloc pour l'affichage du contenu de l'article -->
+      <div id="corps" class="corps">
+      <form name="formulaireMessage" id="formulaireMessage" method="post" action="{{ path('Nana_messagePriveSend')}}" method="post">
+       	<input type="hidden" name="destinataire" value="{{ idDestinataire }}" />
+         <textarea cols="80" rows="20" name="message" id='message' class="texteContribution" placeholder="Entre en relation avec les nanas"></textarea>
+        <input type="submit" name="envoyer" value="Envoyer" />
+      </form>
+      </div>
+    </section>
+</article>

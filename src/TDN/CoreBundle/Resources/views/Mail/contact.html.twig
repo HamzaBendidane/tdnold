@@ -1,0 +1,6 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>Un message a été envoyé à la rédaction de TDN :</p>
+<div>{{ message | raw }}</div>
+{% endblock %}

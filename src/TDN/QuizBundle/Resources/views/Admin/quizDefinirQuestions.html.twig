@@ -1,0 +1,41 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/js/aloha/css/aloha.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+<script src="{{ asset('assets/js/aloha/lib/require.js') }}"></script>
+<script src="{{ asset('assets/js/aloha/lib/aloha.js') }}" data-aloha-plugins="common/ui,common/format,common/highlighteditables,common/link, common/image, common/list, common/table, extra/draganddropfiles"></script>
+{% endblock %}
+
+{% block title "Créer un quiz ~ titreQuiz " %}
+
+{% block contenu_principal %}
+<h1>Nouveau quiz</h1>
+
+<form action="/app_dev.php/admin/quiz/questions/enregistrer" method="post" >
+<input type="hidden" name="action" id="action" value="" />
+<input type="hidden" name="id_quiz" id="id_article" value="{{ id }}>" />
+<input type="hidden" name="nombreQuestions" id="nombreQuestions" value="{{ nombreQuestions }}>" />
+<input type="hidden" name="nombreProfils" id="nombreProfils" value="{{ nombreProfils }}>" />
+{% for q in 1..nombreQuestions %}
+<div class="bloc-question-quiz">
+	<h3>Question {{ q }} </h3>
+	<p>
+		<label for="titre_{{q}}">Titre :</label>
+		<input type="text" name="titreQuiz" id="titreQuiz" size="60" value="" />
+	</p>
+	
+	{% for r in 1..nombreProfils %}
+	<p>
+	<label for="reponse_{{q}}_{{r}}">Réponse pour le profil 1 :</label>
+		<textarea name="reponse_{{q}}_{{r}}" id="reponse_{{q}}_{{r}}" rows="3"></textarea>
+	</p>
+
+	{% endfor %}
+</div>
+{% endfor %}	
+	<input type="submit" name="creer_questions" class="" value="Créer" />
+</form>
+{% endblock %}

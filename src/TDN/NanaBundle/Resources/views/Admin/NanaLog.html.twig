@@ -1,0 +1,73 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+{% endblock %}
+
+{% block title "Liste des comptes TDN " %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/administration_titre.png')}}" />
+</div>
+<h1 class="titrePage">Inscrits sur TDN</h1>
+
+<form action="{{ path('NanaBundle_log') }}" method="post" name="form_selectionNana" id="form_selectionNana" class="formSelection">
+<label for="selectField">Champ</label>
+<select name="selectField" id="selectField" class="selectInput">
+{% for critere in selectList %}
+<option value="{{ critere.value }}">{{ critere.texte }}</option>
+{% endfor %}
+</select>
+<label for="selectValeur">Valeur</label>
+<input type="text" name="selectValeur" id="selectValeur" class="textInput" size="30" />
+<input type="submit" name="selectSubmitter" class="selectSubmitter" value="Chercher" />
+</form>
+
+{% if isSelectedField is not empty %}
+<p class="rappelSelection"> {{ isSelectedField }} = {{ isSelectedValeur }}</p>
+{% endif %}
+
+<table class="adminLog">
+	<thead>
+		<tr>
+			<th class="colonneId">Id</th>
+			{% for colonne in colonnesList %}
+			<th> 
+			<a href='{{ path('NanaBundle_log', {'ordre' : colonne}) }}'>{{ colonne }} </a>
+			</th>
+			{% endfor %}
+			{% for colonne in actionsList %}
+			<th class="colonneAction"> {{ colonne }} </th>
+			{% endfor %}
+		</tr>
+	</thead>
+	{% if nanasList is empty %}
+		<tr>
+		<td colspan='3' class='no-content'>Aucune compte n’est créé sur TDN</td>
+	</tr>
+	{% else %}
+	{% for nana in nanasList %}
+	<tr class="nana">
+		<td class="colonneId">{{ nana.idNana }}</td>
+   		<td>
+      		<a href='{{ path('NanaBundle_editer', {'id' : nana.idNana}) }}'>{{nana.username}}</a>
+   		</td>
+   		<td>
+   			{% for role in nana.roles %}
+   			{{ role.name }}
+      		{% endfor %}
+   		</td>
+   		{% for action in actionsRoutesList %}
+   		<td class="colonneAction">
+      		<a href='{{ path( action, {'id' : nana.idNana}) }}'>Faire</a>
+   		</td>
+   		{% endfor %}
+	</tr>
+	{% endfor %}
+	{% endif %}
+</table>
+{% endblock %}

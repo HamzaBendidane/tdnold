@@ -1,0 +1,23 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Sommaire des quiz %}
+
+{% block contenu_principal %}
+<article id="article-wrapper">
+  <section class="ours">
+    <p>Ecrit par : {{auteur}} ({{role}}) &ndash; {{datePublication}}</p>
+    <p>Rubrique : <span class="">{{nomDeRubrique}}</span></p>
+  </section>
+  <section class="corps">
+    <h1>{{titre}}</h1>
+    {{corps}}
+    <nav class="pager">Page : {{pager}} <a href="{{fullURL}}">Voir
+        l’article en entier</a> </nav>
+  </section>
+  <p>Recommande cet article à une amie</p>
+  <section class="aller-plus-loin">
+  </section>
+  <section class="commentaires">
+  </section>
+</article>
+{% endblock %}

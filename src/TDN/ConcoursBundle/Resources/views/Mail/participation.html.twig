@@ -1,0 +1,27 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>Merci d'avoir participé au jeu-concours « <strong>{{ titre }}</strong> » sur Trucs De Nana. C’est top !</p>
+<p>Qui sait, tu seras peut être l'heureuse gagnante? Surveille ta boite mail pour ne pas passer à côté de ta chance. Nous t’informerons des résultats.</p>
+<p>N’oublie pas de commenter, liker, et partager ce jeu concours avec tes copines&hellip; et de venir participer au prochain jeu-concours, disponible dès la semaine prochaine.</p>
+{% if (rebonds is defined) and (rebonds is not empty) %}
+<p>Découvre d'autres contenus qui pourraient t’intéresser&nbsp;: Des posts de la rédac’, des questions de nanas, des conseils d'experts, des vidéos&hellip;</p>
+<ul>
+{% for r in rebonds %}
+	{% set type = r|documentType %}
+	{#% set r = s[0]%#}
+	{% if r.rubriques[0] is defined %}
+	{% set RR = r.rubriques[0] %}
+	{% set RRslug = r.rubriques[0].slug %}
+	{% else %}
+	{% set RR = 'tdn' %}
+	{% set RRslug = 'tdn' %}
+	{% endif %}
+	{% set princeps = rubriquePrincipale(RR) %}
+	<li>
+		<a href="http://www.trucsdenana.com{{ path(paths[type],{'id':r.idDocument, 'slug':r.slug, 'rubrique':RRslug}) }}?src=notconcours">{{ r.titre }}</a>
+	</li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

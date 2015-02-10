@@ -1,0 +1,48 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/js/aloha/css/aloha.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+<script src="{{ asset('assets/js/aloha/lib/require.js') }}"></script>
+<script src="{{ asset('assets/js/aloha/lib/aloha.js') }}" data-aloha-plugins="common/ui,common/format,common/highlighteditables,common/link, common/image, common/list, common/table, extra/draganddropfiles"></script>
+{% endblock %}
+
+{% block title "Les profils dui quiz : ~ titreQuiz " %}
+
+{% block contenu_principal %}
+<h1>Nouveau quiz</h1>
+<h2>Profils pour le quiz {{ titreQuiz }} ({{ nombreProfils }})</h2>
+
+
+<form action="{{ path('quiz_enregistrer_profils', {'id' : id}) }}" method="post" >
+<input type="hidden" name="action" id="action" value="" />
+<input type="hidden" name="id" id="id" value="{{ id }}>" />
+<input type="hidden" name="nombreQuestions" id="nombreQuestions" value="{{ nombreQuestions }}>" />
+<input type="hidden" name="nombreProfils" id="nombreProfils" value="{{ nombreProfils }}>" />
+<input type="hidden" name="titreQuiz" id="titreQuiz" value="{{ titreQuiz }}>" />
+{% for q in 1..nombreProfils %}
+<div class="bloc-profil-quiz">
+	<p>
+		<label for="ordre_{{q}}">Ordre :</label>
+		<input type="text" name="ordre_{{q}}" id="ordre_{{q}}" value="" />
+	</p>
+	<p>
+		<label for="titre_{{q}}">Titre :</label>
+		<input type="text" name="titre_{{q}}" id="titre_{{q}}" size="60" value="" />
+	</p>
+	<p>
+		<label for="description_{{q}}">Texte</label>
+		<textarea name="description_{{q}}" id="description_{{q}}" rows="3"></textarea>
+	</p>
+	<p>
+		<label for="ordre_{{q}}">Illustration :</label>
+		<input type="file" name="illustration_{{q}}" />
+		<input type="hidden" id="illustration_id_{{q}}" name="illustration_id_{{q}}" size="6" value="" />
+	</p>
+</div>
+{% endfor %}	
+	<input type="submit" name="creer_questions" class="" value="Créer" />
+</form>
+{% endblock %}

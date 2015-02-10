@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %}{% endblock %} | Trucs De Nana</title>
+{% if canonical is defined %}
+	<link rel="canonical" http="http://www.trucsdanana.com{{ canonical }}" />
+{% endif %}
+	<!-- <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}" /> -->
+	<meta name="google-site-verification" content="fq8zrWpv2MoWmc3miAE5MecQa2oy6F9gjj2OFRU0zEk" />
+	<meta name="verification" content="2f58130aa4c3936441a51b3b7d85f013" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	{% if meta_description is defined %}<meta name="description" content='{{ meta_description }}' />{% endif %}
+	{% if meta_keywords is defined %}<meta name="keywords" content='{{ meta_keywords }}' />{% endif %}
+	{#% stylesheets 
+		'assets/css/color.css'
+		'assets/css/marylin.css'
+		filter='cssrewrite'
+	%#}
+	<!--link rel="stylesheet" href="{#{ asset_url }#}" /-->
+	{#% endstylesheets %#}
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/marylin.min.css') }}" />
+	<!-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/color.css') }}" /> -->
+	<!-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/header.css') }}" /> -->
+	<!-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/teaser.css') }}" /> -->
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/sommaire.css') }}" />
+	<!-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/article.css') }}" /> -->
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/form.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/colorbox.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/nanoscroller.css') }}" />
+	<link rel="stylesheet" href="{{ asset('assets/css/jquery-ui-1.10.3.custom.min.css') }}" type="text/css">
+	<link rel="stylesheet" href="{{ asset('assets/css/inscription.css') }}" type="text/css">
+	{% block local_stylesheets %}
+	{% endblock %}
+
+	<link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon.ico') }}" />
+	
+	{% block webfonts %}
+	<!--link href='http://fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css' />
+	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'-->
+	<style>
+		@font-face { font-family: Droid Sans; src: url('/assets/css/fonts/DroidSans.ttf'); } 
+		@font-face { font-family: Questrial; src: url('/assets/css/fonts/Questrial-Regular.ttf'); } 
+	</style>
+	{% endblock %}
+
+	 <!-- Affliliation aufeminin.com -->
+	<script type="text/javascript">
+	sas_tmstp=Math.round(Math.random()*10000000000);
+	sas_masterflag=1;
+	function SmartAdServer(sas_pageid,sas_formatid,sas_target) {
+		if (sas_masterflag==1) {
+			sas_masterflag=0;
+			sas_master='M';
+		} else {
+			sas_master='S';
+		};
+		document.write('<scr'+'ipt src="http://network.aufeminin.com/call/pubj/' + sas_pageid + '/' + sas_formatid + '/' + sas_master + '/' + sas_tmstp + '/' + escape(sas_target) + '?"></scr'+'ipt>');
+	}
+	</script>
+
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
+
+	{% block local_header_scripts %}
+	{% endblock %}
+</head>
+<body class="theme-sexo-psyho">
+	<div class="messages_systeme latentSystemMessages">
+	{% if app.session.hasFlash('success') %}
+	{% for flashMessage in app.session.flashbag.get('success') %}
+	    <div class="flash-success">
+	        {{ flashMessage|raw }}
+	    </div>
+	{% endfor %}
+	{% endif %}
+	{% if app.session.hasFlash('fail') %}
+	{% for flashMessage in app.session.flashbag.get('fail') %}
+	    <div class="flash-fail">
+	        {{ flashMessage|raw }}
+	    </div>
+	{% endfor %}
+	{% endif %}
+	</div>
+	<div class="top-border"></div>
+	<div id="tdn-wrapper">
+		<div class="top-border"></div>
+		<div id="mytdn-wrapper">
+		{% render "CoreBundle:Header:display" %}
+		</div>
+		<div id="tdn-header">
+			<a href="{{ path('Core_home') }}">
+				<img id="logo-wrapper" src="{{ asset('assets/images/theme/tetiere/logo_TDN.png')}}" alt="Logo - Lien vers la page d'accueil" />
+			</a>
+			<div id="header-pub">
+			{% include 'AdvertiseBundle:Aufeminin:leaderboard.html.twig' %}
+			</div>
+		</div>
+		
+		<div id="menu-principal">
+			<div id="fonctions-sociales">
+				<a href="http://www.facebook.com/trucdenana">
+					<img src="{{ asset('assets/images/theme/tetiere/navigation/icone_facebook.png')}}">
+				</a>
+				<a href="https://twitter.com/TrucdeNana">
+					<img src="{{ asset('assets/images/theme/tetiere/navigation/icone_twitter.png')}}">
+				</a>
+				<a href="http://www.hellocoton.fr/mapage/trucdenana">
+					<img src="{{ asset('assets/images/theme/tetiere/navigation/icone_hellocoton.png')}}">
+				</a>
+				<a href="https://itunes.apple.com/fr/app/truc-de-nana/id369735750">
+					<img src="{{ asset('assets/images/theme/tetiere/navigation/icone_app-store.png')}}">
+				</a>
+			</div>
+			{% render "DocumentBundle:Rubrique:mainNavigation" %}
+			<div id="recherche-rapide">
+				<form name="recherche" id="recherche" action="{{ path('Document_rechercheForm') }}" method="get" enctype="">
+					<input type="text" size="15" name="seed" />
+					<input type="submit" name="quicksearch" class="submitter" value=">" />
+				</form>
+			</div>
+		</div>
+
+		<div id="contenu-principal"{% if isSommaire is defined %} class="{{ isSommaire }}"{% endif %}>
+			<div id="contenu">
+				{% block contenu_principal %}{% endblock %}
+			</div>
+			<aside id="sidebar">
+			{% include 'CoreBundle:Bloc:mainSidebar.html.twig' %}
+			</aside>
+		</div>
+		
+		<a name="espaceCommunaute"></a>
+		<div id="communaute">
+			<h3 class="titre vertical titre-communaute">Actus <span class="strong">Communauté</span></h3>
+			<div id="actus-communaute">
+				{% render "CoreBundle:Journal:display" %}
+				{% render "NanaBundle:Partial:showSelectionNanas" %}
+				{% render "CauseuseBundle:Partial:showFooterWidget" with {'limite': 10} %}
+			</div>
+		</div>
+		
+		<footer>
+			<div id="trucdenana">
+				<p>&copy; TRUCDENANA 2008-2012 &ndash; Tous droits réservés</p>
+				<img class="solide" src="{{asset('assets/images/theme/footer/logo_aufeminin.png')}}" />
+				<p>Ce e-zine est commercialisé par aufeminin.com</p>
+			</div>
+			<div class="colonne-footer">
+				<h4>Communautés</h4>
+				<ul>
+					<li>
+						<a href="http://www.facebook.com/trucdenana">Facebook</a></li>
+					<li>
+						<a href="https://twitter.com/TrucdeNana">Twitter</a></li>
+					<li>
+						<a href="http://instagram.com/justine_trucdenana">Instagram (Justine)</a></li>
+					<li>
+						<a href="http://instagram.com/margaux_trucdenana">Instagram (Margaux)</a></li>
+					<li>
+						<a href="http://www.hellocoton.fr/mapage/trucdenana">Hellocoton</a></li>
+				</ul>
+			</div>
+			<div class="colonne-footer">
+				<h4>Site TDN</h4>
+				<ul>
+					<li><a href="{{ path('Document_equipeTDN') }}">Qui sommes-nous ?</a></li>
+					<li><a href="{{ path('Document_mentionsLegales') }}">Mentions légales</a></li>
+					<li>Mobile (à venir)</li>
+					<li><a href="{{ path('Core_contact') }}">Vos suggestions</a></li>
+				</ul>
+			</div>
+			<div class="colonne-footer">
+				<h4>Partenaires</h4>
+				<ul>
+					<li>
+						<a target="_blank" href="http://blueberryhome.fr">Blueberryhome, un super blog déco</a></li>
+					<li>
+						<a target="_blank" href="http://www.dlabshop.com/">D-Lab, Nutricosmétique Professionnelle</a></li>
+					<li>
+						<a target="_blank" href="http://www.hairbox.fr/">Hairbox, conseils coiffure et relooking</a></li>
+					<li>
+						<a target="_blank" href="http://www.ds-relooking.com/">DS Relooking, conseil en image</a></li>
+					<li>
+						<a target="_blank" href="http://www.planet-fitness.fr/">Planet-Fitness, vêtements fitness et accessoires</a></li>
+					<li>
+						<a target="_blank" href="http://www.fitness.fr/">Toute l'actualité fitness</a></li>
+					<li>
+						<a target="_blank" href="http://Lucilewoodward.com/">Le meilleur blog forme</a></li>
+					<li>
+						<a target="_blank" href="http://cinemilie.blogspot.com/">Toute l'actu ciné</a></li>
+					<li>
+						<a target="_blank" href="http://www.best-of-voyance.com">Astrologie, voyance et Astro Love</a></li>
+					<!--li>
+						<a href="http://www.autourdemaman.com/">Autour de maman</a></li-->
+				</ul>
+			</div>
+			<div class="colonne-footer">
+				<h4>Flux</h4>
+				<ul>
+					<li>
+						<a href="http://www.trucsdenana.com/articles/feed.rss" class="RSSMark">Flux RSS des articles</a>
+					</li>
+						<li>
+						<a href="http://www.trucsdenana.com/conseils-experts/feed.rss" class="RSSMark">Flux RSS des conseils</a>
+					</li>
+			</ul>
+			</div>
+			
+		</footer>
+	</div>
+	
+	<script src="{{ asset('assets/js/jquery-ui-1.10.3.custom.min.js') }}"></script>
+	<script src="{{ asset('assets/js/jquery.colorbox-min.js') }}"></script>
+	<script src="{{ asset('assets/js/jquery.nanoscroller.js') }}"></script>
+	<script type="text/javascript">
+	
+		$(document).ready(function () {
+			$('#mytdn-grip').on('click', function () {
+				$(this).closest('#mytdn').toggleClass('mytdn-closed mytdn-open');
+			});
+			$('#mainNavigation').on('mouseenter', '.mainMenuLabel', function () {
+				$(this).closest('#mainNavigation').find('.subMenuAffiche').each(function () { 
+					$(this).toggleClass('subMenuMasque subMenuAffiche');
+					var menu = $(this).closest('.main-menu');
+					var rubrique = menu.data('rubrique');
+					menu.toggleClass('menu-'+rubrique+"-selected");
+				});
+				var menu = $(this).closest('.main-menu');
+				var rubrique = menu.data('rubrique');
+				menu.toggleClass('menu-'+rubrique+"-selected");
+				$(this).parent().find('.subMenuMasque').toggleClass('subMenuMasque subMenuAffiche')
+			});
+			$('#mainNavigation').on('mouseleave', function () {
+				$(this).closest('#mainNavigation').find('.subMenuAffiche').each(function () { 
+					$(this).toggleClass('subMenuMasque subMenuAffiche')
+					var menu = $(this).closest('.main-menu');
+					var rubrique = menu.data('rubrique');
+					menu.toggleClass('menu-'+rubrique+"-selected");
+				});
+			});
+			// Affichage des messages système
+			var alerte = $('.messages_systeme:not(:empty)');
+	      	if (alerte.children().length >= 1) {
+		      alerteFlash();
+		      setTimeout(alerteFlash, 10000);
+	      	};
+			function alerteFlash () {
+	      		alerte.each(function() {
+	      			$(this).toggleClass('latentSystemMessages alerteSystemMessages');
+	      		});
+	      	}
+
+			$('a.popin').colorbox({'close': 'Fermer la fenêtre'});
+			$(".nano").nanoScroller();
+			// Forcer l'ouverture des lines externes dans une nouvelle fenêtre
+		    $('#article-wrapper a').each(function() {
+		      var target = $(this).prop('target');
+		      var href =  $(this).prop('href');
+		      var protocole = href.substr(0,7);
+		      var externe = href.indexOf('trucsdenana.com', 6);
+		      console.log(externe);
+		      if (protocole == 'http://' && externe == -1) {
+		        console.log(href);
+		        $(this).attr('target', '_blank');
+		        $(this).attr('rel', 'nofollow');
+		      }
+		    })    
+
+			{% if sponsorLink is defined and sponsorLink != '#' %}
+			{% set extern = sponsorLink|slice(0,7) %}
+			$('body.theme-sponsored').mouseup(function(e) {
+				console.log('clic détecté');
+				{% if extern == 'http://' %}
+				window.open('{{ sponsorLink }}',"partenaire", "scrollbars,resizable,width=1024,height=768")});
+				{% else %}
+				window.location = 'http://www.trucsdenana.com/{{ sponsorLink }}';
+				{% endif %}
+			});
+			$('body.theme-sponsored div').mouseup(function (e) {
+				e.stopPropagation();
+			});
+			{% endif %}
+
+		   	function confirmeDelete(theAction) {
+				// Confirmation is not required in the configuration file
+				// or browser is Opera (crappy js implementation)
+				if (typeof(window.opera) != 'undefined') {
+					return true;
+				}
+				var is_confirmed = confirm(theAction);
+				return is_confirmed;
+			}
+		});
+
+	</script>
+	
+	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-1556833-29', 'trucsdenana.com');
+  ga('send', 'pageview');
+	</script>
+	<script type="text/javascript" src="http://j.clickdensity.com/cr.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+  var clickdensity_keyElement = 'logo-wrapper';
+//]]>
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>{{ pseudo }} a créé un nouvel article :</p>
+<div>{{ titre |raw }}</div>
+<p>L'article a pour le moment le statut de brouillon.</p>
+{% endblock %}

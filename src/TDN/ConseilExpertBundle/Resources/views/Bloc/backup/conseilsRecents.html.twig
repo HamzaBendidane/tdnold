@@ -1,0 +1,43 @@
+<div id="conseils">
+	<h3 class="titreBicolore"><span class="strong">Conseils</span> d’experts</h3>
+	<div class="masqueContenu nano">
+	<!--[if gte IE 9]>
+   <style type="text/css">
+   .gradient {
+    filter: none;
+   }
+  </style>
+  <![endif]-->
+	{% if conseilsRecents is empty %}
+	<p class="warning">Aucun conseil publié sur TDN</p>
+	{% else %}
+		<div class="content">
+		{% set i = 0%}
+		{% for c in conseilsRecents %}
+		<div class="blocConseil">
+		{% if c.lnIllustration is empty %}
+		    {% set alt = 'Vignette par défaut pour les conseils' %}
+		    {% set cartouche = '' %}
+		{% else %}
+		    {% set cartouche = c.lnIllustration.alt %}
+		    {% set alt = c.lnIllustration.alt %}
+		{% endif %}
+		<a href="{{ path('ConseilExpert_conseil', {'rubrique': c.rubriques[0].slug, 'id': c.idDocument, 'slug': c.slug}) }}">
+			<img class="iconex60" src="{{ illustration(c, 'SQUARE') }}" alt="{{ alt }}" title="{{ cartouche }}" />
+			<h4 class="apercuTexte">{{ c.titre|raw }}</h4>
+		</a>
+		<p style="margin-top:8px;">
+		{% if c.lnAuteur is not null%}
+		<span style="color:#999">de</span> <a class="{{ rubriquePrincipale(c.rubriques[0]) }}_texte" href="{{ path('NanaBundle_profil', {'id': c.lnAuteur.idNana}) }}">{{ c.lnAuteur.username }}</a> 
+		{% endif %}
+		{% if c.lnExpert is not null%}
+		<span style="color:#999">Réponse de</span> <a class="{{ rubriquePrincipale(c.rubriques[0]) }}_texte" href="{{ path('NanaBundle_profil', {'id': c.lnExpert.idNana}) }}">{{ c.lnExpert.prenom~', '~c.lnExpert.occupation }}</a>
+		{% endif %}
+		</p>
+		</div>
+		{% set i = i+1 %}
+		{% endfor %}
+		</div>
+	{% endif %}
+	</div>
+</div>

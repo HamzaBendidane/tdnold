@@ -1,0 +1,75 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+{% endblock %}
+
+{% block title "Liste des rubriques " %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/administration_titre.png')}}" />
+</div>
+<h1 class="titrePage">Liste des rubriques</h1>
+
+<table class="adminLog">
+	<thead>
+		<tr>
+			<th class="colonneId">Id</th>
+			{% for colonne in colonnesList %}
+			<th> 
+			<a href='{{ path('DocumentRubrique_Index', {'ordre' : colonne}) }}'>{{ colonne }} </a>
+			</th>
+			{% endfor %}
+			{% for colonne in actionsRoutes %}
+			<th class="colonneAction"> {{ colonne }} </th>
+			{% endfor %}
+		</tr>
+	</thead>
+	<tbody>
+	{% if Liste is empty %}
+		<tr>
+		<td colspan='3' class='no-content'>Aucune rubrique n’est créée sur TDN</td>
+	</tr>
+	{% else %}
+	{% for rubrique in Liste %}
+	<tr class="nana">
+		<td class="colonneId">{{ rubrique.idRubrique }}</td>
+   		<td>
+      		<a href="{{ path('DocumentRubrique_modifier', {'id': rubrique.idRubrique }) }}" style="font-weight:bold">{{ rubrique.titre}}</a>
+   		</td>
+   		<td>
+   			{{ rubrique.sponsorLink }}
+   		</td>
+   		{% for action in actionsRoutes %}
+   		<td class="colonneAction">
+      		<a href='{{ path( action, {'id' : rubrique.idRubrique	}) }}'>Faire</a>
+   		</td>
+   		{% endfor %}
+	</tr>
+	{% if rubrique.sousRubriques is not empty %}
+	{% for sousRubrique in rubrique.sousRubriques %}
+	<tr class="nana sousRubrique">
+		<td class="colonneId">{{ sousRubrique.idRubrique }}</td>
+   		<td>
+      		<a href="{{ path('DocumentRubrique_modifier', {'id': sousRubrique.idRubrique }) }}" style="font-style:italic"> &ndash;&ndash; {{ sousRubrique.titre}}</a>
+   		</td>
+   		<td>
+   			{{ sousRubrique.sponsorLink }}
+   		</td>
+   		{% for action in actionsRoutes %}
+   		<td class="colonneAction">
+      		<a href='{{ path( action, {'id' : sousRubrique.idRubrique	}) }}'>Faire</a>
+   		</td>
+   		{% endfor %}
+	</tr>
+	{% endfor %}
+	{% endif %}
+	{% endfor %}
+	{% endif %}
+	</tbody>
+</table>
+{% endblock %}

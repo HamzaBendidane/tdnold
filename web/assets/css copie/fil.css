@@ -1,0 +1,133 @@
+@charset "utf-8";
+/* CSS Document */
+
+#fil-home{
+	background-image: url(../images/theme/fil_infos/bg--cadre_fil_home-page_190x508.png);
+	background-repeat: no-repeat;
+	height: 508px;
+	width: 190px;
+	text-align: center;
+}
+#fil-alaune{
+	background-image: url(../images/theme/fil_infos/bg--cadre_fil_alaune_190x460.png);
+	background-repeat: no-repeat;
+	height: 460px;
+	width: 190px;
+	text-align: center;
+}
+#fil-beaute{
+	background-image: url(../images/theme/fil_infos/bg--cadre_fil_beaute_190x460.png);
+	background-repeat: no-repeat;
+	height: 460px;
+	width: 190px;
+	text-align: center;
+}
+#fil-bienetre{
+	background-image: url(../images/theme/fil_infos/bg--cadre_fil_bien-etre_190x460.png);
+	background-repeat: no-repeat;
+	height: 460px;
+	width: 190px;
+	text-align: center;
+}
+#fil-deco{
+	background-image: url(../images/theme/fil_infos/bg--cadre_fil_deco_190x460.png);
+	background-repeat: no-repeat;
+	height: 460px;
+	width: 190px;
+	text-align: center;
+}
+#fil-geekette{
+	background-image: url(../images/theme/fil_infos/bg--cadre_fil_geekette_190x460.png);
+	background-repeat: no-repeat;
+	height: 460px;
+	width: 190px;
+	text-align: center;
+}
+#fil-mode{
+	background-image: url(../images/theme/fil_infos/bg--cadre_fil_mode_190x460.png);
+	background-repeat: no-repeat;
+	height: 460px;
+	width: 190px;
+	text-align: center;
+}
+#fil-recettes{
+	background-image: url(../images/theme/fil_infos/bg--cadre_fil_recettes_190x460.png);
+	background-repeat: no-repeat;
+	height: 460px;
+	width: 190px;
+	text-align: center;
+}
+#fil-sexo{
+	background-image: url(../images/theme/fil_infos/bg--cadre_fil_sexo_190x460.png);
+	background-repeat: no-repeat;
+	height: 460px;
+	width: 190px;
+	text-align: center;
+}
+
+.poste {
+	background-color: #FFF;
+	height: 22px;
+	width: 170px;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-top-color: #25BEB5;
+	border-bottom-color: #25BEB5;
+	font: normal 11px "droid sans";
+	margin-top: 62px;
+	border-right-style: none;
+	border-left-style: none;
+	padding-left: 6px;
+}
+#fil-centre h4 {
+	padding: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 10px;
+	display: inline;
+	text-transform: uppercase;
+}
+
+#fil-centre {
+	height: 280px;
+	width: 190px;
+	text-align: left;
+}
+#fil-centre-home h4 {
+	padding: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 10px;
+	display: inline;
+	text-transform: uppercase;
+}
+
+#fil-centre-home {
+	height: 330px;
+	width: 190px;
+	text-align: left;
+}
+.fil-contenu {
+	background-color: #FFF;
+	padding: 6px;
+	margin-bottom: 5px;
+	font: normal 11px "droid sans";
+	width: 172px;
+	margin-left: 3px;
+}
+.fil-contenu p {
+	margin-top: 6px;
+	margin-bottom: 3px;
+}
+.fil-contenu p a {
+	text-decoration: none;
+	color: #333;
+}
+.fil-contenu p a:hover {
+	text-decoration: underline;
+	color: #752670;
+}

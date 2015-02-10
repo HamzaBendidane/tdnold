@@ -1,0 +1,153 @@
+<?php
+
+namespace TDN\VideoBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use TDN\VideoBundle\Form\Type\VideoType;
+use TDN\VideoBundle\Entity\Video;
+use TDN\DocumentBundle\Entity\DocumentType;
+
+
+
+class PublicationController extends Controller {
+	
+	public function videoProposerAction () {
+
+		$variables['rubrique'] = 'tdn';
+		// Affichage de la page
+
+		// Instanciation du formulaire
+		$form = $this->createForm(new VideoType, new Video);
+		$variables['form'] = $form->createView();
+
+		return $this->render('VideoBundle:Page:videoForm.html.twig', $variables);
+	}
+
+	public function videoPosterAction () {
+
+		$variables['rubrique'] = 'tdn';
+		$video = new Video;
+		$request = $this->get('request');
+		$form = $this->createForm(new VideoType, $video);
+
+		if ($request->getMethod() == "POST") {
+
+			$form->bind($request);
+			print_r($video); die;
+				$video->setLikes(0);
+				$video->setTypeDocument(new DocumentType);
+				$video->getTypeDocument()->setAbstract("");
+				$video->getTypeDocument()->setType("video");
+				$video->setHits(0);
+				$video->setVignette("");
+				$video->setParams("{}");
+				$video->setCommentThread(new \Doctrine\Common\Collections\ArrayCollection());
+				$vignette = $video->getlnIllustration();
+				$vignette->storeUpload();
+				$vignette->setTypeDocument(new DocumentType);
+				$vignette->getTypeDocument()->setAbstract("");
+				$vignette->getTypeDocument()->setType("image");
+				$vignette->setLikes(0);
+				$vignette->setHits(0);
+				$vignette->setSlug("");
+				$vignette->setStatut("public");
+				$vignette->setDatePublication($video->getDatePublication());
+				$vignette->setDateModification($video->getDateModification());
+				$vignette->setVersion("1.0");
+				$vignette->setAlt($vignette->getTitre());
+				$vignette->setCommentThread(new \Doctrine\Common\Collections\ArrayCollection());
+	
+				// print_r($vignette); die;
+
+				$em = $this->get('doctrine.orm.entity_manager');
+				$em->persist($video);
+				$em->flush();
+
+		}
+		return $this->render('VideoBundle:Page:videoForm.html.twig', $variables);
+	}
+
+
+	public function videoSommaireAction () {
+
+		$longueurPage = 40;
+	    // Récupération de l'entity manager qui va nous permettre de gérer les entités.
+	    $em = $this->get('doctrine.orm.entity_manager');      
+		// Instanciation du Repository
+		$rep = $em->getRepository('TDN\VideoBundle\Entity\Video');
+	    // $listeVideos = $rep->findWithin($longueurPage);
+	    $variables['listeVideos'] = $rep->findAll();
+	    // $nombreVideos = $rep->compteVideos();
+
+		$largeurSegment = 4;
+		$variables['rubrique'] = 'tdn';
+
+		$variables['page'] = 5;
+		$variables['precedente'] = $variables['page'] - 1;
+
+		$variables['derniere'] = 30;
+		$variables['precedente'] = $variables['page'] - 1;
+		$variables['suivante'] = $variables['page'] + 1;
+		$variables['debutSegment'] = max(1,$variables['page'] - $largeurSegment);
+		$variables['finSegment'] = min($variables['derniere'],$variables['page'] + $largeurSegment);
+		// Affichage de la page
+		return $this->render('VideoBundle:Page:videoSommaire.html.twig', $variables);
+	}
+
+
+	public function videoAction ($rubrique, $slug, $id) {
+	/* Tableau qui va stocker toutes les données à remplacer dans le template twig */
+	    $variables = array();  
+
+	    // Récupération de l'entity manager qui va nous permettre de gérer les entités.
+	    $em = $this->get('doctrine.orm.entity_manager');      
+
+		// Instanciation du Repository
+		$rep_video = $em->getRepository('TDN\VideoBundle\Entity\Video');
+		$video = $rep_video->find($id);
+		$rep_commentaires = $em->getRepository('TDN\CommentaireBundle\Entity\Commentaire');
+		$variables['commentaires'] = $rep_commentaires->findAll();
+		
+		// Rechercher l'article
+		// $article = $repository->find($id);
+		
+		// $variables['titre'] = $article->getTitre();
+		// $completeArticle = $article->getCorps();
+		$hebergeur = $video->getIdHebergeur();
+		switch ($hebergeur) {
+			case 'dailymotion':
+			case '2':
+				$params = $video->getParams();
+				$params = json_decode($params);
+				$variables['codeIntegration'] = $video->getCodeIntegration();
+				$variables['codeIntegration'] = str_replace('480', '420', $variables['codeIntegration']);
+				$variables['codeIntegration'] = str_replace('360', '315', $variables['codeIntegration']);
+				$minutes = floor($video->getDuree()/60);
+				$secondes = $video->getDuree() - ($minutes * 60);
+				$variables['duree'] = $minutes."' ".$secondes."\"";
+				break;
+			case 'vimeo':
+			case '1':
+				$ID = $video->getIdVideo();
+				$variables['codeIntegration'] = "<iframe src='http://player.vimeo.com/video/$ID' width='360' frameborder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>";
+				break;
+			case 'youtube':
+			case '0':
+				$ID = $video->getIdVideo();
+				$variables['codeIntegration'] = "<iframe width='360' src='https://www.youtube.com/embed/$ID?rel=0' frameborder='0' allowfullscreen></iframe>";
+		}
+		
+
+		// set_include_path(get_include_path().PATH_SEPARATOR."/home/www/client");
+		// echo get_include_path();
+		// echo dirname(__FILE__); 
+		// $p = file_get_contents("/justine75/v3_dev/src/TDN/RedactionBundle/Resources/views/Default/article.html.twig", FILE_USE_INCLUDE_PATH);
+
+		$variables['rubrique'] = $rubrique;
+		$variables['video'] = $video;
+		
+		// Affichage de la page
+		return $this->render('VideoBundle:Page:video.html.twig', $variables);
+
+	}
+}

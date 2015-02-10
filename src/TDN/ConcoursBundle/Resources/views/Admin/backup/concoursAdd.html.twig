@@ -1,0 +1,106 @@
+{% extends 'DocumentBundle:Admin:documentDetail.html.twig' %}
+
+{% block form_contenuDocument %}
+{{ form_errors(form) }}
+<div id="abstractArticle" class="blockWidget">
+    {{ form_row(form.abstract) }}
+</div>
+<div id="corpsArticle" class="blockWidget"><!--contenteditable="true"-->
+      {{ form_row(form.corps) }}
+</div>
+
+<div class="blockWidget">
+    {{ form_row(form.dateDebut) }}
+</div>
+<div class="blockWidget">
+    {{ form_row(form.dateArret) }}
+</div>
+<div class="lineWidget">
+    {{ form_row(form.sponsor) }}
+</div>
+<div class="lineWidget">
+    {{ form_row(form.nombreGagnants) }}
+</div>
+<div class="lineWidget">
+    {{ form_row(form.gain) }}
+</div>
+<div class="choiceWidget">
+    {{ form_row(form.transmission) }}
+</div>
+<div class="choiceWidget">
+    {{ form_row(form.open) }}
+</div>
+<div class="choiceWidget">
+    {{ form_row(form.reponsesVisibles) }}
+</div>
+<!--div class="blockWidget">
+    {#{ form_row(form.typeJeuConcours) }#}
+</div-->
+<section id="questionConcours">
+    <div id="widgetQuestions"></div>
+    <p><a href="#" id="boutonAjoutQuestion" class="collectionPush">Ajouter une question ?</a></p>
+    {{ form_row(form.questions, {'attr': {'class': 'modeleFormQuestionConcours'}}) }}
+</section>
+{% endblock %}
+
+{% block form_script%}
+<script type="text/javascript">
+    $(document).ready(function () {
+
+      (function($){   
+        $.fn.addDeleteLink = function(){
+            var $removeFormA = $('<a href="#">Supprimer de la liste</a>');
+            $(this).append($removeFormA);
+
+            $removeFormA.on('click', function(e) {
+                e.preventDefault();
+                $(this).parent().remove();
+            });
+          };
+      })(jQuery);
+
+      //CKEDITOR.disableAutoInline = true;
+      //CKEDITOR.inline('corpsArticle');
+      CKEDITOR.replace('concours_add_corps', {
+        height: 500
+      });
+       CKEDITOR.replace('concours_add_abstract', {
+        customConfig: 'config_chapo.js'
+      });
+      
+      $("#miseEnAvant").click(function () {
+          $("#section_miseEnAvant").toggleClass('tiroirOuvert tiroirFerme');
+      });
+
+      $("#boutonAjoutQuestion").click(function (event) {
+        event.preventDefault();
+        var $holder = $(".modeleFormQuestionConcours");
+        var nbChamps = $holder.children().length;
+        var prototype = $holder.attr('data-prototype');
+        var newForm = prototype.replace(/questions___name__/g, "questions_"+nbChamps);
+        var newForm = newForm.replace(/\[questions\]\[__name__\]/g, "[questions]["+nbChamps+"]");
+        $boutonReponse = $("<p></p>").append($("<a></a>").prop("href","#").prop("id","boutonAjoutReponse_"+nbChamps).addClass("collectionPush").text("Ajouter une réponse"));
+        $(newForm).prepend($("<div></div>").prop("id","widgetReponses_"+nbChamps));
+        $(newForm).append($boutonReponse);
+        $('#widgetQuestions').append(newForm);
+        $widget = $('#widgetQuestions').children("div").last().children("div").first().children("div").first();
+        $widget.after($("<div></div>").prop("id","widgetReponses_"+nbChamps));
+        $widget.after($boutonReponse);
+        $("#boutonAjoutReponse_"+nbChamps).on('click', function (e) {
+          e.preventDefault;
+          // alert('#concours_add_questions_'+nbChamps+'_filReponses');
+          var $r_holder = $('#concours_add_questions_'+nbChamps+'_filReponses');
+          var r_nbChamps = $('#widgetReponses_'+nbChamps).children().length;
+          var r_prototype = $r_holder.attr('data-prototype');
+          var r_newForm = r_prototype.replace(/__name__/g, r_nbChamps);
+          $('#widgetReponses_'+nbChamps).append(r_newForm);
+          $('#widgetReponses_'+nbChamps).children().last().addDeleteLink();
+          return false;
+        });
+        $('#widgetQuestions').children().last().addDeleteLink();
+        return false;
+      })
+    })
+</script>
+
+{% endblock %}

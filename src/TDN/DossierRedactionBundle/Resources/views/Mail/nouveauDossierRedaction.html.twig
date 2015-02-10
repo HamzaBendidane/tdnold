@@ -1,0 +1,7 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>{{ pseudo }} a créé un nouveau Dossier de la rédaction :</p>
+<div>{{ titre |raw }}</div>
+<p>Ce dossier est vide pour le moment et a le statut de brouillon.</p>
+{% endblock %}

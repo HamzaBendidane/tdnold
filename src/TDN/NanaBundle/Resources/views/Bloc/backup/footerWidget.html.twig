@@ -1,0 +1,39 @@
+<div id="membres">
+	<div id="nanaExergue">
+		<div class="nanaCount">
+			<p class="cardinal">{{ cardInscrits }}</p>
+		</div>
+		<div class="idNanaSemaine">
+			<p class="nanaPseudo">{{ nanaDeLaSemaine.username }}</p>
+			<p class="nanaCaption">Nana de la semaine</p>
+		</div>
+		<div class="nanaSemaine">
+			<a href="{{ path('NanaBundle_profil', {'id': nanaDeLaSemaine.idNana}) }}">
+				<img src="{{ avatar(nanaDeLaSemaine) }}" class="vignetteScotchee" alt="Avatar de {{ nanaDeLaSemaine.username }}" />
+			</a>
+		</div>
+	</div>
+	<div class="intertitreTDN">
+		<h4>NOUVEAUX MEMBRES</h4>
+	</div>
+	<div class="selectionNanas">
+		{% if selectionNanas is empty %}
+		<p class="warning">Aucune nana inscrite</p>
+		{% else %}
+		<div class="avatarWrapper">
+		{% for nana in selectionNanas %}
+			<a class="vignetteScotchee" href="{{ path('NanaBundle_profil', {'id': nana.idNana})}}" title="{{ nana.username }}">
+				<img src="{{ avatar(nana) }}" class="vignetteScotchee" alt="Avatar de {{ nana.username }}" />
+			</a>
+		{% endfor %}
+		</div>
+		{% endif %}
+	</div>
+	<form name="recherche-membre" id="recherche-membre" action="{{ path('NanaBundle_rechercheNanas') }}">
+		<input type="text" name="seed" id="seed" size="24" style="margin-top:3px" />
+		<input type="image"  src="{{ asset('assets/images/theme/forms/bt_fleche_droite.png') }}" align="absmiddle" style="top: -2px;position: relative;"/>		
+	</form>
+	<a href="{{ path('NanaBundle_registerForm') }}" class="lienFleche popin tdn-link-solide">
+		<img src="{{ asset('assets/images/theme/boutons/bt_deviens-membre.png') }}" alt="Deviens membre de TDN" />
+	</a>
+</div>

@@ -1,0 +1,30 @@
+<section class="listeDemandesConseil" style="width:800px;">
+	<h1 class="titrePage">Demandes de conseil de {{ nana.username }}</h1>
+
+	<table class="adminLog">
+		<caption>{{ conseilsList|length }} conseil(s)</caption>
+		<thead>
+			<tr>
+				<th>Titre</th>
+				<th>Date de soumission</th>
+				<th>Statut</th>
+				<th>Expert</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% if conseilsList is not empty %}
+			{% for conseil in conseilsList %}
+				<tr class="conseil-{{ labelStatut[conseil.statut][1] }}">
+					<td>
+					{% if conseil.titre == '' %}{{ conseil.question|slice(0,100)|raw }}{% else %}{{ conseil.titre }}{% endif %}
+					</td>
+					<td>{{ conseil.dateSoumission|laps }}</td>
+					<td>{{ labelStatut[conseil.statut][0] }}</td>
+					<td>
+					{% if conseil.lnExpert is not null%}{{ conseil.lnExpert.prenom~' '~conseil.lnExpert.nom}}{% endif %}</td>
+				</tr>
+			{% endfor %}
+		{% endif %}
+		</tbody>
+	</table>
+</section>

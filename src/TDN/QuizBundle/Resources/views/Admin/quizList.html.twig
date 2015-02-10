@@ -1,0 +1,53 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+{% endblock %}
+
+{% block local_header_scripts %}
+{% endblock %}
+
+{% block title "Gestion des quiz " %}
+
+{% block recherche_admin %}
+<form action="/app_dev.php/admin/quiz/recherche" name="rechercheQuiz" id="rechercheQuiz" class="" method="post">
+<label for="attributRecherche">Quel attribut ?</label>
+<select name ="attributRecherche" id="attributRecherche">
+	<option value="titreQuiz">Titre</option>
+	<option value="Profils">Profils</option>
+</select>
+<input type="text" name="ckefRecherche" id="clefRecherche" />
+<input type="submit" name="chercher" id="chercher" class="" value="Chercher" />
+</form>
+{% endblock%}
+
+{% block contenu_principal %}
+<h1>Liste des rubriques</h1>
+
+<table>
+<thead>
+	<tr>
+		<th>ID</th>
+		<th>Titre</th>
+		<th>Participations</th>
+		<th>Statut</th>
+	</tr>
+</thead>
+{% for quiz in quizList %}
+<tr class="rubrique-{{quiz.statut}}">
+   <td>
+      <a href='/admin/quiz/{{quiz.id}}'>{{quiz.titreQuiz}}</a>
+   </td>
+   <td>
+      {{quiz.participations}}
+   </td>
+   <td>
+	{% if quiz.statut != 1 %}
+      <a href='admin/quiz/{{rubrique.id}}/publier'>Publier</a>
+	{% else %}
+      <a href='admin/quiz/{{rubrique.id}}/desactiver'>Désactiver</a>
+	{% endif %}
+   </td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

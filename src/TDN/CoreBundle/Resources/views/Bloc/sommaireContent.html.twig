@@ -1,0 +1,169 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title %}{% if titrePage is defined %}{{ titrePage }}{% endif %}{% endblock %}
+
+{% block local_stylesheets %}
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/sommaire.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/fil.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/form.css') }}" />
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postitSommaire">
+	{% if rubriqueEntity is defined %}
+		{% set rubriquePrincipale = rubriqueEntity.slug %}
+	{% else %}
+		{% set rubriquePrincipale = rubrique %}
+	{% endif %}
+	<a href="{{ path('Core_sommaire', {'slug': rubriquePrincipale}) }}">
+		<img src="{{ asset('assets/images/theme/centre/titres/'~ rubriquePrincipale ~'_titre_299x80.png')}}" />
+	</a>
+</div>
+
+<div id="sommaire-rubrique">
+	<div id="redaction">
+		<div id="derniers-contenus">
+			{% render "RedactionBundle:Partial:articlesRecents" with {'limite': 40, 'panel': panel} %}
+			{% render "ConseilExpertBundle:Partial:conseilsRecents" with {'limite': 40, 'panel': panel} %}
+		</div>
+	</div>
+	<div id="social">
+		<div id="teaserQuestion">
+			{% if question is defined %}
+			<p class="titre">
+				<a href="{{ path('CauseuseBundle_conversation', {'rubrique': question.rubriques[0].slug , 'slug': question.slug, 'id': question.idDocument}) }}">&nbsp;{{ question.titre|glueSpaces|raw }}&nbsp;</a>
+			</p>
+			<p class="auteur">
+				<a href="{{ path('NanaBundle_profil', {'id': question.lnAuteur.idNana}) }}">{{ question.lnAuteur.username }}, {{ ageAuteurDerniereQuestion }}</a>
+			</p>
+			{% endif %}
+		</div>
+
+		{% if is_granted('ROLE_USER') %}
+		<a class="linkQuestion" href="{{ path('CauseuseBundle_creer')}}">
+			<img class="boutonRetractable" src="{{ asset('assets/images/theme/social/question_button.png') }}" alt="Questionne les nanas !" />
+		</a>
+		{% else %}
+		<a href="{{ path('NanaBundle_registerForm') }}" class="linkQuestionNoFollow lienFleche popin">
+			<img class="boutonRetractable" src="{{ asset('assets/images/theme/social/question_button.png') }}" alt="Questionne les nanas !" />
+		</a>
+		{% endif%}
+			
+
+		<div id="fil-info">
+			<div id="fil-info-header">
+				{% if is_granted('ROLE_USER') %} 
+				<form >
+					<input id="fakeInfoForm" type="text" value="Poste ton info ..." />
+				</form>
+				<div class="fantomeInfoForm">
+					<form action="{{ path('BreveBundle_poster') }}" method="post" {{ form_enctype(formBreve) }}>
+						<button class="closeBreve" style="background-image:url(/assets/images/theme/inscription/picto_closed.png); border:0;height:20px;position:absolute;right:10px;top:10px;width:20px"></button>
+	    				{{ form_row(formBreve.message) }}
+	    				<p><span id="signesBreve">0</span> (sur 250 car. maximum)</p>
+	    				{{ form_row(formBreve.url) }}
+	    				{{ form_row(formBreve.lnRubrique) }}
+	    				{{ form_rest(formBreve) }}
+	    				<input type="submit" />
+						<img src="{#{ v.vignette }#}" class="" style="width:58px" />
+	    			</form>
+				</div>
+				{% else %}
+				<a href="{{ path('NanaBundle_registerForm') }}" id="fakeInfoForm" class="blurPrompt popin">
+				Connecte-toi pour poster une info
+				</a>
+    			{% endif %}
+			</div>
+			<div id="fil-info-next"></div>
+			<div id="fil-home" class="masqueContenu nano">
+				<div class="content">
+				{% if filInfo is empty %}
+					<p class="warning">Aucune info sur TDN</p>
+				{% else %}
+				{% for i in filInfo %}
+					<p class="rubriqueFilInfo {{ i.lnRubrique.slug }}_texte">{{ i.lnRubrique.titre }}</p>
+					<div class="blocInfo">
+						{% if false %}
+					    {% set sourceAvatar = '/uploads/documents/profils/'~me.idNana~'/'~me.lnAvatar.fichier %}
+					    {% else %}
+					    {% set sourceAvatar = 'assets/images/theme/centre/avatar_profil/avatar5%2080x95.png' %}
+					    {% endif %}
+					    <img class="avatarInfo" src="{{ asset(sourceAvatar)}}" />
+					    <p class="auteurInfo {{ i.lnRubrique.slug }}_texte">{{ i.lnAuteur.username}}, {{ i.datePublication|date('d/m H:i') }}</p>
+					    <p class="auteurRole etiquetteStandard" >{{ i.lnAuteur.roles[0].name }}</p>
+					    <p class="texteInfo">{{ i.message }}</p>
+					    {% if i.url is not null %}
+					    <a class="urlInfo" href="{{ i.tinyURL }}">{{ i.tinyURL }}</a>
+					    {% endif %}
+					</div>
+				{% endfor %}
+				{% endif %}
+				</div>
+			</div>
+			<div id="fil-info-previous"></div>
+			<div id="fil-info-footer"> <a href="{{ path('BreveBundle_fil', {'rubrique': rubrique}) }}">Voir le fil entier <img src="{{ asset('assets/images/theme/forms/bt_fleche_droite_small.png') }}"style="border:0px; margin-left:5px" align="absmiddle"/> </a> </div>
+		</div>
+	</div>
+</div>
+<div id="teaserVideos" class="{{ rubrique }}_secondaire">
+	<img class="twist pinned" src="{{ asset('assets/images/theme/centre/videos/icone_video.png') }}" />
+	<div class='videoColumns'>
+		<div class="sommaire">
+			<h2>Vidéos</h2>
+			{% if video is not null %}
+			<h3>
+				<a href="{{ path('VideoBundle_video', {'rubrique': video.rubriques[0].slug , 'slug': video.slug, 'id': video.idDocument}) }}">{{video.titre}}</a>
+			</h3>
+			<p class="videoAbstract">{{ videoAbstract|raw }}</p>
+			{% endif %}
+			<!-- form>
+				<input type="text" value="Ton commentaire ..." style="width:300px; height:22px; margin-bottom:8px">
+			</form -->
+			<div class="videosRecentes">
+			{% for v in videosRecentes %}
+				<a href="{{ path('VideoBundle_video', {'rubrique': v.rubriques[0].slug , 'slug': v.slug, 'id': v.idDocument}) }}">
+				{% if v.vignette is not empty %}
+              		<img class="snapshot" src="{{ v.vignette }}" class="" style="width:58px" />
+            	{% else %}
+              		<img class="snapshot" src="{{ illustration(v) }}" class="" style="width:58px" />
+            	{% endif %}
+				</a>
+			{% endfor %}
+			</div>
+			<div class="videosToutes">
+				<a href="{{ path('VideoBundle_sommaire') }}">Toutes les vidéos <img src="{{ asset('assets/images/theme/forms/bt_fleche_droite_small.png') }}"style="border:0px; margin-left:5px" align="absmiddle"/></a>
+			</div>
+		</div>
+		<div class="scene">
+		{% if codeIntegration is defined %}{{ codeIntegration|raw }}{% endif %}
+		</div>
+	</div>
+</div>
+<div id="hotplaces">
+	{% render "RedactionBundle:Partial:articlesPlusLus" with {'limite': 3, 'panel': panel} %}
+	{% render "ConseilExpertBundle:Partial:conseilsPlusLus" with {'limite': 3, 'panel': panel} %}
+</div>
+
+{% render 'ProduitBundle:Partial:panoramaCoupsDeCoeur' with {'limite': 8} %}
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$("#fakeInfoForm").on('focus', function (e) {
+			$(".fantomeInfoForm").css('display', 'block');
+		});
+		$(".closeBreve").on('click', function () {
+			$("#tdn3_breve_message").blur();
+			$(".fantomeInfoForm").css('display', 'none');
+		});
+		$("#tdn3_breve_message").keydown(function () {
+			if ($(this).val().length > 250) $(this).val($(this).val().substr(0,250));	
+		});
+		$("#tdn3_breve_message").keyup(function () {
+			$("#signesBreve").html($(this).val().length);
+			if ($(this).val().length > 225) $("#signesBreve").css("color", "#600")
+			else  $("#signesBreve").css("color", "#060");
+		});
+	})
+
+</script>
+{% endblock %}

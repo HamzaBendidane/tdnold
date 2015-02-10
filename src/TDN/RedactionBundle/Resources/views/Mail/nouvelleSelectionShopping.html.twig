@@ -1,0 +1,14 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>{{ pseudo }} à créé une nouvelle sélection shopping :</p>
+<p>{{ titre | raw }}</p>
+<p>Cette sélection contient {{ selection|length }} produit(s) :</p>
+<ul>
+	{% for produit in selection %}
+	<li>{{ produit.titre }}</li>
+	{% endfor %}
+</ul>
+
+<p>L'article a pour le moment le statut de brouillon.</p>
+{% endblock %}

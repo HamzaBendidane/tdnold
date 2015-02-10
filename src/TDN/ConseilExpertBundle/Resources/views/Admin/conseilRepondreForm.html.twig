@@ -1,0 +1,56 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+{% endblock %}
+
+{% block title "Demande de conseil à un expert" %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/articles-redac_titre_299x80.png')}}" />
+</div>
+<div id="main-wrapper" class="repondreConseil">
+  <section id="avertissment">
+    <h1>Répondre à une question</h1>
+    <p class="auteur-question" style="font-size:0.9rem">
+      <span class="standardEtiquette">La question a été postée par</span> <a href="{{ path('NanaBundle_profil', {'id': conseil.lnAuteur.idNana}) }}">{{ conseil.lnAuteur.username }}</a> : {{ conseil.dateSoumission|laps }}
+    </p>
+    {% if conseil.lnImage is not null %}
+    <p>
+      <img class="image-question" src="{{ illustration(conseil) }}" alt="{{ conseil.lnImage.alt }}" style="max-width:400px" />
+    </p>
+    {% endif %} 
+    <div class="question-conseil" style="font-size: 1rem;margin: 10px 40px;background-color: #F3F3F3;padding: 10px;border-radius: 8px;line-height: 1.4rem;color: #333">
+      {{ conseil.question |raw }}
+    </div>
+    {% if conseil.lnImage is not null %}
+    <div class="illustration-conseil">
+      <a class="popin" href="{{ documentImage(conseil.lnImage, NULL, conseil.lnAuteur.idNana) }}" >
+        <img class="imageNana" src="{{ documentImage(conseil.lnImage, NULL, conseil.lnAuteur.idNana) }}" alt="{{ conseil.lnImage.alt }}" />
+      </a>
+    </div>
+    {% endif %}  
+  </section>
+  <form name="dispatch-conseil" id="dispatch-conseil" class="form-admin" action="{{ path('ConseilExpertBundle_flowRepondre') }}" method="post" {{ form_enctype(form) }}>
+    <input type="hidden" name="flowId" value="{{flowId}}" />
+    <div id="reponseConseil" class="blockWidget">
+      {{ form_row(form.reponse) }}
+    </div>
+    <div class="form-element formCellAntispam">{#{ form_row(form.lnImage) }#}</div>
+      {{ form_row(form._token) }}
+      <input type="submit" name="sauver" value="Sauvegarder" />
+      <input type="submit" name="valider" value="Valider" />
+  </form>
+ 
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#tdn3_conseilexpert_reponse_reponse").ckeditor();
+    })
+</script>
+
+{% endblock %}

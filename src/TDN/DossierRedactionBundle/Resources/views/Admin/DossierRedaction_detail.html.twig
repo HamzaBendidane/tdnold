@@ -1,0 +1,22 @@
+{% extends 'DocumentBundle:Admin:documentDetail.html.twig' %}
+
+{% block form_contenuDocument %}
+<section id="contenuArticle" class="form-section section-contenu">
+	<div id="abstractArticle" class="blockWidget">
+		{{ form_row(form.abstract) }}
+	</div>
+</section>
+{% endblock %}
+
+{% block form_script%}
+<script type="text/javascript">
+    $(document).ready(function () {
+         CKEDITOR.replace('DossierRedaction_Detail_abstract', {
+          customConfig: 'config_chapo.js'
+        })
+    	$("#miseEnAvant").click(function () {
+    		$("#section_miseEnAvant").toggleClass('tiroirOuvert tiroirFerme');
+    	});
+    })
+</script>
+{% endblock %}

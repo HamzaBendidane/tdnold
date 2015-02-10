@@ -1,0 +1,76 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Article | " ~ article.titre ~ " | Trucdenana.com" %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/commentaire.css') }}" type="text/css">
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/articles-redac_titre_299x80.png')}}" />
+</div>
+<article id="article-wrapper" class="main article-redaction">
+
+  <!-- Contenu de l'article -->
+   <section class="contenu main-section">
+
+      <!-- Bloc pour l'affichage des métadonnées de l'article -->
+      <div id="metadata" class="metadata">
+         <p class="auteur">
+           <span class="standardEtiquette">Ecrit par </span> 
+            <a href="{{ path('NanaBundle_profil', { 'id' : article.lnAuteur.idNana }) }}" class="nom-auteur">{{article.lnAuteur.prenom ~ " " ~ article.lnAuteur.nom }} ({% for r in article.lnAuteur.roles %}{{ r.name }}{% endfor %})</a>,<span class="standardEtiquette">le </span>  
+            <span class="date-publication">{{ article.datePublication |date('d/m/Y') }}</span>
+         </p>
+         <p>
+          <span class="standardEtiquette">Rubrique :</span> 
+          {% for r in article.rubriques %}<span class="rubrique-{{ rubriquePrincipale(r) }}">{{ r.titre }}</span>{% endfor %}
+         </p>
+      </div>
+
+      <!-- Bloc pour l'affichage du contenu de l'article -->
+      <div id="corps" class="corps">
+         <h1 class="titre-document titre-{{ rubriquePrincipale(article.rubriques[0]) }}">{{article.titre}}</h1>
+         {% if article.v2ID is not null %}
+         {% if article.lnIllustration is not null%}
+         {% set fichier = article.lnIllustration.fichier %}
+         {% set an = article.lnIllustration.datePublication|date('Y') %}
+         {% set mois = article.lnIllustration.datePublication|date('m') %}
+         <img class="legacyIllustration" src="/web/uploads/documents/public/{{an}}/{{mois}}/{{fichier}}" />
+         {% endif %}
+         {% endif %}
+         <div class="rawTexte">{{article.corps|raw}}</div>
+         <div class="tags">{{article.tags|tags|raw}}</div>
+      </div>
+
+      <!-- Bloc pour les boutons sociaux -->
+      <div class="liens-sociaux" id="bloc-liens-sociaux">
+         <div class="liens-tdn">
+           <button type="button" class="bouton-social bouton-like" id="bouton-like">{{ article.hits }}</button>
+           <button type="button" class="bouton-social bouton-partage" id="bouton-partage">Partage</button>
+         </div>
+      </div>
+
+      <!-- Bloc pour les commentaires -->
+      {% render 'CommentaireBundle:Public:flux' with {'id': article.idDocument } %}
+  </section>
+
+  {#% if more %#}
+  <!-- Bloc des contenus proches -->
+  {% include 'DocumentBundle:Bloc:contenusAnalogues.html.twig' with {'more': 'more'} %}
+  {#% endif %#}
+
+</article>
+<script type="text/javascript">
+  $(document).ready(function() {
+    console.log('Traitement des URL images');
+    $('#article-wrapper img').each(function() {
+      var source = $(this).attr('src');
+      var radix = source.substr(0,7);
+      if (radix == '/photos') {
+        $(this).attr('src', 'http://www.trucdenana.com'+source);
+      }
+    })
+  })
+</script>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>{{ pseudo }} à déposé une nouvelle vidéo :</p>
+<div>{{ titre | raw }}</div>
+{% if url is defined %}
+<p>Elle est visible à cette adresse :</p>
+<p>{{ url | raw }}</p>
+{% else %}
+<div class="noInfo">Aucune URL n’a été postée pour cette vidéo</div>
+{% endif %}
+<p>Cette vidéo a pour le moment le statut de brouillon.</p>
+{% endblock %}

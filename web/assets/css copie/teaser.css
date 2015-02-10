@@ -1,0 +1,41 @@
+#social {
+	display: table-cell;
+	width: 235px ;
+	vertical-align: top;
+}
+
+#social #teaser-question {
+	background: url(../images/theme/social/question_post-it.png) no-repeat scroll left top transparent;
+	width: 220px;
+	height: 160px;
+}
+
+#social #invite-question {
+	background: url(../images/theme/social/question_invite.png) no-repeat scroll left top transparent;
+	width: 220px;
+	height: 42px;
+}
+
+#social #fil-info-header {
+	background: url(../images/theme/social/breves/top-cadre.png) no-repeat scroll left top transparent;
+	width: 220px;
+	height: 101px;
+}
+
+#social #fil-info-next {
+	background: url(../images/theme/social/breves/next.png) no-repeat scroll left top transparent;
+	width: 220px;
+	height: 24px;
+}
+
+#social #fil-info-previous {
+	background: url(../images/theme/social/breves/previous.png) no-repeat scroll left top transparent;
+	width: 220px;
+	height: 24px;
+}
+
+#social #fil-info-footer {
+	background: url(../images/theme/social/breves/footer-cadre.png) no-repeat scroll left bottom transparent;
+	width: 220px;
+	height: 24px;
+}

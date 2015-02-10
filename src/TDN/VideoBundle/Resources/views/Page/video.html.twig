@@ -1,0 +1,78 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title video.titre ~ " | Vidéo " ~ video.rubriques[0].titre  %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/commentaire.css') }}" type="text/css">
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+  <a href="{{ path('VideoBundle_sommaire') }}">
+    <img src="{{ asset('assets/images/theme/centre/titres/videos_titre_299x80.png')}}" alt="Vidéos" title="Sommaire des vidéos" />
+  </a>
+</div>
+<article id="article-wrapper" class="main video">
+
+  <!-- Contenu de l'article -->
+   <section class="contenu main-section">
+
+      <!-- Bloc pour l'affichage des métadonnées de l'article -->
+      <div id="metadata" class="metadata">
+         <p class="auteur">
+            <span class="standardEtiquette">Postée par : </span> 
+            <a href="{{ path('NanaBundle_profil', { 'id' : video.lnAuteur.idNana }) }}" class="nom-auteur">{{video.lnAuteur.prenom ~ " " ~ video.lnAuteur.nom }} ({% for r in video.lnAuteur.roles %}{{ r.name }} {% endfor %})</a>, <span class="standardEtiquette">le  </span>
+            <span class="date-publication">{{ video.datePublication|laps }}</span>
+         </p>
+         <p class="liste-rubriques">
+          <span class="standardEtiquette">Rubrique :</span> 
+          {% for r in video.rubriques %}
+            <a href="{{path('Core_sommaire', {'slug': r.slug})}}">
+              <span class="rubrique-{{ rubriquePrincipale(r) }}">{{ r.titre }}
+            </a>
+          {% endfor %}
+          </span>
+         </p>
+      </div>
+
+      <!-- Bloc pour l'affichage du contenu de l'article -->
+      <div id="corps" class="corps">
+         <h1 class="titre-document titre-{{ rubriquePrincipale(video.rubriques[0]) }}">{{ video.titre }}</h1>
+         <div style="display:block; float:left; margin-right:20px; margin-bottom:20px">
+         {{ codeIntegration|raw }}
+         </div>
+         <div style="display:block">
+         <p><span class="standardEtiquette">Durée : </span>{{ video.duree }}</p>
+         <div>{{ video.abstract|raw }}</div>
+         </div>
+        {% if video.filTags is not empty %}
+         <div class="tags" style="clear:both">
+           <ul class="tagBag">
+           {% for tag in video.filTags %}
+            <li class="tag">
+              <a href="/recherche/{{ tag.expression }}">{{ tag.expression }}</a>
+            </li>
+           {% endfor %}
+           </ul>
+         </div>
+         {% else %}
+         <div class="tags">{{video.tags|tags|raw}}</div>
+         {% endif %}
+      </div>
+
+      <!-- Bloc pour les boutons sociaux -->
+      {% include 'DocumentBundle:Bloc:socialTDNLinks.html.twig' with {'id': video.idDocument, 'likes': video.likes} %}
+
+      <!-- Bloc pour les commentaires -->
+       {% render 'CommentaireBundle:Public:flux' with {'id': video.idDocument } %}
+  </section>
+
+  <!-- Publications en rapport avec ce sujet -->
+  {% if similaires is defined and similaires is not empty %}
+  <section id="more">
+    {% include 'DocumentBundle:Bloc:documentsSimilaires.html.twig' with {'similaires': similaires, 'type': 'Article'} %}
+  </section>
+  {% endif %}
+
+</article>
+{% endblock %}

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="RedactionBundle_article" pattern="/{rubrique}/article/{id}/{slug}">
+        <default key="_controller">RedactionBundle:Default:article</default>
+        <requirement key="id">\d+</requirement>
+    </route>
+
+    <route id="Redaction_showSelection" pattern="/{rubrique}/selection-shopping/{id}/{slug}">
+        <default key="_controller">RedactionBundle:Shopping:show</default>
+    </route>
+
+    <!-- Routes administratives -->
+
+    <route id="RedactionBundle_articleIndex" pattern="/admin/article/index">
+        <default key="_controller">RedactionBundle:Admin:articleIndex</default>
+    </route>
+
+    <route id="RedactionBundle_articleBrouillons" pattern="/admin/article/mes-brouillons">
+        <default key="_controller">RedactionBundle:Admin:articleBrouillons</default>
+    </route>
+
+    <route id="RedactionBundle_articleAdd" pattern="/admin/article/add">
+        <default key="_controller">RedactionBundle:Admin:articleAdd</default>
+    </route>
+
+    <route id="RedactionBundle_articleModifier" pattern="/admin/article/modifier/{id}">
+        <default key="_controller">RedactionBundle:Admin:articleModifier</default>
+    </route>
+
+    <route id="Redaction_articlePublier" pattern="/admin/article/publier/{id}">
+        <default key="_controller">RedactionBundle:Admin:articlePublier</default>
+    </route>
+
+    <route id="Redaction_articleSupprimer" pattern="/admin/article/supprimer/{id}">
+        <default key="_controller">RedactionBundle:Admin:supprimer</default>
+    </route>
+
+    <route id="Redaction_indexSelection" pattern="/admin/selection-shopping/index">
+        <default key="_controller">RedactionBundle:AdminShopping:ajouter</default>
+    </route>
+
+    <route id="Redaction_ajouterSelection" pattern="/admin/selection-shopping/ajouter">
+        <default key="_controller">RedactionBundle:AdminShopping:ajouter</default>
+    </route>
+
+    <route id="Redaction_modifierSelection" pattern="/admin/selection-shopping/modifier/{id}">
+        <default key="_controller">RedactionBundle:AdminShopping:modifier</default>
+    </route>
+
+    <route id="Redaction_selectionPublier" pattern="/admin/article/publier/{id}/{switch}">
+        <default key="_controller">RedactionBundle:AdminShopping:publier</default>
+    </route>
+
+    <!-- Migration -->
+
+    <route id="Article_migration" pattern="/migration/articles/{fichier}">
+        <default key="_controller">RedactionBundle:Migration:migration</default>
+    </route>
+
+    <!-- Reprise v2 -->
+
+    <route id="RedactionLegacy_articleNode" pattern="/{rubrique}/article/node/{slug},{id},{page}.{_format}">
+        <default key="_controller">RedactionBundle:Legacy:article</default>
+        <requirement key="id">\d+</requirement>
+        <requirement key="page">\d</requirement>
+        <requirement key="_format">html</requirement>
+    </route>
+
+    <route id="RedactionLegacy_article" pattern="/{rubrique}/article/{slug},{id},{page}.{_format}">
+        <default key="_controller">RedactionBundle:Legacy:article</default>
+        <requirement key="id">\d+</requirement>
+        <requirement key="page">\d</requirement>
+        <requirement key="_format">html</requirement>
+    </route>
+
+    <route id="RedactionLegacy_articleSommaire" pattern="/{rubrique}/{sousRubrique}/article/sommaire/index.{_format}">
+        <default key="_controller">RedactionBundle:Legacy:sommaireRubrique</default>
+        <requirement key="id">\d+</requirement>
+        <requirement key="_format">html</requirement>
+    </route>
+
+
+</routes>

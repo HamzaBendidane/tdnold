@@ -1,0 +1,57 @@
+      <h1 class="titre-document titre-{{ rubriquePrincipale(conseil.lnThematique) }}">{{conseil.titre}}</h1>
+      <div class="chapo">
+      {{ conseil.abstract|raw }}
+      </div>
+      <div id="question">
+        {% set auteur = conseil.lnAuteur %}
+        <div class="col-1">
+          <a href="{{ path('NanaBundle_profil', {'id': conseil.lnAuteur.idNana}) }}">
+            <img src="{{ avatar(auteur) }}" />
+          </a>
+        </div>
+        <div class="col-2">
+          <p class="auteur-question">
+            La question de </span> 
+            <a href="{{ path('NanaBundle_profil', {'id': auteur.idNana}) }}"><span class="pseudo">{{auteur.username}}</span></a>, {{ auteur.dateNaissance|age}}
+          </p>
+          {% if conseil.lnImage is not null %}
+          <div class="illustration-conseil" style="margin-top: 20px;max-width:150px;">
+            <a class="popin" href="{{ documentImage(conseil.lnImage, NULL, conseil.lnAuteur.idNana) }}" >
+              <img class="imageNana" src="{{ documentImage(conseil.lnImage, NULL, conseil.lnAuteur.idNana) }}" alt="{{ conseil.lnImage.alt }}" />
+            </a>
+          </div>
+          {% else %}
+          {% endif %}  
+          <div class="question">{{conseil.question|raw}}</div>
+        </div>
+      </div>
+      <div id="reponse">
+        <div class="col-1">
+          <a href="{{ path('NanaBundle_profil', {'id': conseil.lnExpert.idNana}) }}">
+            <img src="{{ avatar(conseil.lnExpert) }}" />
+          </a>
+        </div>
+        <div class="col-2">
+          <p class="bandeau">La réponse de <a href="{{ path('NanaBundle_profil', {'id': conseil.lnExpert.idNana}) }}">{{ conseil.lnExpert.userName }}</a>
+          {% for e in conseil.lnExpert.setExpertises %}
+          <span class="sticker-expertise puce-{{ e.rubrique.slug }}"></span>
+          {% endfor %}
+          </p>
+          <div class="reponse">
+            {% if conseil.lnIllustration in not null %}
+            <div class="illustration-conseil" style="float:right">
+              <a class="popin" href="{{ illustration(conseil) }}" >
+                <img class="imageNana" src="{{ illustration(conseil) }}" alt="{{ conseil.lnIllustration.alt }}" />
+              </a>
+            </div>
+            {% endif %}
+          {{conseil.reponse|raw}}
+          </div>
+          {% if conseil.lnExpert.biographie != '' %}
+          <div class="biographieExpert">
+            <a href="{{ path('NanaBundle_profil', {'id': conseil.lnExpert.idNana}) }}">           
+              {{ conseil.lnExpert.biographie|raw }}
+            </a>
+          </div>
+          {% endif %}
+        </div>

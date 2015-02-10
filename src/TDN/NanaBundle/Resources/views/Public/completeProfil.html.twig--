@@ -1,0 +1,212 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Profil de " ~ me.username %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/profil.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/profil-nana_titre_299x70.png')}}" />
+</div>
+<article id="document-wrapper" class="main article-redaction">
+
+  <section class="contenu main-section">
+<!-- Bloc pour l'affichage des métadonnées de l'article -->
+    <div id="metadata" class="metadata">
+       <p class="auteur">
+          <span class="standardEtiquette">Popularité : </span>   
+          <span class="date-publication">{{ me.popularite|stiletto|raw }}) </span>
+       </p>
+       <p>
+        <span class="standardEtiquette">Statut :</span> 
+        <span class="date-publication">Membre</span></p>
+    </div>
+<!-- Bloc pour l'affichage du contenu du profil -->
+    <div id="corps" class="corps" style="margin-top:20px">
+    <div id="enveloppe-avatar">
+	 <div id="avatar">
+      {% set imgAvatar = avatar(me) %}
+      <a class="popin" href="{{ imgAvatar }}" >
+        <img src="{{ imgAvatar }}" />
+      </a>
+	  </div>
+	   <p id="avatar_switcher">
+      <a href="#">voir ses photos </a>
+    </p>
+    </div>
+
+    <div id="enveloppe-data">
+      <h1>{{ me.username }}</h1>
+      <table id="data">
+        <tr>
+          <td><span class="standardEtiquette">Prénom/Nom</span></td>
+          <td><strong>{{ me.prenom ~ " " ~ me.nom }}</strong></td>
+        </tr> 
+        <tr>
+          <td><span class="standardEtiquette">Email</span></td>
+          <td><strong>{{ me.email }}</strong></td>
+        </tr> 
+        <tr>
+          <td><span class="standardEtiquette">Date de naissance</span></td>
+          <td><strong>{{ me.dateNaissance | date('d m Y') }}</strong></td>
+        </tr>
+        <tr>
+            <td><span class="standardEtiquette">Ville</strong></td>
+            <td><strong>{{ me.ville }}</td>
+        </tr> 
+        <tr>
+            <td><span class="standardEtiquette">Job/Etudes</span></td>
+            <td><strong>{{ me.occupation }}</strong></td>
+        </tr>
+        <tr>
+          <td><span class="standardEtiquette">Membre de </span></td>
+          <td><img src="{{ asset('assets/images/theme/centre/profil/picto_facebook_20x20.png')}}" /> <img src="{{ asset('assets/images/theme/centre/profil/picto_tweeter_20x20.png')}}" /> <img src="{{ asset('assets/images/theme/centre/profil/picto_hellocoton_20x20.png')}}" /></td>
+        </tr>
+		<tr><td><span class="standardEtiquette">Qui est-elle ?</span></br> </br><strong>{{ me.biographie | raw }}</strong></td></tr> 
+      </table>
+    </div>
+    <div id="galerie-perso">
+      <h2>Sa galerie perso</h2>
+      {% if countGaleriePerso > 0 %}
+      {% for proxy in me.galeriePerso%}
+      {% set sourceGalerie = '/web/uploads/documents/profils/'~me.idNana~'/'~proxy.lnImage.fichier %}
+      <a class="popin" href="{{ asset(sourceGalerie)}}" title="{{ proxy.lnImage.titre }}">
+        <img class="vignette-medium" src="{{ asset(sourceGalerie)}}" alt="{{ proxy.lnImage.titre }}" />
+      </a>
+      {% endfor %}
+      {% else %}
+      <p class="warning">Sa galerie perso est encore vide</p>
+      {% endif %}
+    </div>
+	</div>
+  </section>
+
+  <section id="reseau-tdn">
+    <div id="followers">
+      <div class="densite">
+        <span class="taille">{{ me.isFollowed|length }}</span> nana(s)
+      </div>
+      <h2>Elles aiment son profil</h2>
+      {% if me.isFollowed|length > 0 %}
+      <div class="trombines">
+        {% for nana in me.isFollowed %}
+        <img class="vignette" src="{{ asset('assets/images/theme/image-test.jpg')}}" />
+        {% endfor %}
+      </div>
+      {% endif %}
+      <p><a href="{{ path('NanaBundle_follow', { 'nana': me.idNana}) }}">Suis son activité</a></p>
+    </div>
+    <div id="followings">
+      <div class="densite2">
+        <span class="taille">{{ countFollow }}</span> nana(s)
+      </div>
+      <h2>Elle s'intéresse à d'autres</h2>
+      {% if countFollow > 0 %}
+      <div class="trombines">
+        {#% for nana in me.Follow %#}
+        <img class="vignette-medium" src="{{ asset('assets/images/theme/image-test.jpg')}}" />
+        {#% endfor %#}
+      </div>
+      {% endif %}
+    </div>
+    </form>
+  </section>
+
+  <section id="hobbies">
+    <h2>Ce qu'elle aime dans la vie</h2>
+    {% if countHobbies > 0 %}
+    {% for hobby in my_hobbies %}
+    <div class="hobby-wrapper">
+      <div class="titre-hobby">
+        <span class="standardEtiquette">{{ hobby.domaine }}</span> : <span class=""hobby-precisions">{{ hobby.precisions }}</span>
+      </div>
+      <div class="galerie-hobbie">{% for image in hobby.galerieHobby %}
+      <img class="vignette-medium" src="{{ asset('/web/uploads/documents/profils/'~me.idNana~'/'~image.lnImage.fichier)}}" />
+{% endfor %}</div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p class="warning-empty">Cette rubrique est encore vide</p>
+  {% endif %}
+  </section>
+
+  <section id="activite">
+    <h2>Son activité sur TDN</h2>
+    {% if productions == 0 %}
+    <p class="warning-empty">Cette rubrique est encore vide</p>
+    {% else %}
+      {% if my_question is defined %}
+      <section id="ses-questions" class="bloc-production">
+        <h4>Ses questions</h4>
+          {% for p in my_question %}
+          <p class="item-production">{{ p.titre }}</p>
+          {% endfor %}
+      </section>
+      {% endif %}
+    <section id="ses-commentaires"></section>
+      {% if my_reponse is defined %}
+      <section id="ses-reponses" class="bloc-production">
+        <h4>Ses réponses</h4>
+        {% for p in my_reponse %}
+        <p class="item-production">{{ p.titre }}</p>
+        {% endfor %}
+      </section>
+      {% endif %}
+      {% if my_article is defined %}
+      <section id="ses-articles" class="bloc-production">
+        <h4>Ses articles</h4>
+        {% for p in my_article %}
+        <p class="item-production">{{ p.titre }}</p>
+        {% endfor %}
+      </section>
+      {% endif %}
+      {% if my_conseil is defined %}
+      <section id="ses-conseils" class="bloc-production">
+        <h4>Ses demandes</h4>
+        {% for p in my_article %}
+        <p class="item-production">{{ p.titre }}</p>
+        {% endfor %}
+      </section>
+      {% endif %}
+    <section id="ses-infos" class="bloc-production"></section>
+    {% endif %}
+  </section>
+
+  <section id="tdn-like">
+    <h2>Ce qu'elle aime sur TDN</h2>
+    {% if likes is empty %}
+    <p class="warning">Cette rubrique est encore vide</p>
+    {% else %}
+    <section id="">
+      {% for isLiked in likes %}
+      {% endfor %}
+    </section>
+    {% endif %}
+  </section>
+
+</article>
+<script type="text/javascript">
+    $(document).ready(function () {
+      $(".modif-bascule").click(function (event) {
+        event.preventDefault();
+        $(this).parent().parent().next().toggleClass('closed-field open-field');
+      });
+      $("#source-biographie").blur(function () {
+        $("#raw-biographie").html($("#source-biographie").html());
+      });
+      $("#avatar_switcher").click(function (event) {
+        event.preventDefault();
+        $("#selecteur_avatar").toggleClass('closed-field open-field');
+      });
+      $("#galerie_switcher").click(function (event) {
+        event.preventDefault();
+        $("#selecteur_galerie").toggleClass('closed-field open-field');
+      });
+    })
+</script>
+{% endblock %}

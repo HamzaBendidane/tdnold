@@ -1,0 +1,227 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+{% endblock %}
+
+{% block title "Tableau de bord" %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/administration_titre.png')}}" />
+</div>
+
+<h1 class="titrePage">Tableau de bord</h1>
+
+<!-- Brouillons d’articles -->
+{% if articlesBrouillons is defined %}
+	<h2>Articles à l'état de brouillons</h2>
+	{% if articlesBrouillons is empty  %}
+	<p>Aucun</p>
+	{% else %}
+	<table class="adminLog">
+		<caption>{{ articlesBrouillons|length }} en attente d'être publiés</caption>
+		<thead>
+			<tr>
+				<th>Titre de l'article</th>
+				<th>Auteur</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for a in articlesBrouillons %}
+			<tr>
+				<td>{{ a.titre }}</td>
+				<td>{{ a.lnAuteur.prenom ~ ' ' ~ a.lnAuteur.nom }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+{% endif %}
+
+<!-- Conseils à répartir -->
+{% if conseilsDispatch is defined %}
+	<h2>Conseils à répartir</h2>
+	{% if conseilsDispatch is empty  %}
+	<p>Aucun</p>
+	{% else %}
+	<table class="adminLog">
+		<caption>{{ conseilsDispatch|length }} demandes de conseil en attente</caption>
+		<thead>
+			<tr>
+				<th>Titre</th>
+				<th>Auteur</th>
+				<th>Date de soumission</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for a in conseilsDispatch %}
+			<tr>
+				<td>
+					<a href='{{ path('ConseilExpertBundle_deleguer', {'id' : a.idDocument}) }}'>
+		      			{% if a.titre is not empty %}{{a.titre}}{% else %}{{ a.question|slice(0,100)|raw }}{% endif %}
+		      		</a>
+				</td>
+				<td>{{ a.lnAuteur.username }}</td>
+				<td>{{ a.dateSoumission|date('d/m/y') }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+{% endif %}
+
+<!-- Conseils en attente de réponse -->
+{% if conseilsRepondre is not empty %}
+	<h2>Conseils en attente de réponse</h2>
+	{% if conseilsRepondre is empty  %}
+	<p>Aucun</p>
+	{% else %}
+	<table class="adminLog">
+		<caption>{{ conseilsRepondre|length }} en attente</caption>
+		<thead>
+			<tr>
+				<th>Titre</th>
+				<th>Expert</th>
+				<th>Date de soumission</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for a in conseilsRepondre %}
+			<tr>
+				<td>
+		      		<a href='{{ path('ConseilExpertBundle_repondre', {'id' : a.idDocument}) }}'>
+		      			{% if a.titre is not empty %}{{a.titre}}{% else %}{{ a.question|slice(0,100)|raw }}{% endif %}
+		      		</a>
+				</td>
+				{% if is_granted('ROLE_ADMIN') %}
+				<td>{% if a.lnExpert is not null %}{{ a.lnExpert.prenom ~ " " ~ a.lnExpert.nom }}{% endif %}</td>
+				{% endif %}
+				<td>{{ a.dateSoumission|date('d/m/y') }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+{% endif %}
+
+<!-- Conseils en attente de publication -->
+{% if conseilsPublier is defined %}
+	<h2>Conseils en attente de publication</h2>
+	{% if conseilsPublier is empty  %}
+	<p>Aucun</p>
+	{% else %}
+	<table class="adminLog">
+		<caption>{{ conseilsPublier|length }} en attente</caption>
+		<thead>
+			<tr>
+				<th>Titre</th>
+				<th>Auteur</th>
+				<th>Date de soumission</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for a in conseilsPublier %}
+			<tr>
+				<td>
+					<a href='{{ path('ConseilExpertBundle_relire', {'id' : a.idDocument}) }}'>
+		      			{% if a.titre is not empty %}{{a.titre}}{% else %}{{ a.question|slice(0,100)|raw }}{% endif %}
+		      		</a>
+				</td>
+				<td>{{ a.lnAuteur.username }}</td>
+				<td>{{ a.dateSoumission|date('d/m/y') }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+{% endif %}
+
+<!-- Vidéos en attente de publication -->
+{% if videosPublier is defined %}
+	<h2>Vidéos en attente de validation</h2>
+	{% if videosPublier is empty  %}
+	<p>Aucune</p>
+	{% else %}
+	<table class="adminLog">
+		<caption>{{ videosPublier|length }} vidéos en attente de validation</caption>
+		<thead>
+			<tr>
+				<th>Titre</th>
+				<th>Proposition</th>
+				<th>Date de soumission</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for a in videosPublier %}
+			<tr>
+				<td>{{ a.titre }}</td>
+				<td>{{ a.lnAuteur.username }}</td>
+				<td>{{ a.datePublication|date('d/m/y') }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+{% endif %}
+
+<!-- Questions de nanas à valider -->
+{% if questionsValider is defined %}
+	<h2>Conseils en attente de réponse</h2>
+	{% if questionsValider is empty  %}
+	<p>Aucune</p>
+	{% else %}
+	<table class="adminLog">
+		<caption>{{ questionsValider|length }} en attente</caption>
+		<thead>
+			<tr>
+				<th>Titre</th>
+				<th>Auteur</th>
+				<th>Date de soumission</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for a in articlesBrouillons %}
+			<tr>
+				<td>{{ a.titre }}</td>
+				<td>{{ a.lnAuteur.username }}</td>
+				<td>{{ a.datePublication|date('d/m/y') }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+{% endif %}
+
+<!-- Commentaires à modérer -->
+{% if commentairesModerer is defined %}
+	<h2>Conseils en attente de réponse</h2>
+	{% if commentairesModerer is empty  %}
+	<p>Aucun</p>
+	{% else %}
+	<table class="adminLog">
+		<caption>{{ commentairesModerer|length }} en attente</caption>
+		<thead>
+			<tr>
+				<th>Titre</th>
+				<th>Commentateur</th>
+				<th>Date de soumission</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for a in articlesBrouillons %}
+			<tr>
+				<td>{{ a.titre }}</td>
+				<td>{% if filAuteur is not empty %}{{ a.filAuteur.username }}{% else %}Anonyme{% endif %}</td>
+				<td>{{ a.datePublication|date('d/m/y') }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+{% endif %}
+
+{% endblock %}

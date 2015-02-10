@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+ 	<!-- Routes publiques -->
+
+    <route id="BreveBundle_proposer" pattern="/info/proposer">
+        <default key="_controller">BreveBundle:Public:breveProposer</default>
+    </route>
+
+    <route id="BreveBundle_poster" pattern="/info/poster">
+        <default key="_controller">BreveBundle:Public:brevePoster</default>
+    </route>
+
+    <route id="BreveBundle_fil" pattern="/info/fil">
+        <default key="_controller">BreveBundle:Public:fil</default>
+    </route>
+
+    <route id="BreveBundle_filPerso" pattern="/info/fil/perso/{id}">
+        <default key="_controller">BreveBundle:Public:filPerso</default>
+    </route>
+
+ 	<!-- Routes d'administration -->
+
+    <route id="BreveBundle_breveLog" pattern="/admin/info/index">
+        <default key="_controller">BreveBundle:Admin:log</default>
+    </route>
+
+    <route id="Breve_ajouter" pattern="/admin/info/ajouter">
+        <default key="_controller">BreveBundle:Admin:ajouter</default>
+    </route>
+
+    <route id="BreveBundle_adminEnregistrer" pattern="/admin/info/enregistrer">
+        <default key="_controller">BreveBundle:Admin:enregistrer</default>
+    </route>
+
+    <route id="BreveBundle_editer" pattern="/admin/info/editer/{id}">
+        <default key="_controller">BreveBundle:Admin:editer</default>
+    </route>
+
+    <route id="BreveBundle_supprimer" pattern="/admin/info/supprimer/{id}">
+        <default key="_controller">BreveBundle:Admin:supprimer</default>
+    </route>
+
+    <route id="BreveBundle_publier" pattern="/admin/info/publier/{id}">
+        <default key="_controller">BreveBundle:Admin:publier</default>
+    </route>
+
+    <route id="BreveBundle_addBlacklist" pattern="/admin/info/blacklist/{id}">
+        <default key="_controller">BreveBundle:Admin:blacklist</default>
+    </route>
+
+    <!-- Migration -->
+
+    <route id="Breve_migration" pattern="/migration/breves/{fichier}">
+        <default key="_controller">BreveBundle:Migration:migration</default>
+    </route>
+
+    <route id="Breve_import" pattern="/import/breves">
+        <default key="_controller">BreveBundle:Migration:import</default>
+    </route>
+
+    <!-- Reprise v2 -->
+
+    <route id="Breve_sommaireLegacy" pattern="/{rubrique}/infos/fil/index.{_format}">
+        <default key="_controller">BreveBundle:Legacy:index</default>
+        <requirement key="_format">html|php</requirement>
+    </route>
+
+
+
+</routes>

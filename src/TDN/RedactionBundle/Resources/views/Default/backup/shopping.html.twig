@@ -1,0 +1,150 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title selection.titre ~ " | Sélection shopping " ~ selection.rubriques[0].titre  %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/commentaire.css') }}" type="text/css">
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/selection-shopping_titre_299x80.png')}}" />
+</div>
+<article id="article-wrapper" class="main selection-shopping">
+
+  <!-- Contenu de la sélection -->
+   <section class="contenu main-section">
+
+      <!-- Bloc pour l'affichage des métadonnées de la sélection -->
+      <div id="metadata" class="metadata">
+         <p class="auteur">
+            <span class="standardEtiquette">Ecrit par </span> 
+            <a href="{{ path('NanaBundle_profil', { 'id' : selection.lnAuteur.idNana }) }}" class="nom-auteur">{{selection.lnAuteur.prenom ~ " " ~ selection.lnAuteur.nom }} ({% for r in selection.lnAuteur.roles %}{{ r.name }} {% endfor %})</a> le  
+            <span class="date-publication">{{ selection.datePublication|date('d m Y') }}</span>
+         </p>
+         <p>
+          <span class="label">Rubrique :</span> 
+          {% for r in selection.rubriques %}<span class="rubrique-{{ rubriquePrincipale(r) }}">{{ r.titre }}</span>{% endfor %}
+         </p>
+      </div>
+
+      <!-- Bloc pour l'affichage du contenu de la  sélection -->
+      <div id="corps" class="corps">
+         <h1>{{selection.titre}}</h1>
+         <div id="selectionAbstract">
+          {{ selection.abstract|raw }}
+         </div>
+
+         {% set i = 1 %}
+         {% for produit in selection.setProduit %}
+         <div class="diapoProduit {% if i == 1 %}diapoActive{% else %}diapoMasquee{% endif %}" id="selection_{{ i }}">
+          <div class="colonneImage">
+            <div class="imageProduit ombreCentree">
+               <img src="{{ illustration(produit) }}" />
+            </div>
+          </div>
+          <div class="ficheProduit">
+            <h2>{{ produit.titre }}</h2>
+            {% if produit.favori %}
+            <img src="{{ asset('assets/images/theme/centre/shopping/coup2coeurShopping.png') }}" class="coupDeCoeur" />
+            {% endif %}
+            {% if produit.citation is not null %}
+            <a href="{{ path('RedactionBundle_article', {'id': produit.citation.idDocument, 'slug': produit.citation.slug, 'rubrique':produit.citation.rubriques[0].slug}) }}">
+            <img src="{{ asset('assets/images/theme/centre/shopping/citationArticle.png') }}" class="coupDeCoeur" />
+            </a>
+            {% endif %}
+            <div class="produitAbstract">{{ produit.abstract|raw }}</div>
+            <h3>L’avis de TDN</h3>
+            <div class="produitAvis">{{ produit.critique|raw }}</div>
+            <p class="produitPrix"><span class="standardEtiquette">Prix&nbsp;</span>{{ produit.prix }}&nbsp;€</p>
+            <p class="produitPrix">
+              <span class="standardEtiquette">Marque&nbsp;</span>
+              <a href="{{ produit.url }}" target="_blank">{{ produit.marque }}</a>
+            </p>
+          </div>
+         </div>
+         {% set i = i+1 %}
+         {% endfor %}
+
+         {% set i = 1 %}
+         <nav id="paginationSelectionShopping">
+            <button id="boutonSelectionPrecedent" class="boutonPrecedent"></button>
+            {% for i in 1..selection.setProduit|length %}
+            <a href="#selection_{{i}}" class="boutonDiapo {% if i == 1 %}boutonActif{% else %}boutonInactif{% endif %}">{{ i }}</a>
+            {% endfor %}
+            <button id="boutonSelectionSuivant" class="boutonSuivant"></button>
+         </nav>
+      </div>
+
+      <!-- Bloc pour les boutons sociaux -->
+      {% include 'DocumentBundle:Bloc:socialTDNLinks.html.twig' with {'id': selection.idDocument, 'likes': selection.likes} %}
+
+      <!-- Bloc pour les commentaires -->
+      {% render 'CommentaireBundle:Public:flux' with {'id': selection.idDocument } %}
+  </section>
+
+  <!-- Publications en rapport avec ce sujet -->
+  {% if similaires is defined and similaires is not empty %}
+  <section id="more">
+    {% include 'DocumentBundle:Bloc:documentsSimilaires.html.twig' with {'similaires': similaires, 'type': 'Article'} %}
+  </section>
+  {% endif %}
+</article>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      var diapoActive = 1;
+      var nbDiapos = {{ selection.setProduit|length }};
+      $(".boutonDiapo").click(function (e) {
+        e.preventDefault();
+        target = $(this).prop('href').split('_');
+        diapoActive = target[1];
+        diapoID = '#selection_'+diapoActive;
+        $('.diapoActive').toggleClass('diapoActive diapoMasquee');
+        $(diapoID).toggleClass('diapoActive diapoMasquee');
+        $('.boutonActif').toggleClass('boutonActif boutonInactif');
+        $(this).toggleClass('boutonActif boutonInactif');
+      });
+      $("#boutonSelectionPrecedent").click(function (e) {
+        diapoActive -= 1;
+        if (diapoActive < 1) { diapoActive = nbDiapos };
+        diapoID = '#selection_'+diapoActive;
+        $('.diapoActive').toggleClass('diapoActive diapoMasquee');
+        $(diapoID).toggleClass('diapoActive diapoMasquee');
+        $('.boutonActif').toggleClass('boutonActif boutonInactif');
+        $('a[href="'+diapoID+'"]').toggleClass('boutonActif boutonInactif');
+      });
+      $("#boutonSelectionSuivant").click(function (e) {
+        diapoActive += 1;
+        if (diapoActive > nbDiapos) { diapoActive = 1 };
+        diapoID = '#selection_'+diapoActive;
+        $('.diapoActive').toggleClass('diapoActive diapoMasquee');
+        $(diapoID).toggleClass('diapoActive diapoMasquee');
+        $('.boutonActif').toggleClass('boutonActif boutonInactif');
+        $('a[href="'+diapoID+'"]').toggleClass('boutonActif boutonInactif');
+      })
+
+    })
+  </script>
+<script type="text/javascript">
+$(document).ready( function () {
+    window._ttf = window._ttf || [];
+    _ttf.push({
+      format:     'inpicture'
+      ,pid:     22267
+      ,bgColor :    '#FFFFFF'
+      ,slot:      '#corps'
+      ,AdBreaks:    ['%3']
+      ,vast: 'http://ad4.liverail.com/?LR_ADMAP=in::0&LR_VIDEO_POSITION=0&LR_SCHEMA=vast2&LR_AUTOPLAY=0&LR_PUBLISHER_ID=29358&LR_VERTICALS=trucsdenana_fr_inpicture&LR_TITLE=TrucsDeNana_title&LR_VIDEO_ID=TrucsDeNana_videoID&LR_CONTENT=6&LR_PARTNERS=&LR_CATEGORIES=1900&CACHEBUSTER='+(+new Date())
+      ,handlers:    {
+        change: ['#paginationSelectionShopping a', '#paginationSelectionShopping button']
+      }
+    });
+    (function(d){
+      var js, s = d.getElementsByTagName('script')[0];
+      js = d.createElement('script'); js.async = true;
+      js.src = "http://cdn.teads.tv/js/all-v1.js";
+      s.parentNode.insertBefore(js, s);
+    })(window.document);
+  });
+</script>
+{% endblock %}

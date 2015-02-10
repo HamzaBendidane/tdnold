@@ -1,0 +1,36 @@
+<div id="hotconseils">
+	<h3 class="titre"><span>Conseils</span> parmi les plus lus</h3>
+	{% if conseilsPlusLus is empty %}
+	<p class="warning">Pas de conseil publié à l'heure actuelle</p>
+	{% else %}
+	{% for a in conseilsPlusLus %}
+	{% set r = a.lnThematique %}
+	{% if r.slug is not defined %}
+	{% set m = r %}
+	{% else %}
+	{% set m = "" %}
+	{% endif %}
+	<div class="plusLus {{ rubriquePrincipale(r) }}_secondaire" id="c_{{ a.idDocument }}">
+		{% if a.lnIllustration is empty %}
+		    {% set alt = 'Vignette par défaut' %}
+		{% else %}
+		    {% set alt = a.lnIllustration.alt %}
+		{% endif %}
+		<div class="rubriqueMarqueur coin_{{ rubriquePrincipale(r)}}">
+			<a href="{{ path('ConseilExpert_conseil', {'id': a.idDocument, 'slug': a.slug, 'rubrique': r.slug}) }}">
+				<img class="iconex40" src="{{ illustration(a) }}" alt="{{ alt }}" />
+			</a>
+		</div>
+			<div style="margin:0">
+				<a href="{{ path('ConseilExpert_conseil', {'id': a.idDocument, 'slug': a.slug, 'rubrique': r.slug}) }}">{{ m }}{{ a.titre }}</a></div>
+			<p class="credits">
+				{% if a.lnExpert is not null %}
+				Réponse de <a href="{{ path('NanaBundle_profil', {'id': a.lnExpert.idNana})}}">{{ a.lnExpert.prenom~' '~a.lnExpert.nom }}, </a>
+				{% endif %}
+				{{ a.datePublication|laps }}</p>
+	</div>
+	{% endfor %}
+	{% endif %}
+</div>
+
+

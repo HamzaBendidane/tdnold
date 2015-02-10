@@ -1,0 +1,73 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Dernières infos sur TDN" %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/fil.css') }}" type="text/css">
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/web-tdn_titre_299x70.png')}}" />
+</div>
+<article id="article-wrapper" class="main article-redaction">
+
+  <!-- Contenu de l'article -->
+   <section class="contenu main-section">
+
+      <!-- Bloc pour l'affichage des métadonnées de l'article -->
+      <div id="metadata" class="metadata">
+      </div>
+
+      <!-- Bloc pour l'affichage du contenu de l'article -->
+      <div id="corps" class="corps">
+			<div id="fil-info-header">
+				{% if is_granted('ROLE_USER') %} 
+				<form action="{{ path('BreveBundle_poster') }}" method="post" {{ form_enctype(formBreve) }}>
+    				{{ form_row(formBreve.message, {'attr': {'class': 'texteBreve'}}) }}
+    				<p class="signesBreveEnveloppe"><span id="signesBreve">0</span> (sur 250 car. maximum)</p>
+    				{{ form_row(formBreve.url, {'attr': {'size': 80}}) }}
+    				{{ form_row(formBreve.lnRubrique) }}
+    				{{ form_rest(formBreve) }}
+    				<input type="submit" />
+					<img src="{#{ v.vignette }#}" class="" style="width:58px" />
+    			</form>
+    			{% else %}
+    			{% endif %}
+			</div>
+			<div id="fullFilInfo" class="">
+			{% if filInfo is empty %}
+				<p class="warning">Aucune info sur TDN</p>
+			{% else %}
+				{% for i in filInfo %}
+				<div class="blocInfo">
+				    <img class="avatarInfo" src="{{ avatar(i.lnAuteur)}}" />
+					<p class="rubriqueFilInfo {{ i.lnRubrique.slug }}_texte">{{ i.lnRubrique.titre }}</p>
+				    <p class="auteurInfo {{ i.lnRubrique.slug }}_texte">{{ i.lnAuteur.username}}, {{ i.lnAuteur.roles[0].name }}, {{ i.datePublication|laps }}</p>
+				    <p class="auteurRole etiquetteStandard" ></p>
+				    <p class="texteInfo">{{ i.message }}</p>
+				    {% if i.url is not null %}
+				    <a class="urlInfo" href="{{ i.tinyURL }}">{{ i.tinyURL }}</a>
+				    {% endif %}
+				</div>
+				{% endfor %}
+			{% endif %}
+			</div>
+		</div>
+	</section>
+</article>
+<script type="text/javascript">
+	$(document).ready(function () {
+		$("#tdn3_breve_message").keydown(function () {
+			if ($(this).val().length > 250) $(this).val($(this).val().substr(0,250));	
+		});
+		$("#tdn3_breve_message").keyup(function () {
+			$("#signesBreve").html($(this).val().length);
+			if ($(this).val().length > 225) $("#signesBreve").css("color", "#600")
+			else  $("#signesBreve").css("color", "#060");
+		});
+	});
+
+</script>
+
+{% endblock %}

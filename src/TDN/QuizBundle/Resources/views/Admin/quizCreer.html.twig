@@ -1,0 +1,65 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/js/aloha/css/aloha.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+<script src="{{ asset('assets/js/aloha/lib/require.js') }}"></script>
+<script src="{{ asset('assets/js/aloha/lib/aloha.js') }}" data-aloha-plugins="common/ui,common/format,common/highlighteditables,common/link, common/image, common/list, common/table, extra/draganddropfiles"></script>
+{% endblock %}
+
+{% block title "Créer un quiz " %}
+
+{% block contenu_principal %}
+<h1>Nouveau quiz</h1>
+
+<form action="{{ path('quiz_enregistrer') }}" method="post" >
+<input type="hidden" name="action" id="action" value="" />
+<div id="post-conseil" class="formulaire-admin">
+	<p>
+		<label for="titre">Titre :</label>
+		<input type="text" name="titreQuiz" id="titreQuiz" size="60" value="" />
+	</p>
+	<p>Texte de présentation</p>
+	<div id="source-article" style="border:1px solid #999; min-height:200px; overflow:visible"></div>
+	<p>
+		<label>Nombre de questions :</label>
+		<input type="range" name="nombreQuestions" id="nombreQuestions" value='7' min='1' max='20' />
+	</p>
+	<p>
+		<label>Nombre de profils :</label>
+		<input type="text" name="nombreProfils" id="nombreProfils" value='4' min='2' max='8' />
+	</p>
+	<p>
+		<label for="id_photo">Photo : </label>
+		<input type="file" name="photo_web" />
+		<input type="hidden" id="id_photo" name="id_photo" size="6" value="" />
+		Photo
+	</p>
+	<p>
+		<label for="tags">Tags : </label>
+		<input type="text" id="tags" name="tags" size="50" value="" />
+	</p>
+	<p>
+		<label for="date_post">Date de d&eacute;p&ocirc;t ou de mise &agrave; jour : </label>
+		Date de dernière mise à jour
+		<input type="hidden" id="date_post" name="date_post" value="" />
+	</p>
+	<p>
+		<label for="statut">Statut : </label>
+		Statut
+		<span style="margin: auto 8px">
+		</span>
+		<span>Si tu coches cette case, l&rsquo;article sera publi&eacute; sans &ecirc;tre valid&eacute; par la r&eacute;daction</span>
+	</p>
+	
+	<input type="submit" />
+</div>
+</form>
+<script type="text/javascript">
+    Aloha.ready( function() {
+       Aloha.jQuery('#source-article').aloha();
+    });
+</script>
+{% endblock %}

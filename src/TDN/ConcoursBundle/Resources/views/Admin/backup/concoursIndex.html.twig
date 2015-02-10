@@ -1,0 +1,59 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+{% endblock %}
+
+{% set titrePage = "Liste des jeux-concours" %}
+{% block title titrePage %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/administration_titre.png')}}" />
+</div>
+<h1 class="titrePage">{{ titrePage }}</h1>
+
+<table class="adminLog">
+	<thead>
+		<tr>
+			<th class="colonneId">Id</th>
+			{% for colonne in colonnesList %}
+			<th> 
+			<a href='{{ path('ConcoursBundle_index', {'ordre' : colonne}) }}'>{{ colonne }} </a>
+			</th>
+			{% endfor %}
+			{% for colonne in actionsList %}
+			<th class="colonneAction"> {{ colonne }} </th>
+			{% endfor %}
+		</tr>
+	</thead>
+	{% if Liste is empty %}
+		<tr>
+		<td colspan='3' class='no-content'>Aucn jeu-concours n’a été créé sur TDN</td>
+	</tr>
+	{% else %}
+	{% for element in Liste %}
+	<tr class="nana">
+		<td class="colonneId">{{ element.idDocument }}</td>
+   		<td>
+      		<a href="{{ path('Concours_reviser', {'id': element.idDocument}) }}">{{ element.titre }}</a>
+   		</td>
+   		<td>
+   			{#{ element.filParticipants|length }#}
+   		</td>
+  		<td>
+   			{{ element.statut }}
+   		</td>
+   		{% for action in actionsRoutesList %}
+   		<td class="colonneAction">
+  			<a href='{{ path( action, {'id' : element.idDocument}) }}'>Faire</a>
+   		</td>
+   		{% endfor %}
+	</tr>
+	{% endfor %}
+	{% endif %}
+</table>
+{% endblock %}

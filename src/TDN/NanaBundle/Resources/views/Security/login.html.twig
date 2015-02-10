@@ -1,0 +1,20 @@
+{# src/Acme/SecurityBundle/Resources/views/Security/login.html.twig #}
+
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{#% block title "Connecte-toi à Truc de Nana" %#}
+
+
+{% block contenu_principal %}
+{% if error %}
+    <div>{{ error.message }}</div>
+{% endif %}
+<h1>Connecte-toi sur TDN</h1>
+{% render "NanaBundle:Security:blockLogin" %}
+<p class="inviteInscription">
+	<a href="{{ path('Nana_passwordResetS1') }}" class="lienFleche">J'ai perdu mes identifiants ? 
+		<img  src="{{ asset('assets/images/theme/tetiere/mytdn/bt_fleche droite.png')}}" align="absmiddle"style="margin-right:10px"/>
+	</a> 
+	<a href="{{ path('NanaBundle_registerForm') }}" class="lienFleche popin">Inscris-toi sur Trucdenana.com <img  src="{{ asset('assets/images/theme/tetiere/mytdn/bt_fleche droite.png')}}" align="absmiddle"/></a>
+</p>				
+{% endblock %}

@@ -1,0 +1,176 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title main.titre ~ " | Feuillet de dossier " ~ main.lnDossier.rubriques[0].titre  %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/dossier.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/commentaire.css') }}" type="text/css">
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/dossiers-redac_titre_299x80.png')}}" />
+</div>
+<article id="article-wrapper" class="main article-redaction">
+
+  <!-- Contenu de l'article -->
+   <section class="contenu main-section">
+
+      <!-- Bloc pour l'affichage des métadonnées de l'article -->
+      <div id="metadata" class="metadata">
+         <p class="auteur">
+           <span class="standardEtiquette">Ecrit par </span> 
+            <a href="{{ path('NanaBundle_profil', { 'id' : main.lnAuteur.idNana }) }}" class="nom-auteur">{{main.lnAuteur.prenom ~ " " ~ main.lnAuteur.nom }} ({% for r in main.lnAuteur.roles %}{{ r.name }}{% endfor %})</a>,<span class="standardEtiquette">le </span>  
+            <span class="date-publication">{{ main.datePublication |date('d/m/Y') }}</span>
+         </p>
+     <p class="liste-rubriques">
+      <span class="standardEtiquette">Rubrique :</span> 
+      {% for r in main.lnDossier.rubriques %}
+        <a href="{{path('Core_sommaire', {'slug': r.slug})}}">
+          <span class="rubrique-{{ rubriquePrincipale(r) }}">{{ r.titre }}
+        </a>
+      {% endfor %}
+      </span>
+     </p>
+      </div>
+
+      <!-- Bloc pour l'affichage du contenu de l'article -->
+      <div id="corps" class="corps">
+         <h1 class="titre-document titre-{{ rubriquePrincipale(main.lnDossier.rubriques[0]) }}">{{main.lnDossier.titre}} : <span class="titre-feuillet" style="color:#777">{{ main.titre }}</span></h1>
+          <!-- Parties du dossier en tabulations -->
+          <div id="flipboard-feuillets">
+            <div id='ruler'>
+              <span>Feuillets du dossier : </span>
+              {% set nf = 0 %}
+              {% for f in feuillets %}
+              {% if f.idDocument == main.idDocument %}
+              {% set present = 'boutonActif' %}
+              {% else %}
+              {% set present = 'boutonInactif' %}
+              {% endif %}
+              {% set index = nf+1 %}
+              <span id="feuilletButton_{{ index }}" class="lien-feuillet {{ present }}">
+                <a href="{{ path('DossierRedaction_feuillet',  {'slug':feuillets[nf].slug, 'id':feuillets[nf].idDocument, 'rubrique': main.lnDossier.rubriques[0].slug}) }}" title="{{ feuillets[nf].titre }}" class="flipper">
+                  {{ index }}
+                </a>
+              </span>
+              {% set nf = nf + 1 %}
+            {% endfor %}
+            </div>
+            <div class="ombre-droite" style="padding:0 10px;">
+              <div class="cover" style="padding-bottom:10px">
+                <div class="chapo">{{ main.abstract|raw }}</div>
+                <div class="rawTexte texteFeuillet">
+                {% if type == 'article' %}
+                {{main.corps|raw}}
+                {% elseif type == 'video' %}
+                {% include 'VideoBundle:Bloc:videoContent.html.twig' with {'video': main, 'codeIntegration': codeIntegration } %}
+                {% elseif type == 'selection' %}
+                {% set i = 1 %}
+                 {% for produit in main.setProduit %}
+                 <div class="diapoProduit {% if i == 1 %}diapoActive{% else %}diapoMasquee{% endif %}" id="selection_{{ i }}">
+                  <div class="colonneImage">
+                    <div class="imageProduit ombreCentree">
+                       <img src="{{ illustration(produit) }}" />
+                    </div>
+                  </div>
+                  <div class="ficheProduit">
+                    <h2>{{ produit.titre }}</h2>
+                    {% if produit.favori %}
+                    <img src="{{ asset('assets/images/theme/centre/shopping/coup2coeurShopping.png') }}" class="coupDeCoeur" />
+                    {% endif %}
+                    {% if produit.citation is not null %}
+                    <a href="{{ produit.citation|targetURL }}">
+                    <img src="{{ asset('assets/images/theme/centre/shopping/citationArticle.png') }}" class="coupDeCoeur" />
+                    </a>
+                    {% endif %}
+                    <div class="produitAbstract">{{ produit.abstract|raw }}</div>
+                    <h3>L’avis de TDN</h3>
+                    <div class="produitAvis">{{ produit.critique|raw }}</div>
+                    <p class="produitPrix"><span class="standardEtiquette">Prix&nbsp;</span>{{ produit.prix }}&nbsp;€</p>
+                    <p class="produitPrix">
+                      <span class="standardEtiquette">Marque&nbsp;</span>
+                      <a href="{{ produit.url }}" target="_blank">{{ produit.marque }}</a>
+                    </p>
+                  </div>
+                 </div>
+                 {% set i = i+1 %}
+                 {% endfor %}
+
+                 {% set i = 1 %}
+                 <nav id="paginationSelectionShopping">
+                    <button id="boutonSelectionPrecedent" class="boutonPrecedent"></button>
+                    {% for i in 1..main.setProduit|length %}
+                    <a href="#selection_{{i}}" class="boutonDiapo {% if i == 1 %}boutonActif{% else %}boutonInactif{% endif %}">{{ i }}</a>
+                    {% endfor %}
+                    <button id="boutonSelectionSuivant" class="boutonSuivant"></button>
+                 </nav>
+
+                <script type="text/javascript">
+                  $(document).ready(function () {
+                    var diapoActive = 1;
+                    var nbDiapos = {{ main.setProduit|length }};
+                    $(".boutonDiapo").click(function (e) {
+                      e.preventDefault();
+                      target = $(this).prop('href').split('_');
+                      diapoActive = target[1];
+                      diapoID = '#selection_'+diapoActive;
+                      $('.diapoActive').toggleClass('diapoActive diapoMasquee');
+                      $(diapoID).toggleClass('diapoActive diapoMasquee');
+                      $('.boutonActif').toggleClass('boutonActif boutonInactif');
+                      $(this).toggleClass('boutonActif boutonInactif');
+                    });
+                    $("#boutonSelectionPrecedent").click(function (e) {
+                      diapoActive -= 1;
+                      if (diapoActive < 1) { diapoActive = nbDiapos };
+                      diapoID = '#selection_'+diapoActive;
+                      $('.diapoActive').toggleClass('diapoActive diapoMasquee');
+                      $(diapoID).toggleClass('diapoActive diapoMasquee');
+                      $('.boutonActif').toggleClass('boutonActif boutonInactif');
+                      $('a[href="'+diapoID+'"]').toggleClass('boutonActif boutonInactif');
+                    });
+                    $("#boutonSelectionSuivant").click(function (e) {
+                      diapoActive += 1;
+                      if (diapoActive > nbDiapos) { diapoActive = 1 };
+                      diapoID = '#selection_'+diapoActive;
+                      $('.diapoActive').toggleClass('diapoActive diapoMasquee');
+                      $(diapoID).toggleClass('diapoActive diapoMasquee');
+                      $('.boutonActif').toggleClass('boutonActif boutonInactif');
+                      $('a[href="'+diapoID+'"]').toggleClass('boutonActif boutonInactif');
+                    })
+
+                  })
+                </script>
+                {% endif %}
+                </div>
+                <div class="tags">{{main.tags|tags|raw}}</div>
+              </div>
+            </div>
+      </div>
+
+      <!-- Bloc pour les boutons sociaux -->
+      {% include 'DocumentBundle:Bloc:socialTDNLinks.html.twig' with {'id': main.idDocument, 'likes': main.likes} %}
+
+      <!-- Bloc pour les commentaires -->
+      {% render 'CommentaireBundle:Public:flux' with {'id': main.idDocument } %}
+  </section>
+
+  {% if more is defined %}
+  <!-- Bloc des contenus proches -->
+  {% include 'DocumentBundle:Bloc:contenusAnalogues.html.twig' with {'more': 'more'} %}
+  {% endif %}
+
+</article>
+<script type="text/javascript">
+  $(document).ready(function() {
+    console.log('Traitement des URL images');
+    $('#article-wrapper img').each(function() {
+      var source = $(this).attr('src');
+      var radix = source.substr(0,7);
+      if (radix == '/photos') {
+        $(this).attr('src', 'http://www.trucdenana.com'+source);
+      }
+    })
+  })
+</script>
+{% endblock %}

@@ -1,0 +1,77 @@
+<div id="side-pub" class="centre">
+	<script type="text/javascript">
+		sas_pageid='26310/175244'; // Page : Blog_Trucsdenana/toutes-les-pages
+		sas_formatid=3658;  // Format : Blogs_Placement_300Droite 300x600
+		sas_target='';   // Targeting
+		SmartAdServer(sas_pageid,sas_formatid,sas_target);
+	</script>
+	<noscript>
+		<a href="http://network.aufeminin.com/call/pubjumpi/26310/175244/3658/M/[timestamp]/?">
+			<img src="http://network.aufeminin.com/call/pubi/26310/175244/3658/M/[timestamp]/?" border="0" alt="" />
+		</a>
+	</noscript>
+</div>
+<div id="bloc-inscription" class="centre">
+<div id="membres-inscription">
+<img src="{{ asset('assets/images/theme/centre/avatar_profil/avatar5 80x95.png') }}" width="40px" height="40px" />
+<img src="{{ asset('assets/images/theme/centre/avatar_profil/avatar5 80x95.png') }}" width="40px" height="40px" />
+<img src="{{ asset('assets/images/theme/centre/avatar_profil/avatar5 80x95.png') }}" width="40px" height="40px" />
+</div>
+	<a href="{{ path('NanaBundle_registerForm') }}" class="lienFleche popin">
+		<img src="{{ asset('assets/images/theme/sidebar/bt_deviens-membre.png') }}" style="float:right; margin-top:3px" />
+	</a>
+</div>
+
+<div id="bloc-inscription-newsletter" class="centre">
+	<img class="opener" src="{{ asset('assets/images/theme/sidebar/bt_newsletter.png') }}" />
+	<div id="formul_newsletter" class="openTarget closedBlockNewsletter">
+		<form name="inscription_newsletter" action="{{ path('Newsletter_simpleInscription') }}" method="post" enctype="">
+			<label for="newsletter">Ton e-mail :</label>
+			<input id="newsletter" type="email" size="40" name="newsletter">
+			<input id="envoyer" type="submit" value="M’inscrire" name="envoyer">
+		</form>
+	</div>
+</div>
+
+<div id="bloc-facebook-friends" class="centre">
+	<div id="fb-root"></div>
+	<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+	<fb:like-box href="http://www.facebook.com/pages/Truc-de-Nana/131595163520357" width="254" show_faces="true" border_color="" stream="false" header="false"></fb:like-box>
+</div>
+
+<!--div id="cloud">
+<h3>  Tes sujets favoris </h3>
+<a href="#">Lorem ipsum</a> <a href="#">sed et </a> <a href="#">eruditi</a> <a href="#">deterruisset </a> <a href="#">perfecto rationibus</a> <a href="#">eu per</a> <a href="#">magna</a> <a href="#">temporibus</a> <a href="#">Mazim</a> <a href="#">civibus id duo</a> <a href="#"> aliquid </a> <a href="#">fabellas</a>
+</div-->
+
+<div class="twitter-widget">
+<a class="twitter-timeline"  href="https://twitter.com/search?q=%23trucsdenana"  data-widget-id="325622056693665793">Tweets concernant "#trucsdenana"</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</div>
+
+
+
+<div id="bloc-suivre-tdn" class="centre">
+	<img src="{{ asset('assets/images/theme/sidebar/cadre_pince.png') }}"/>
+	<div id="suivre-tdn">
+
+		{% render "DossierRedactionBundle:Partial:showDossierSidebar" %}
+				
+		{#% render "QuizBundle:Partial:showQuizSidebar" with {'rubrique': 'tous'} %#}
+				
+		{% render "ConcoursBundle:Partial:showConcoursSidebar" %}
+		
+		<img src="{{ asset('assets/images/theme/sidebar/cadre_pince_contact.png') }}" />
+		<div class="contenu-suivre-tdn2"> 
+			<p>Tu veux poser une question, signaler un bug, suggérer des améliorations, etc. Tu peux le faire <a href="{{ path('Core_contact') }}">via ce formulaire</a>
+			</p>
+		 </div>
+		</div> <img src="{{ asset('assets/images/theme/sidebar/foot_cadre-pince.png') }}" />
+</div>
+<script tpe="test/javascript">
+	$(document).ready(function() {
+		$('.opener').click(function() {
+			$(this).parent().children('.openTarget').toggleClass('openBlockNewsletter closedBlockNewsletter');
+		});
+	});
+</script>

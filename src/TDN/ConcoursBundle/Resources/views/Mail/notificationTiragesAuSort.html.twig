@@ -1,0 +1,12 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>Les jeux-concours suivant sont terminés et attendent de connaître leurs gagnants :</p>
+<ul>
+{% for c in concours %}
+<li>
+	<a href="{{ path('Concours_reviser', {'id': c.idDocument}) }}">{{ c.titre }}</a>
+</li>
+{% endfor %}
+</ul>
+{% endblock %}

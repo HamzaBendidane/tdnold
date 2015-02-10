@@ -1,0 +1,121 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/js/aloha/css/aloha.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/colorbox.css') }}" />
+{% endblock %}
+
+{% block local_header_scripts %}
+<script src="{{ asset('assets/js/aloha/lib/require.js') }}"></script>
+<script src="{{ asset('assets/js/aloha/lib/aloha.js') }}" data-aloha-plugins="common/ui,common/format,common/highlighteditables,common/link, common/image, common/list, common/table, extra/draganddropfiles"></script>
+<script src="{{ asset('assets/js/jquery.colorbox-min.js') }}"></script>
+
+{% endblock %}
+
+{% block title titreDetail %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/administration_titre.png')}}" />
+</div>
+
+<h1>{{ titreDetail }}</h1>
+<div>{{ form_errors(form) }}</div>
+
+{% if TDNDoc_id is defined %}
+<form action="{{ path(formCallback, {'id': TDNDoc_id }) }}" class="adminForm adminDetail" id="formDetailDocument" name="formDetailDocument" method="post" {{ form_enctype(form) }} >
+{% else %}
+<form action="{{ path(formCallback) }}" class="adminForm adminDetail" id="formDetailDocument" name="formDetailDocument" method="post" {{ form_enctype(form) }} >
+{% endif %}
+	{{ form_widget(form._token) }}
+	{#{ form_row(form.typeDocument), {'attr' : {'value' : typeDocument }}}#}
+	<input type="submit" />
+
+	<div id="postDocument" class="formAdminData">
+		<section id="titreDocument" class="form-section">
+			<div class="lineWidget">
+				{{ form_row(form.titre, {'attr' : {'class':'borderedInput', 'size':'50' }}) }}
+			</div>
+			<div class="lineWidget">
+				{{ form_row(form.slug, {'attr' : {'class':'borderedInput', 'size':'50' }}) }}
+			</div>
+		</section>	
+
+		<section id="contenuDocument" class="form-section section-contenu">
+		{% block form_contenuDocument %}
+		{% endblock %}
+		</section>
+
+		<section id="metaDocument" class="form-section">
+			<div class="fileWidget">
+				{% if pathIllustration is defined and pathIllustration is not empty %}
+				<a href="{{ pathIllustration }}" rel="apercu">
+					<img src="{{ pathIllustration }}" class="apercu" />
+				</a>
+				{% endif %}
+				{{ form_row(form.lnIllustration, {'attr' : { 'class':'imageSelecteur' }}) }}
+			</div>
+			<div class="lineWidget">
+				{{ form_row(form.tags) }}
+			</div>
+			<div class="choiceWidget">
+				{{ form_row(form.statut, {'attr' : { 'class':'choices' }}) }}
+				<span>Si tu coches cette case, l&rsquo;article sera publi&eacute; sans &ecirc;tre valid&eacute; par la r&eacute;daction</span>
+			</div>
+			<div class="lineWidget">
+				{{ form_row(form.version) }}
+			</div>
+			<div class="lineWidget">
+				<div id="widgetRubriques"></div>
+				<p><a href="#" id="boutonAjoutRubrique" class="collectionPush">Insère le contenu dans une/des rubrique/s</a></p>
+			    {#{ form_row(form.rubriques, {'attr': {'class': 'modeleFormRubrique'}}) }#}
+			    {{ form_row(formThematiques.rubriques, {'attr': {'class': 'modeleFormRubrique'}}) }}
+			</div>
+		</section>
+
+		<section id="promotionDocument">
+			<div class="choiceWidget">
+				<label for="miseEnAvant">Mettre en avant : </label>
+				<input type="checkbox" name="miseEnAvant" id="miseEnAvant" class="TDN_checkbox" value="1" {% if isChecked is defined %}checked="checked"{% endif %} />
+			</div>
+			<div id="section_miseEnAvant" class="tiroirFerme">
+				<div class="lineWidget">
+					{{ form_row(formSlider.pitch) }}
+				</div>
+				<div class="choiceWidget">
+					{{ form_row(formSlider.statut, {'attr' : { 'class':'choices' }}) }}
+				</div>
+				<div class="fileWidget">
+					{{ form_row(formSlider.lnCover, {'attr' : { 'class':'imageSelecteur' }}) }}
+				</div>
+			</div>
+			{{ form_rest(formSlider) }}
+		</section>
+	</div>
+
+	<input type="submit" />
+
+</form>
+<script type="text/javascript">
+
+  $(document).ready(function () {
+    $("#boutonAjoutRubrique").click(function (event) {
+      event.preventDefault();
+      var $holder = $(".modeleFormRubrique");
+      var prototype = $holder.attr('data-prototype');
+      var newForm = prototype.replace(/__name__/g, $holder.children().length);
+      $holder.append(newForm);
+      return false;
+    });
+    $(".apercu").colorbox();
+    if ($('#miseEnAvant').is(':checked')) {
+    	$('#section_miseEnAvant').toggleClass('tiroirOuvert tiroirFerme')
+    }
+  })
+
+</script>
+{% block form_script%}
+{% endblock %}
+
+{% endblock %}

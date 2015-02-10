@@ -1,0 +1,63 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+{% endblock %}
+
+{% block title "Mes articles en cours" %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/administration_titre.png')}}" />
+</div>
+
+<h1 class="titrePage">Mes articles en cours ({{ articlesList|length }})</h1>
+
+<table class="adminLog">
+	<thead>
+		<tr>
+			<th class="colonneId">Id</th>
+			{% for colonne in colonnesList %}
+			<th> 
+			<a href='{{ path('RedactionBundle_articleIndex', {'ordre' : colonne}) }}'>{{ colonne }} </a>
+			</th>
+			{% endfor %}
+			{% for clef, colonne in actionsList %}
+			<th class="colonneAction"> {{ clef }} </th>
+			{% endfor %}
+		</tr>
+	</thead>
+	{% if articlesList is empty %}
+		<tr>
+		<td colspan='3' class='no-content'>Aucune article n'a été écrit à cette heure</td>
+	</tr>
+	{% else %}
+	{% for article in articlesList %}
+	<tr class="article">
+		<td class="colonneId">{{ article.idDocument }}</td>
+   		<td>
+      		<a href='{{ path('RedactionBundle_articleModifier', {'id' : article.idDocument}) }}'>{{ article.titre }}</a>
+   		</td>
+   		<td>
+   			{#% for role in nana.roles %#}
+   			{#{ role.name }#} {{ article.lnAuteur.username}}
+      		{#% endfor %#}
+   		</td>
+   		{% for clef, colonne in actionsList %}
+   		{% if colonne['controleur'] is iterable %}
+   		{% set action = attribute(article, colonne['property']) %}
+   		{% else %}
+   		{% set action = colonne['action'] %}
+   		{% endif %}
+   		<td class="colonneAction">
+      		<a href='{{ path( colonne['controleur'], {'id' : article.idDocument}) }}'>{{ action }}</a>
+   		</td>
+   		{% endfor %}
+	</tr>
+	{% endfor %}
+	{% endif %}
+</table>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>{{ sender }} a joué à un jeu-concours sur www.trucsdenana.com et t'envoie cette invitation pour que tu puisses y participer aussi, si tu le souhaites.</p>
+<p>Le jeu-concours a pour titre : <a href="http://www.trucsdenana.com{{ path('Concours_show', {'id': id, 'slug': slug }) }}">{{ titre }}</a></p>
+<p>Si tu veux jouer, il suffit de suivre le lien.</p>
+{% endblock %}

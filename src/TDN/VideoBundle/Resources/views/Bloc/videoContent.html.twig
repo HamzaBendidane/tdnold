@@ -1,0 +1,8 @@
+<h1 class="titre-document titre-{{ rubriquePrincipale(video.rubriques[0]) }}">{{ video.titre }}</h1>
+<div style="display:block; margin:0 auto">
+{{ codeIntegration|raw }}
+</div>
+<div style="display:block;clear:both">
+<p><span class="standardEtiquette">Durée : </span>{{ video.duree }}</p>
+<div>{{ video.abstract|raw }}</div>
+</div>

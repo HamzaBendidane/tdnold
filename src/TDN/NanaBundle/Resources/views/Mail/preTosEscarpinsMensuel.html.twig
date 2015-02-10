@@ -1,0 +1,10 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>Voici la liste des Nanas qui peuvent partciper au tirage au sort des escarpins pour ce mois :</p>
+<ul>
+	{% for nana in data_liste%}
+	<li>{{ nana['texte'] }}</li>
+	{% endfor %}
+</ul>
+{% endblock %}

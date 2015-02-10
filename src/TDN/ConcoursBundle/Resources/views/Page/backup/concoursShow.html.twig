@@ -1,0 +1,143 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title concours.titre ~ " | Jeu-concours " ~ concours.rubriques[0].titre  %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/concours.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/commentaire.css') }}" type="text/css">
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+  <a href="{{ path('Concours_sommaire') }}">
+   <img src="{{ asset('assets/images/theme/centre/titres/jeux-concours_titre.png')}}" />
+  </a>
+</div>
+<article id="article-wrapper" class="main jeu-concours">
+
+  <!-- Contenu de l'article -->
+  <section class="contenu main-section">
+
+    <!-- Bloc pour l'affichage des métadonnées de l'article -->
+    <div id="metadata" class="metadata">
+       <p class="auteur">
+        <span class="standardEtiquette">Proposé par</span>  
+        <span class="nom-auteur">{{ concours.sponsor }}</a>, <span class="standardEtiquette">jusqu'au </span>  
+        <span class="date-publication">{{ concours.dateArret |date('d/m/Y') }}</span>
+       </p>
+     <p class="liste-rubriques">
+      <span class="standardEtiquette">Rubrique :</span> 
+      {% for r in concours.rubriques %}
+        <a href="{{path('Core_sommaire', {'slug': r.slug})}}">
+          <span class="rubrique-{{ rubriquePrincipale(r) }}">{{ r.titre }}
+        </a>
+      {% endfor %}
+      </span>
+     </p>
+    </div>
+
+    <!-- Bloc pour l'affichage du contenu du jeu-concours -->
+    <div id="corps" class="corps block-concours">
+      <h1 class="titre-document titre-{{ rubriquePrincipale(concours.rubriques[0]) }}">{{concours.titre}}</h1>
+      <div class="presentation">
+        <img src="{{ illustration(concours)}}" class="illustrationConcours" />
+        <div class="texte texteConcours rawTexte">
+          {{concours.abstract|raw}}
+        </div>
+        <div class="texte texteConcours rawTexte">
+          {{concours.corps|raw}}
+        </div>
+      </div>
+
+      <form action="{{ path('Concours_participer', {'id':concours.idDocument}) }}" style="clear:both" class="publicForm" id="formDetailDocument" name="formDetailDocument" method="post" {{ form_enctype(form) }} >
+
+        {% block variante_concours %}
+        {% endblock %}
+
+        <div class="data-destinataire">
+         {% if date(concours.dateArret) >= date() %}
+          {% if app.user.idNana is defined %}
+             {#{ app.user.email }#}
+          {% elseif concours.open == 1 %}
+            <div class="lineWidget">
+              {{ form_row(form.mailParticipant, {'attr': {'style': 'display:block'}})}}
+            </div>
+          {% else %}
+            <div>
+              <p>Ce jeu-concours est réservé aux membres de la communauté TDN. Il ne suffit pas de laisser un commentaire pour participer au jeu-concours. Il faut <ol><li>Être inscrit(e) car le jeu est réservé aux membres de la communauté</li><li>Et valider sa participation en cliquant sur le bouton «&nbsp;Participe&nbsp;!&nbsp;»</li></ol></p>
+              <p><a href="{{ path('NanaBundle_registerFormConcours') }}" class="popin">Je m'inscris pour participer au jeu-concours</a><br/><strong>- ou  -</strong><br/><a href="{{ path('NanaBundle_popinLogin') }}" class="popin">Je suis déjà inscrit(e) sur TDN et me connecte pour participer</a></p>
+            </div>
+          {% endif %}
+          {% if (concours.open == 1) or (app.user.idNana is defined) %}
+          <div class="lineWidget">
+             <p class="warning">Pour participer au jeu-concours, il ne suffit pas de laisser un commentaire. <strong>Il faut valider sa participation en cliquant sur le bouton «&nbsp;Participe&nbsp;!&nbsp;»</strong></p>
+            <p>Augmente tes chances de gagner en invitant tes ami(e)s à participer&nbsp;! Pour chaque e-mail ajouté, une chance supplémentaire.</p>
+            <div id="widgetInvitations"></div>
+            <p><a href="#" id="boutonAjoutEmail" class="collectionPush">Ajoute l’email d’un(e) ami(e)</a></p>
+            {{ form_widget(formInvite.emails, {'attr': {'class': 'modeleFormInvite'}}) }}
+          </div>
+          <input type="submit" value="Participe !" name="participer" />
+          {% endif %}
+        {% else %}
+          <p>Malheureusement, ce jeu-concours est désormais fermé.</p>
+          {% if gagnants is defined%}
+          {% if gagnants|length == 1 %}
+          <p>Voici le gagnant :</p>
+          {% else %}
+          <p>Voici la liste des {{ gagnants|length }} gagnants :</p>
+          {% endif %}
+          <ul>
+          {% for g in gagnants %}
+          <li style="margin:10px 0">
+            <!--img src="{#{ avatar(g.idNana) }#}" class="avatar-image" style = "max-width:40px; vertical-align:middle" alt="Avatar de {#{ g['username'] }#}"/-->
+            <a href="{{path('NanaBundle_profil', {'id': g.idNana}) }}">{{ g['username'] }}</a>
+          </li>
+          {% endfor %}
+          </ul>
+          {% endif %}
+        {% endif %}
+        </div>
+
+        {{ form_row(form._token) }}
+      </form>
+    </div>
+
+      {% block votes_reponses %}
+      {% endblock %}
+
+      <!-- Bloc pour les boutons sociaux -->
+      {% include 'DocumentBundle:Bloc:socialTDNLinks.html.twig' with {'id': concours.idDocument, 'likes': concours.likes} %}
+
+      <!-- Bloc pour les commentaires -->
+      {% render 'CommentaireBundle:Public:flux' with {'id': concours.idDocument } %}
+  </section>
+
+  <!-- Publications en rapport avec ce sujet -->
+  {% if similaires is defined and similaires is not empty %}
+  <section id="more">
+    {% include 'DocumentBundle:Bloc:documentsSimilaires.html.twig' with {'similaires': similaires, 'type': 'Article'} %}
+  </section>
+  {% endif %}
+
+  <script type="text/javascript">
+
+  $(document).ready(function () {
+    $("#boutonAjoutEmail").click(function (event) {
+      event.preventDefault();
+      var $holder = $(".modeleFormInvite");
+      var prototype = $holder.attr('data-prototype');
+      var newForm = prototype.replace(/__name__/g, 1 + $("#widgetInvitations").children().length);
+      var newForm = newForm.replace(/label__/g, '.');
+      $("#widgetInvitations").append(newForm);
+      return false;
+    });
+  })
+
+  </script>
+
+
+  {#% if more %#}
+    {#% include 'openConcours.html.twig' with more %#}
+  {#% endif %#}
+</article>
+{% endblock %}

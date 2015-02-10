@@ -1,0 +1,35 @@
+<div id="articles">
+	<h3 class="titreBicolore"><span class="strong">Articles</span> de la Rédac’</h3>
+	<div class="masqueContenu nano">
+	<!--[if gte IE 9]>
+   <style type="text/css">
+   .gradient {
+    filter: none;
+   }
+  </style>
+  <![endif]-->
+	{% if articlesRecents is empty %}
+	<p class="warning">Pas d'article publié à l'heure actuelle</p>
+	{% else %}
+		<div class="content">
+		{% for a in articlesRecents %}
+			<div class="blocArticle">
+				{% if a.statut == 'ARTICLE_PUBLIE' %}
+				{% set controleur = 'RedactionBundle_article' %}
+				{% else %}
+				{% set controleur = 'Redaction_showSelection' %}
+				{% endif %}
+				{% if true %}
+				<a href="{{ a|targetURL }}">
+				{% else %}
+				<a href="#">
+				{% endif %}
+		 			<img class="iconex200" src="{{ illustration(a, 'SQUARE')}}"{% if a.lnIllustration is not empty %} alt="{{ a.lnIllustration.alt }}" title="{{ a.lnIllustration.alt }}{% endif %}" />
+	 				<p class="apercuTitre">{{ a.titre }}</p>
+				</a>
+ 			</div>
+		{% endfor %}
+		</div>
+	{% endif %}
+	</div>
+</div>

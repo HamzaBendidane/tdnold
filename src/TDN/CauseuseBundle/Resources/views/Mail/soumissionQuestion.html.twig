@@ -1,0 +1,7 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>{{ pseudo }} a soumis une question à la communauté des nanas. Voici le texte de la question :</p>
+<div>{{ question | raw }}</div>
+<p>Tu peux la valider ou la refuser en te rendant sur la <a href="{{ path('CauseuseBundle_pending') }}">page d'administration</a>.</p>
+{% endblock %}

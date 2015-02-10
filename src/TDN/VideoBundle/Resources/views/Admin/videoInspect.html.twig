@@ -1,0 +1,54 @@
+{% extends 'DocumentBundle:Admin:documentDetail.html.twig' %}
+
+{% block form_contenuDocument %}
+<section id="contenuArticle" class="form-section section-contenu">
+	<div id="videoAbstract" class="blockWidget">
+		{{ form_row(form.abstract, {'attr' : {'class':'tiroirFerme' }}) }}
+		<div id="source-abstract" style="border:1px solid #999; min-height:200px; overflow:visible">
+        {% if sourceAbstract is defined %}{{ sourceAbstract }}{% endif %}
+        </div>
+	</div>
+    <div id="videoHebergeur" class="blockWidget">
+        {{ form_row(form.idHebergeur) }}
+    </div>
+    <div id="videoID" class="blockWidget">
+        {{ form_row(form.idVideo) }}
+    </div>
+    <div id="videoVignette" class="blockWidget">
+        {{ form_row(form.vignette) }}
+        {% if previewVignette != '' %}
+        <p><em>Aperçu</em></p>
+        <img src="{{ previewVignette }}" class="apercu" />
+        {% else %}
+        <p><em>Pas de vignette associée à la vidéo</em></p>
+        {% endif %}
+    </div>
+    <div class="inspecteur">
+        <p><em>Prévisualisation de la vidéo</em></p>
+        {{ previewCodeIntegration|raw }}
+    </div>
+    <div id="videoCodeIntegration" class="blockWidget">
+        {{ form_row(form.codeIntegration) }}
+    </div>
+    <div id="videoCodeIntegration" class="blockWidget">
+        {{ form_row(form.duree) }}
+    </div>
+
+</section>
+{% endblock %}
+
+{% block form_script%}
+<script type="text/javascript">
+    $(document).ready(function () {
+        //CKEDITOR.disableAutoInline = true;
+         CKEDITOR.replace('video_add_abstract', {
+        });
+
+        $("#miseEnAvant:checked ~ #section_miseEnAvant").toggleClass('tiroirOuvert tiroirFerme');
+    	$("#miseEnAvant").click(function () {
+    		$("#section_miseEnAvant").toggleClass('tiroirOuvert tiroirFerme');
+    	});
+    })
+</script>
+{% endblock %}
+

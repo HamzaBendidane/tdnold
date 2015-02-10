@@ -1,0 +1,97 @@
+.col-1, 
+.col-2,
+.col-3 {
+	display:table-cell; vertical-align:top
+}
+.col-1 {
+	width: 80px;
+	padding-right: 10px;
+}
+.col-1 img {width: 100%}
+#question .col-1 img {border: 2px solid #FECCFF}
+#reponse .col-1 img {border: 1px solid #1BAAA6}
+
+#question .col-2 {
+
+}
+
+.illustration-conseil {
+	float: right;
+	height: 200px;
+	/*width: 93%;*/
+	margin-top: 0px;
+	/*padding-right: 20px;*/
+	margin-bottom: 10px;
+	padding-left: 20px;
+	text-align: center;
+}
+
+.illustration-conseil img {
+	height: 100%;
+}
+
+.col-2 .auteur-question {
+	background-color: rgb(254, 204, 255);
+	font-size: 1.3em;
+	font-weight: bold;
+	margin: 0px;
+	padding: 4px 20px;
+}
+
+.col-2 .auteur-age {
+	margin:0 0 10px 0;
+	padding: 4px 20px
+}
+
+.col-2 .question, .col-2 .reponse {
+	padding: 0px 20px 20px;
+}
+
+.col-2 .titre-section {font-size: 1.5em; color:#1BAAA6; margin:0; padding:4px 20px}
+.col-2 .bandeau {padding: 2px 20px; background-color:#1BAAA6; color: white; font-weight: bold; font-size: 1.3em; margin:20px 0 0}
+.col-2 .signature-expert {font-weight:bold; margin:0; padding: 8px 20px}
+
+#reponse { /* Modification le 26/01 -- MC */
+	background-color: #FFF;
+	margin-bottom: 10px;
+	padding: 10px;
+	width: calc(100% - 20px);
+}
+
+#reponse .bandeau a {
+	color: inherit;
+}
+
+.puce-mode {
+	background-color: #33CCFF;
+}
+.puce-a-la-une {
+	background-color: #FF9900;
+}
+.puce-deco {
+	background-color: #006699;
+}
+.puce-sexo-psycho {
+	background-color: #FF3300;
+}
+.puce-recettes {
+	background-color: #A27951;
+}
+.puce-bien-etre {
+	background-color: #66CC99;
+}
+.puce-geekette {
+	background-color: #666666;
+}
+.puce-beaute {
+	background-color: #FF6699;
+}
+
+.biographieExpert {
+	font-size: 0.9em;
+	line-height: 1.2em;
+	color: #333;
+	border-left: 3px solid #93117E;
+	background-color: rgba(147, 17, 126, 0.05);
+	padding: 10px 40px 10px 10px;
+}

@@ -1,0 +1,140 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title conseil.titre ~ " | Conseil d’expert " ~ conseil.lnThematique.titre  %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/conseil.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/commentaire.css') }}" type="text/css">
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/conseils-experts_titre_299x80.png')}}" />
+</div>
+
+<article id="article-wrapper" class="main article-redaction">
+
+  <!-- Contenu du conseil -->
+  <section class="contenu main-section">
+
+    <!-- Bloc pour l'affichage des métadonnées de l'article -->
+  
+  <div id="metadata" class="metadata">
+     <p class="auteur"><span class="standardEtiquette">Question posée le :</span> {{ conseil.datePublication|date('d/m/Y') }}
+   </p>
+      <p class="liste-rubriques">
+        <span class="standardEtiquette">Rubrique :</span> 
+        {% for r in conseil.rubriques %}
+          <a href="{{path('Core_sommaire', {'slug': r.slug})}}">
+            <span class="rubrique-{{ rubriquePrincipale(r) }}">{{ r.titre }}
+          </a>
+        {% endfor %}
+        </span>
+    </p>
+    </div>
+
+    <!-- Bloc pour l'affichage du contenu de l'article -->
+    <div id="corps" class="corps">
+      <h1 class="titre-document titre-{{ rubriquePrincipale(conseil.lnThematique) }}">{{conseil.titre}}</h1>
+      <div class="chapo">
+      {{ conseil.abstract|raw }}
+      </div>
+      <div id="question">
+        {% set auteur = conseil.lnAuteur %}
+        <div class="col-1">
+          <a href="{{ path('NanaBundle_profil', {'id': conseil.lnAuteur.idNana}) }}">
+            <img src="{{ avatar(auteur) }}" />
+          </a>
+        </div>
+        <div class="col-2">
+          <p class="auteur-question">
+            La question de </span> 
+            <a href="{{ path('NanaBundle_profil', {'id': auteur.idNana}) }}"><span class="pseudo">{{auteur.username}}</span></a>, {{ auteur.dateNaissance|age}}
+          </p>
+          {% if conseil.lnImage is not null %}
+          <div class="illustration-conseil" style="margin-top: 20px;max-width:150px;">
+            <a class="popin" href="{{ documentImage(conseil.lnImage, NULL, conseil.lnAuteur.idNana) }}" >
+              <img class="imageNana" src="{{ documentImage(conseil.lnImage, NULL, conseil.lnAuteur.idNana) }}" alt="{{ conseil.lnImage.alt }}" />
+            </a>
+          </div>
+          {% else %}
+          {% endif %}  
+          <div class="question">{{conseil.question|raw}}</div>
+        </div>
+      </div>
+      <div id="reponse">
+        <div class="col-1">
+          <a href="{{ path('NanaBundle_profil', {'id': conseil.lnExpert.idNana}) }}">
+            <img src="{{ avatar(conseil.lnExpert) }}" />
+          </a>
+        </div>
+        <div class="col-2">
+          <p class="bandeau">La réponse de <a href="{{ path('NanaBundle_profil', {'id': conseil.lnExpert.idNana}) }}">{{ conseil.lnExpert.userName }}</a>
+          {% for e in conseil.lnExpert.setExpertises %}
+          <span class="sticker-expertise puce-{{ e.rubrique.slug }}"></span>
+          {% endfor %}
+          </p>
+          <div class="reponse">
+            {% if conseil.lnIllustration in not null %}
+            <div class="illustration-conseil" style="float:right">
+              <a class="popin" href="{{ illustration(conseil) }}" >
+                <img class="imageNana" src="{{ illustration(conseil) }}" alt="{{ conseil.lnIllustration.alt }}" />
+              </a>
+            </div>
+            {% endif %}
+          {{conseil.reponse|raw}}
+          </div>
+          {% if conseil.lnExpert.biographie != '' %}
+          <div class="biographieExpert">
+            <a href="{{ path('NanaBundle_profil', {'id': conseil.lnExpert.idNana}) }}">           
+              {{ conseil.lnExpert.biographie|raw }}
+            </a>
+          </div>
+          {% endif %}
+        </div>
+        {% if conseil.filTags is not empty %}
+         <div class="tags">
+           <ul class="tagBag">
+           {% for tag in conseil.filTags %}
+            <li class="tag">
+              <a href="/recherche/{{ tag.expression }}">{{ tag.expression }}</a>
+            </li>
+           {% endfor %}
+           </ul>
+         </div>
+         {% else %}
+         <div class="tags">{{conseil.tags|tags|raw}}</div>
+         {% endif %}
+     </div>
+    </div>
+
+    <!-- Bloc pour les boutons sociaux -->
+    {% include 'DocumentBundle:Bloc:socialTDNLinks.html.twig' with {'id': conseil.idDocument, 'likes': conseil.likes} %}
+
+     <!-- Mediabong -->
+    <div id="mb_container"></div>
+    <div id="mb_video_sponso"></div>
+    <script type="text/javascript">
+        (function(){
+                var sc = document.createElement('script');
+                sc.src = 'http://player.mediabong.com/se/793.js?url='+encodeURIComponent(document.location.href);
+                sc.type = 'text/javascript';
+                sc.async = true;
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(sc, s);
+        })();
+    </script>
+
+    <!-- Bloc pour les commentaires -->
+    {% render 'CommentaireBundle:Public:flux' with {'id': conseil.idDocument } %}
+  </section>
+
+
+  <!-- Publications en rapport avec ce sujet -->
+  {% if similaires is defined and similaires is not empty %}
+  <section id="more">
+    {% include 'DocumentBundle:Bloc:documentsSimilaires.html.twig' with {'similaires': similaires, 'type': 'Article'} %}
+  </section>
+  {% endif %}
+  
+</article>
+{% endblock %}

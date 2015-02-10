@@ -1,0 +1,108 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Sommaire des dossiers de la rédaction " %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/video.css') }}" type="text/css">
+<script type="text/javascript" src="{{ asset('assets/js/custom-form-elements.js') }}"></script>
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/dossiers-redac_titre_299x80.png')}}" />
+</div>
+<article id="article-wrapper">
+  <!-- Bloc pour l'affichage de la recherche sommaire -->
+  <div id="search">
+    <div id="moteur">
+      <form name="tri-rubrique" id="tri-rubrique" action="{{ path('DossierRedaction_sommaire') }}" method="get">
+        <span class="select">Trier par&hellip;</span>
+        <select name="rubrique" id="critere-tri" class="styled">
+          <option value="none" selected="selected">Trier par&hellip;</option>
+          <option value="tdn">Toutes</option>
+          {% for r in rubriques %}
+          <option value="{{ r.slug }}">{{ r.titre }}</option>
+          {% endfor %}
+        </select>
+      </form>
+    </div>
+  </div>
+
+
+  <section id="corps" class="table-content">
+  {#% if more %#}
+  <div id="more">
+    <h1><span class="hot-number">{{ totalDossiers }}</span> <strong>dossiers </strong> / Rubrique : {{ nomRubrique }}</h1>
+    {% if dossiersRecents is not empty %}
+    <div id="dossiers-recents">
+      {% for d in dossiersRecents %}
+      <div class="snapshot-wrapper">
+        <div class="snapshot">
+          <div class="vignette-video-wrapper">
+            <div class="vignette-video cornered-{{ rubriquePrincipale(d.rubriques[0]) }}">
+            <a href="{{ path('DossierRedaction_dossier', {'rubrique': d.rubriques[0].slug, 'slug': d.slug, 'id':d.idDocument}) }}">
+              <img class="snapshot" src="{{ illustration(d) }}" class="" />
+            </a>
+            </div>
+          </div>
+          <p class="titre">{{ d.titre[0:240] }}</p>
+          <p class="credits">{{d.datePublication|date('d/m/Y')}}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+      {% for contenu in listeDossiers %}
+      <div class="noheight-snapshot-wrapper">
+        <div class="snapshot">
+          <div class="vignette-liste-wrapper">
+            <div class="cornered-{{ rubriquePrincipale(contenu.rubriques[0]) }}">
+            <a href="{{ path('DossierRedaction_dossier', {'rubrique': contenu.rubriques[0].slug, 'slug': contenu.slug, 'id':contenu.idDocument}) }}">
+              <img class="snapshot-image" src="{{ illustration(contenu) }}" class="" />
+            </a>
+            </div>
+          </div>
+          <p class="titre">
+            <a href="{{ path('DossierRedaction_dossier', {'rubrique': contenu.rubriques[0].slug, 'slug': contenu.slug,'id':contenu.idDocument}) }}"> 
+              {{ contenu.titre[0:240] }}
+            </a>
+          </p>
+        </div>
+      </div>
+      {% endfor %}
+      {% if derniere > 1 %}
+      <form name="pager" id="pagerForm" action="{{ path('DossierRedaction_sommaire') }}" method="get">
+         Page : <input type="text" name="page" id="page" size="2" style="border: 0; color: #000; font-weight: bold;" /> <span class="totalSlides">(sur {{ derniere }})</span>
+        <div id="pageSlider" style="display:inline-block;width:160px;position:relative;top:3px"></div>
+      </form>
+      <script>
+        $(document).ready(function() {
+          $( "#pageSlider" ).slider({
+            value:{{ page }},
+            min: 1,
+            max: {{ derniere }},
+            step: 1,
+            slide: function(event, ui) {
+              $("#page").val(ui.value );
+            },
+            stop: function(event, ui) {
+              $("#page").val(ui.value );
+              $("#pagerForm").submit();
+            }
+          });
+          $( "#page" ).val($( "#pageSlider" ).slider( "value" ) );
+        });
+      </script>
+      {% endif %}
+  </div>
+  {#% endif %#}
+  
+</article>
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('#critere-tri').on('change', function () {
+      $(this).parents('form#tri-video').submit();
+    })
+  })
+</script>
+{% endblock %}

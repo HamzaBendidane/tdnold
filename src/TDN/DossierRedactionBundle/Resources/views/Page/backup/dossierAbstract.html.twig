@@ -1,0 +1,147 @@
+
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title dossier.titre ~ " | Dossier de la rédaction " ~ dossier.rubriques[0].titre  %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/dossier.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/commentaire.css') }}" type="text/css">
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/dossiers-redac_titre_299x80.png')}}" />
+</div>
+<article id="article-wrapper" class="main page-dossier">
+  <!-- Contenu de l'article -->
+   <section class="contenu main-section">
+
+      <!-- Bloc pour l'affichage des métadonnées de l'article -->
+      <div id="metadata" class="metadata">
+         <p class="auteur">
+           <span class="standardEtiquette">Conçu par </span> 
+            <a href="{{ path('NanaBundle_profil', { 'id' : dossier.lnAuteur.idNana }) }}" class="nom-auteur">{{dossier.lnAuteur.prenom ~ " " ~ dossier.lnAuteur.nom }} ({% for r in dossier.lnAuteur.roles %}{{ r.name }}{% endfor %})</a>,<span class="standardEtiquette">le </span>  
+            <span class="date-publication">{{ dossier.datePublication |date('d/m/Y') }}</span>
+         </p>
+         <p class="liste-rubriques">
+          <span class="standardEtiquette">Rubrique :</span> 
+          {% for r in dossier.rubriques %}
+            <a href="{{path('Core_sommaire', {'slug': r.slug})}}">
+              <span class="rubrique-{{ rubriquePrincipale(r) }}">{{ r.titre }}
+            </a>
+          {% endfor %}
+          </span>
+         </p>
+      </div>
+
+      <!-- Bloc pour l'affichage du contenu de l'article -->
+      <div id="corps" class="corps">
+         <h1 class="titre-document titre-{{ rubriquePrincipale(dossier.rubriques[0]) }}">{{dossier.titre}}</h1>
+         {% if dossier.v2ID is not null %}
+          {% if dossier.lnIllustration is not null%}
+            {% set fichier = dossier.lnIllustration.fichier %}
+            {% set an = dossier.lnIllustration.datePublication|date('Y') %}
+            {% set mois = dossier.lnIllustration.datePublication|date('m') %}
+            <img class="legacyIllustration" src="/uploads/documents/public/{{an}}/{{mois}}/{{fichier}}" />
+          {% endif %}
+         {% endif %}
+         <!-- Résumé du dossier -->
+          <div class="chapo">{{ dossier.abstract|raw }}</div>
+
+          <!-- Parties du dossier en tabulations -->
+          <div id="flipboard-feuillets">
+            <div id='ruler'>
+              <span>Feuillets du dossier : </span>
+              {% if compte_parties > 0 %}
+              {% for f in 1..compte_parties %}
+              {% if f == 1 %}
+              {% set present = 'boutonActif' %}
+              {% else %}
+              {% set present = 'boutonInactif' %}
+              {% endif %}
+              {% set index = f-1 %}
+              <span id="feuilletButton_{{ f }}" class="lien-feuillet {{ present }}">
+                <a href="#" title="{{ feuillets[index].titre }}" class="flipper">
+                  {{ f }}
+                </a>
+              </span>
+            {% endfor %}
+            {% endif %}
+            </div>
+            <div class="ombre-droite">
+              <div class="cover">
+                {% if compte_parties > 0 %}
+                {% for f in 1..compte_parties %}
+                {% set index = f-1 %}
+                 <section id="feuillet_{{ f }}" class="abstract-feuillet {% if f == 1 %}diapoActive{% else %}diapoMasquee{% endif %}">
+                  <img src="{{ illustration(feuillets[index]) }}" class="vignette" />
+                  <h2><span class="ordre">{{ f }}</span> {{ feuillets[index].titre }}</h2>
+                  {% if feuillets[index].abstract != '' %}
+                  {% set abstract = feuillets[index].abstract %}
+                  <p class="abstract">{{ abstract|striptags|raw }}</p>
+                  {% else %}
+                  {% set abstract = feuillets[index].corps %}
+                  <p class="abstract">{{ abstract|striptags|textCutter(300)|raw }}</p>
+                  {% endif %}
+                  <p class="lien-feuillet">
+                    <a href="{{ path('DossierRedaction_feuillet',  {'slug':feuillets[index].slug, 'id':feuillets[index].idDocument, 'rubrique': dossier.rubriques[0].slug}) }}" title="{{ feuillets[index].titre }}">Lire la suite</a>
+                  </p>
+                </section>
+                {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <!-- Mots-clefs du dossier -->
+          <div class="tags">{{dossier.tags|tags|raw}}</div>
+      </div>
+
+      <!-- Bloc pour les boutons sociaux -->
+      {% include 'DocumentBundle:Bloc:socialTDNLinks.html.twig' with {'id': dossier.idDocument, 'likes': dossier.likes} %}
+
+      <!-- Bloc pour les commentaires -->
+      {% render 'CommentaireBundle:Public:flux' with {'id': dossier.idDocument } %}
+      </section>
+
+      {% if more is defined %}
+      <!-- Bloc des contenus proches -->
+      {% include 'DocumentBundle:Bloc:contenusAnalogues.html.twig' with {'more': 'more'} %}
+      {% endif %}
+
+  </section>
+</article>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      var diapoActive = 1;
+      var nbTabs = {{ feuillets|length }};
+      $(".boutonDiapo").click(function (e) {
+        e.preventDefault();
+        target = $(this).prop('href').split('_');
+        diapoActive = target[1];
+        diapoID = '#feuillet_'+diapoActive;
+        $('.diapoActive').toggleClass('diapoActive diapoMasquee');
+        $(diapoID).toggleClass('diapoActive diapoMasquee');
+        $('.boutonActif').toggleClass('boutonActif boutonInactif');
+        $(this).toggleClass('boutonActif boutonInactif');
+      });
+      $(".flipper").click(function(e) {
+        e.preventDefault();
+        var index = "#feuillet_"+parseInt($(this).text());
+        var bouton = "#feuilletButton_"+parseInt($(this).text());
+        console.log(index);
+        var precedent = $(".diapoActive").attr('id');
+        console.log(precedent);
+        var precedentIndex = precedent.slice(9);
+        var precedentBouton = "#feuilletButton_"+parseInt(precedentIndex);
+        console.log(precedentBouton);
+        $(".diapoActive").toggleClass('diapoActive diapoMasquee');
+        $(index).toggleClass('diapoActive diapoMasquee');
+        $(precedentBouton).toggleClass('boutonActif boutonInactif');
+        $(bouton).toggleClass('boutonActif boutonInactif');
+      })
+    })
+  </script>
+
+{% endblock %}

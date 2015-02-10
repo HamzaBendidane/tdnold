@@ -1,0 +1,39 @@
+{% extends 'DocumentBundle:Admin:documentDetail.html.twig' %}
+
+{% block form_contenuDocument %}
+<section id="contenuquestion" class="form-section section-contenu">
+    <p class="date-soumission">La question a été soumise le : {{ dateSoumission | date('d/m/Y H:i:s')}}</p>
+	<div id="abstractArticle" class="blockWidget">
+		{{ form_row(form.abstract) }}
+	</div>
+	<div id="corpsQuestion" class="blockWidget">
+		{{ form_row(form.question) }}
+	</div>
+
+    {% if (reponseAcceptee) %}
+    <p>Voici la réponse préférée par {{ pseudoDemandeur }} :</p>
+    <div class="reponse-preferee">{{ reponseAcceptee.reponse }}</div>
+    {% else %}
+    <p>Aucune réponse n'a été préférée par {{ pseudoDemandeur }} pour l'instant.</p>
+    {% endif %}
+</section>
+{% endblock %}
+
+{% block form_script%}
+<script type="text/javascript">
+    $(document).ready(function () {
+        //CKEDITOR.disableAutoInline = true;
+        //CKEDITOR.inline('corpsArticle');
+        CKEDITOR.replace('causeuse_question_edit_question', {
+          height: 500
+        });
+         CKEDITOR.replace('causeuse_question_edit_abstract', {
+          customConfig: 'config_chapo.js'
+        });
+
+    	$("#miseEnAvant").click(function () {
+    		$("#section_miseEnAvant").toggleClass('tiroirOuvert tiroirFerme');
+    	});
+    })
+</script>
+{% endblock %}

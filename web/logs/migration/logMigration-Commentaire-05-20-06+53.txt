@@ -1,0 +1,1 @@
+[0] - 9476 : Déjà importé[0] + 9477 : Traitement[0] * 1 : ERREUR Pas de Video avec cet id

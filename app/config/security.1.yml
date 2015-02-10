@@ -1,0 +1,102 @@
+jms_security_extra:
+    secure_all_services: false
+    expressions: true
+
+security:
+    encoders:
+        # Symfony\Component\Security\Core\User\User: plaintext
+        TDN\NanaBundle\Entity\Nana:
+            algorithm: md5
+            encode-as-base64: false
+            iterations: 1
+
+    role_hierarchy:
+        ROLE_PREMIUM:     ROLE_USER
+        ROLE_JOURNALISTE: ROLE_USER
+        ROLE_EXPERT:      ROLE_USER
+        ROLE_PREMIUM:     ROLE_USER
+        ROLE_ADMIN:       [ROLE_USER, ROLE_JOURNALISTE, ROLE_EXPERT, ROLE_PREMIUM]
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_JOURNALISTE, ROLE_EXPERT, ROLE_PREMIUM, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH, IS_AUTHENTICATED_ANONYMOUSLY]
+
+    providers:
+        # in_memory:
+        #     memory:
+        #         users:
+        #             user:  { password: userpass, roles: [ 'ROLE_USER' ] }
+        #             admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+        main:
+            entity: { class: TDN\NanaBundle\Entity\Nana, property: username }
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        login:
+            pattern:  ^/login$
+            security: false
+
+        # admin:
+        #     pattern:    ^/admin
+        #     form_login:
+        #         login_path: /login
+        #         check_path: /login_check
+        #         username_parameter: pseudo
+        #         password_parameter: passwd
+        #         post_only: true
+        #     logout:
+        #         path:   /logout
+        #         target: -
+
+        general:
+            pattern:    ^/
+            form_login:
+                check_path: /login_check
+                login_path: /login
+            logout:
+                path:   /logout
+                target: /
+            anonymous: ~
+            http_basic:
+               realm: "Accès protégé"
+
+        # expert:
+        #     pattern:    ^/admin/conseil
+        #      form_login:
+        #         login_path: /login
+        #         check_path: /login_check
+        #         username_parameter: pseudo
+        #         password_parameter: passwd
+        #         post_only: true
+
+        # redaction:
+        #     pattern:    ^/admin/redaction
+        #     form_login:
+        #         login_path: /login
+        #         check_path: /login_check
+        #         username_parameter: pseudo
+        #         password_parameter: passwd
+        #         post_only: true
+
+        # nana:
+        #     pattern:    ^/my-tdn/
+        #      form_login:
+        #         login_path: /login
+        #         check_path: /login_check
+        #         username_parameter: pseudo
+        #         password_parameter: passwd
+        #         post_only: true
+        #     logout:
+        #         path:   /logout
+        #         target: -
+
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        #- { path: ^/_internal/secure, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
+        #- { path: ^/admin, roles: ROLE_ADMIN }
+        #- { path: ^/admin/conseil, roles: ROLE_EXPERT }
+        - { path: ^/my-tdn, roles: ROLE_USER}
+
+    # access_denied_url:
+        # /

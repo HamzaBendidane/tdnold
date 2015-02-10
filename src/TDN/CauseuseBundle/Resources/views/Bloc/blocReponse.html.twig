@@ -1,0 +1,18 @@
+<div class="bloc-reponse-nana">
+   <div class="reponse-nana">
+      <img class="vignette" src={{ asset('assets/images/profils/'~userId~'/avatar.jpg') }}
+      <div class="reponse">
+         <p class="credits">
+            <span class="identite">{{ pseudo }} ({{ grade }}</span> - <span class="publication">{{ datePublication }}</span>
+         </p>
+         <div class="corps">
+            {{ reponse }}
+         </div>
+      </div>
+      <div class="bloc-vote">
+         <p class="indicateur"><span class="votes">{{ votes }}</span> VOTES</p>
+         <a class="lien-vote">Je suis d'accord</a>
+      </div>
+   </div>
+  {#% include 'CommentaireBundle:FLux:flux.html.twig' with {'commentaires': commentaires} %#}
+</div>	

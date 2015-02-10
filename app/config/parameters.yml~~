@@ -1,0 +1,50 @@
+parameters:
+    database_driver: pdo_mysql
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: tdn3_marylin_prod
+    database_user: trucdenana
+    database_password: ju75via
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    locale: en
+    secret: 4954b367bded7d23bc25bec1d4e1ff565b0311ef
+    database_path: null
+
+    media_root: uploads/documents/
+    profils_media: profils/
+    tdn_media: public/
+
+    transport: mail
+
+    secret: FourmisSansOmbres
+
+    session_memcache_host1: 127.0.0.1
+    session_memcache_host2: 192.168.0.101
+    session_memcache_port: 11211
+    session_memcache_prefix: sess
+    session_memcache_expire: 3600
+
+    mail_moderation_1: aide@trucdenana.com
+    mail_moderation_2: justine@trucdenana.com
+
+    action_points:
+        article_redaction: 1024;
+        reponse_expert: 500
+        article_commente: 256
+        article_aime: 128
+        article_partage: 128
+        reponse_choisie: 64
+        reponse_nanas: 48
+        question_nanas: 32
+        question_expert: 16
+        post_info: 8
+        commentaire: 8
+        reponse_nanas_votee: 4
+        nana_suivie: 4
+        suivre_nana: 2
+        partage_contenu: 2
+        like: 1
+        completer_profil: 1

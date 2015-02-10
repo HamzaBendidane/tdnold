@@ -1,0 +1,18 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block form_contenuDocument %}
+<section id="contenuArticle" class="form-section section-contenu">
+	<div id="roleRole" class="blockWidget">
+		{{ form_row(form.role) }}
+	</div>
+	<div id="roleName" class="blockWidget">
+		{{ form_row(form.name) }}
+	</div>
+	<div class="lineWidget">
+		{{ form_rest(form) }}
+	</div>
+</section>
+{% endblock %}
+
+{% block form_script%}
+{% endblock %}

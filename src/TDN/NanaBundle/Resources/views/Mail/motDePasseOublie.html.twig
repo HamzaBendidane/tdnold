@@ -1,0 +1,8 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>Pour créer un nouverau mot de passe, il suffit de cliquer sur le lien ci-dessous.</p>
+<p>
+	<a href="http://trucsdenana.com{{ resetURL }}">Nouveau mot de passe pour <strong>{{ pseudo}}</strong></a>
+</p>
+{% endblock %}

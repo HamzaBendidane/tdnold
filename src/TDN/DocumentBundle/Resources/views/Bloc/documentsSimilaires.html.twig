@@ -1,0 +1,43 @@
+<div class="documentsSimilaires">
+	<h2>Pour aller plus loin</h2>
+	<div class="sur2Colonnes">
+	{% for r in similaires %}
+	{% set type = r|documentType %}
+	{#% set r = s[0]%#}
+	{% if r.lnThematique is defined %}
+	{% set RR = r.lnThematique %}
+	{% set RRslug = r.lnThematique.slug %}
+	{% elseif r.rubriques[0] is defined %}
+	{% set RR = r.rubriques[0] %}
+	{% set RRslug = r.rubriques[0].slug %}
+	{% else %}
+	{% set RR = 'tdn' %}
+	{% set RRslug = 'tdn' %}
+	{% endif %}
+	{% set princeps = rubriquePrincipale(RR) %}
+	<div class="pinWrapper {{ princeps }}_bord">
+		<div class="pinContent">
+			<div class="inlineSnapshot">
+				<div class="vignette-sommaire-wrapper">
+					<div class="cornered-{{ rubriquePrincipale(RR) }}">
+						<a href="{{ path(paths[type],{'id':r.idDocument, 'slug':r.slug, 'rubrique':RRslug}) }}"  onclick="ga('send', 'event', 'Plus loin', 'click', 'navigation', '1');">
+							{% if r.vignette is defined %}
+							<img class="vignette" src="{{ r.vignette }}" />
+							{% else %}
+							<img class="vignette" src="{{ documentImage(r.lnIllustration) }}" />
+							{% endif %}
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="suite-abstract">
+				<h3 style="width:92%; margin-top:0">
+					<a href="{{ path(paths[type],{'id':r.idDocument, 'slug':r.slug, 'rubrique':RRslug}) }}"  onclick="ga('send', 'event', 'Plus loin', 'click', 'navigation', '1');">{{ r.titre }}</a> <!--span class="datePublication">[{#{ r.datePublication|laps }#}]</span-->
+				</h3>
+				<div class="cascadeTags">{{ r.tags|tags|raw }}</div>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+	</div>
+</div>

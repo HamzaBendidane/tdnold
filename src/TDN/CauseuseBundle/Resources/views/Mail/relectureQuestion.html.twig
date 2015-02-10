@@ -1,0 +1,6 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>La question que tu as posée à la communauté des nanas a été lue par la rédaction.</p>
+<div>{{ question | raw }}</div>
+{% endblock %}

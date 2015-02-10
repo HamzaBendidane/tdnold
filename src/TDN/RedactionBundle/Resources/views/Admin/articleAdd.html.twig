@@ -1,0 +1,33 @@
+{% extends 'DocumentBundle:Admin:documentDetail.html.twig' %}
+
+{% block form_contenuDocument %}
+<section id="contenuArticle" class="form-section section-contenu">
+	<div id="abstractArticle" class="blockWidget">
+		{{ form_row(form.abstract) }}
+	</div>
+	<div id="corpsArticle" class="blockWidget"><!--contenteditable="true"-->
+        {{ form_row(form.corps) }}
+	</div>
+	<div class="lineWidget">
+		{{ form_row(form.sponsor) }}
+	</div>
+</section>
+{% endblock %}
+
+{% block form_script%}
+<script type="text/javascript">
+    $(document).ready(function () {
+        CKEDITOR.replace('article_add_corps', {
+          height: 500,
+          allowedContent: true
+        });
+         CKEDITOR.replace('article_add_abstract', {
+          customConfig: 'config_chapo.js'
+        });
+        
+        $("#miseEnAvant").click(function () {
+            $("#section_miseEnAvant").toggleClass('tiroirOuvert tiroirFerme');
+        });
+    })
+</script>
+{% endblock %}

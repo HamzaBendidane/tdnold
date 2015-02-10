@@ -1,0 +1,20 @@
+{% extends 'DocumentBundle:Admin:listeConteneur.html.twig' %}
+
+{% block displayContent %}
+    <td>
+      {{ doc.id }}
+    </td>
+    <td>
+      <a href='{{ path('Newsletter_reviser', {'id' : doc.id}) }}'>
+        {% if doc.titre is not empty %}{{doc.titre}}{% else %}[ Sans titre ]{% endif %}
+      </a>
+    </td>
+    <td>
+      <a href="{{ path('Newsletter_preview', {'id' : doc.id}) }}" target="_blank">
+      {{ doc.statut }}
+      </a>
+    </td>
+    <td>
+      {{ doc.datePublication|laps }}
+    </td>
+{% endblock %}

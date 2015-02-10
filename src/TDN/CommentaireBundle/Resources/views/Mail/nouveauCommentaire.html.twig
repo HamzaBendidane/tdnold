@@ -1,0 +1,15 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>Un commentaire a été publié par {% if app.user.username is defined %}{{ app.user.username }}{% else %}un lecteur anonyme{% endif %} sur la page suivante :</p>
+<p><a href="http://www.trucdenana.com{{ url }}">{{ titre }}</a></p>
+<hr/>
+<div>{{ commentaire |raw }}</div>
+{% if isSuspect %}
+<p>Ce commentaire est soupçonné d'être un spam. Si ce n'est pas le cas, vous pouvez le <a href="http://www.trucdenana.com{{ path('Commentaire_publier', {'id': idCommentaire}) }}">publier</a></p>
+<p>Traces : {{ isSpam | raw }}</p>
+{% else %}
+<p>Si ce commentaire est un spam, vous pouvez le <a href="http://www.trucdenana.com{{ path('Commentaire_effacer', {'id': idCommentaire}) }}">supprimer</a></p>
+{% endif %}
+<p>Adresse de l'expéditeur : {{ IP }}</p>
+{% endblock %}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="Commentaire_flux" pattern="/commentaire/flux/{id}">
+        <default key="_controller">CommentaireBundle:Public:flux</default>
+    </route>
+
+    <route id="Commentaire_add" pattern="/commentaire/add">
+        <default key="_controller">CommentaireBundle:Public:add</default>
+    </route>
+
+    <route id="commentaireBundle_voteFor" pattern="/commentaire/vote">
+        <default key="_controller">CommentaireBundle:Public:voteFor</default>
+    </route>
+
+    <!-- Administration -->
+
+    <route id="Commentaire_effacer" pattern="/commentaire/effacer/{id}">
+        <default key="_controller">CommentaireBundle:Admin:effacer</default>
+    </route>
+
+    <route id="Commentaire_publier" pattern="/commentaire/publier/{id}">
+        <default key="_controller">CommentaireBundle:Admin:publier</default>
+    </route>
+
+    <!-- Migration -->
+
+    <route id="Commentaire_migration" pattern="/migration/commentaires/{fichier}">
+        <default key="_controller">CommentaireBundle:Migration:migration</default>
+    </route>
+
+    <!-- iOS -->
+
+    <route id="Commentaire_IOSFlux" pattern="/ios/commentaire/flux/{id}">
+        <default key="_controller">CommentaireBundle:IOS:flux</default>
+    </route>
+
+    <route id="Commentaire_IOSAdd" pattern="/ios/commentaire/{id}/commenter">
+        <default key="_controller">CommentaireBundle:IOS:commenter</default>
+    </route>
+
+    <route id="Commentaire_IOSVote" pattern="/ios/commentaire/{idCommentaire}/voter">
+        <default key="_controller">CommentaireBundle:IOS:voter</default>
+    </route>
+
+</routes>

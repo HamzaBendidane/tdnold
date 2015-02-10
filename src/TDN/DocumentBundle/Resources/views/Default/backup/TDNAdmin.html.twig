@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="google-site-verification" content="fq8zrWpv2MoWmc3miAE5MecQa2oy6F9gjj2OFRU0zEk" />
+	<!-- <link rel="stylesheet" href="{{ asset('bundles/acmedemo/css/demo.css') }}" type="text/css" media="all" /> -->
+	<title>{% block title %}{% endblock %} | Truc de nana</title>
+	<!-- <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}" /> -->
+	{% block stylesheets %}
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/marylin.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/color.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/form.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/header.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/teaser.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/sommaire.css') }}" />
+	<link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" type="text/css">
+	<link rel="stylesheet" href="{{ asset('assets/css/jquery-ui-1.10.2.custom.min.css') }}" type="text/css">
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/colorbox.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/nanoscroller.css') }}" />
+	{% endblock %}
+	{% block local_stylesheets %}
+	{% endblock %}	
+	
+	{% block webfonts %}
+	<!--link href='http://fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css' />
+	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'-->
+	{% endblock %}
+
+	{% block header_scripts %}
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
+	<script src="{{ asset('assets/js/jquery-ui-1.10.2.custom.min.js') }}"></script>
+	<script src="{{ asset('assets/js/jquery.colorbox-min.js') }}"></script>
+	<script src="{{ asset('assets/js/jquery.nanoscroller.js') }}"></script>
+	<script type="text/javascript" ></script>
+	{% endblock %}
+	{% block local_header_scripts %}
+	{% endblock %}	
+
+</head>
+<body class="theme-deco">
+	<div class="messages_systeme latentSystemMessages">
+	{% if app.session.hasFlash('success') %}
+	{% for flashMessage in app.session.flashbag.get('success') %}
+	    <div class="flash-success">
+	        {{ flashMessage|raw }}
+	    </div>
+	{% endfor %}
+	{% endif %}
+	{% if app.session.hasFlash('warning') %}
+	{% for flashMessage in app.session.flashbag.get('warning') %}
+	    <div class="flash-warning">
+	        {{ flashMessage|raw }}
+	    </div>
+	{% endfor %}
+	{% endif %}
+	{% if app.session.hasFlash('fail') %}
+	{% for flashMessage in app.session.flashbag.get('fail') %}
+	    <div class="flash-fail">
+	        {{ flashMessage|raw }}
+	    </div>
+	{% endfor %}
+	{% endif %}
+	</div>
+	<div id="top-border"></div>
+	<div id="social-clipper">
+		<h2 class="vertical"><span class="emeraude">News</span> <span class="rose">Communauté</span></h2>
+	</div>
+	<div id="tdn-wrapper">
+		<div id="mytdn-wrapper">
+			<div id="mytdn" class="mytdn-closed">
+			{% render "CoreBundle:Header:display" %}
+			</div>
+		</div>
+		<div id="logo-wrapper">
+			<a href="{{ path('Core_home') }}">
+				<img id="logo-wrapper" src="{{ asset('assets/images/theme/tetiere/logo_TDN.png')}}" alt="Logo - Lien vers la page d'accueil" />
+			</a>
+		</div>
+		<div id="tdn-header">
+			<div id="header-pub">
+				{% block header_pub %}{% endblock %}
+			</div>
+		</div>
+		
+		<div id="menu-principal">
+			<div id="fonctions-sociales">
+				<a href="http://www.facebook.com/trucdenana">
+					<img src="{{ asset('assets/images/theme/tetiere/navigation/icone_facebook.png')}}">
+				</a>
+				<a href="https://twitter.com/TrucdeNana">
+					<img src="{{ asset('assets/images/theme/tetiere/navigation/icone_twitter.png')}}">
+				</a>
+				<a href="http://www.hellocoton.fr/mapage/trucdenana">
+					<img src="{{ asset('assets/images/theme/tetiere/navigation/icone_hellocoton.png')}}">
+				</a>
+				<a href="https://itunes.apple.com/fr/app/truc-de-nana/id369735750">
+					<img src="{{ asset('assets/images/theme/tetiere/navigation/icone_app-store.png')}}">
+				</a>
+			</div>
+			{% render "DocumentBundle:Rubrique:mainNavigation" %}
+			<div id="recherche-rapide">
+				<form name="recherche" id="recherche" action="{{ path('Document_rechercheForm') }}" method="post" enctype="">
+					<input type="text" size="15" name="seed" />
+					<input type="submit" name="quicksearch" class="submitter" value=">" />
+				</form>
+			</div>
+		</div>
+
+		<section id="contenu-principal">
+			<div id="contenu">
+				{% block contenu_principal %}{% endblock %}
+			</div>
+			<div id="admin_sidebar" class="adminSidebar">
+				<h2><a href="{{ path('Core_adminDashboard') }}">Administration TDN</a></h2>
+				<ul class="adminActions">
+					{% if is_granted('ROLE_JOURNALISTE')%}
+					<li class="domainActions"><a href="#">Articles</a></li>
+					<ul class="setAction hiddenContent">
+						<li class="elementAction">
+							<a href="{{ path('RedactionBundle_articleAdd')}}">Ecrire</a></li>
+						<li class="elementAction">
+							<a href="{{ path('RedactionBundle_articleBrouillons')}}">Mes articles en cours</a></li>
+						<li class="elementAction">
+							<a href="{{ path('RedactionBundle_articleIndex') }}">Tous mes articles</a></li>
+					</ul>
+					{% endif %}
+					<li class="domainActions"><a href="#">Conseils</a></li>
+					<ul class="setAction hiddenContent">
+						{% if is_granted('ROLE_ADMIN')%}
+						<li class="elementAction">
+							<a href="{{ path('ConseilExpert_logStatut', {'statut' : '1'}) }}">En attente de délégation</a>
+						</li>
+						{% endif %}
+						{% if is_granted('ROLE_EXPERT')%}
+						<li class="elementAction">
+							<a href="{{ path('ConseilExpert_logStatut', {'statut' : '2'}) }}">En attente de réponse</a>
+						</li>
+						{% endif %}
+						{% if is_granted('ROLE_ADMIN')%}
+						<li class="elementAction">
+							<a href="{{ path('ConseilExpert_logStatut', {'statut' : '3'}) }}">En attente de validation</a>
+						</li>
+						{% endif %}
+
+						<li class="elementAction">
+							<a href="{{ path('ConseilExpertBundle_index') }}">Mes conseils</a></li>
+					</ul>
+
+					{% if is_granted('ROLE_JOURNALISTE')%}
+					<!-- Questions de nanas -->
+					<li class="domainActions"><a href="#">Questions de nanas</a></li>
+					<ul class="setAction hiddenContent">
+						<li class="elementAction">
+						{% if is_granted('ROLE_ADMIN')%}
+							<a href="{{ path('CauseuseBundle_pending') }}">En attente de validation</a></li>
+						{% endif %}
+						<li class="elementAction">
+							<a href="{{ path('CauseuseBundle_index') }}">Lister les questions</a></li>
+					</ul>
+					{% endif %}
+
+					{% if is_granted('ROLE_EXPERT')%}
+					<!-- Vidéos -->
+					<li class="domainActions"><a href="#">Vidéos</a></li>
+					<ul class="setAction hiddenContent">
+						<li class="elementAction">
+							<a href="{{ path('Video_enAttente') }}">En attente</a></li>
+						<li class="elementAction">
+							<a href="{{ path('Video_ajouter') }}">Ajouter une vidéo</a></li>
+						<li class="elementAction">
+							<a href="{{ path('Video_index') }}">Lister les vidéos</a></li>
+					</ul>
+					{% endif %}
+
+					{% if is_granted('ROLE_JOURNALISTE')%}
+					<!-- Dossiers de la rédaction -->
+					<li class="domainActions"><a href="#">Dossiers</a></li>
+					<ul class="setAction hiddenContent">
+						<li class="elementAction">Créer un dossier</li>
+						<li class="elementAction">Liste des dossiers</li>
+					</ul>
+					{% endif %}
+
+					{% if is_granted('ROLE_JOURNALISTE')%}
+					<!-- Sélection shopping -->
+					<li class="domainActions"><a href="#">Sélections shopping</a></li>
+					<ul class="setAction hiddenContent">
+						<li class="elementAction">
+							<a href="{{ path('Redaction_ajouterSelection') }}">Créer une sélection</a></li>
+						<li class="elementAction">
+							<a href="{{ path('Redaction_selectionShoppingIndex') }}">Liste des sélections</a></li>
+					</ul>
+					<li class="domainActions"><a href="#">Quiz</a></li>
+					<ul class="setAction hiddenContent">
+						<li class="elementAction">Liste des quiz</li>
+						<li class="elementAction">Créer un quiz</li>
+					</ul>
+					{% endif %}
+
+					{% if is_granted('ROLE_ADMIN')%}
+					<!-- Jeux-concours -->
+					<li class="domainActions"><a href="#">Jeux-concours</a></li>
+					<ul class="setAction hiddenContent">
+						<li class="elementAction">
+							<a href="{{ path('ConcoursBundle_add') }}">Créer un jeu-concours</a></li>
+						<li class="elementAction">
+							<a href="{{ path('ConcoursBundle_index') }}">Index des concours</a></li>
+					</ul>
+					{% endif %}
+
+					{% if is_granted('ROLE_JOURNALISTE')%}
+					<!-- Brèves -->
+					<li class="domainActions"><a href="#">Infos brèves</a></li>
+					<ul class="setAction hiddenContent">
+						<li class="elementAction">
+							<a href="{{ path('Breve_ajouter') }}">Poster une info</a></li>
+						<li class="elementAction">
+							<a href="{{ path('BreveBundle_breveLog') }}">Index des infos</a></li>
+					</ul>
+					{% endif %}
+				</ul>
+
+				<ul class="adminActions">
+
+					{% if is_granted('ROLE_ADMIN')%}
+					<!-- Gestion des iamges -->
+					<li class="domainActions"><a href="#">Images</a></li>
+					<ul class="setAction hiddenContent">
+						<li class="elementAction">
+							<a href="{#{ path('Image_ajouter') }#}">Insérer une image</a></li>
+						<li class="elementAction">
+							<a href="{#{ path('Image_index') }#}">Catalogue d’images</a></li>
+					</ul>
+					{% endif %}
+
+					{% if is_granted('ROLE_ADMIN')%}
+					<!-- Gestion du slider de une -->
+					<li class="domainActions"><a href="#">Une</a></li>
+					<ul class="setAction hiddenContent">
+						<li class="elementAction">
+							<a href="{{ path('DocumentBundle_sliderIndex') }}">Etat de la une</a></li>
+					</ul>
+					{% endif %}
+
+					{% if is_granted('ROLE_ADMIN')%}
+					<!-- Gestion de la newsletter -->
+					<li class="domainActions"><a href="#">La lettre de TDN</a></li>
+					<ul class="setAction hiddenContent">
+						<li class="elementAction">
+							<a href="{{ path('Newsletter_preparation') }}">Préparer une lettre</a></li>
+						<li class="elementAction">
+							<a href="{{ path('Newsletter_preparation') }}">Programmer l'envoi</a></li>
+						<li class="elementAction">
+							<a href="{{ path('Newsletter_index') }}">Index des lettres d’info</a></li>
+					</ul>
+					{% endif %}
+
+					{% if is_granted('ROLE_ADMIN')%}
+					<!-- Gestion des  produits -->
+					<li class="domainActions"><a href="#">Boutique</a></li>
+					<ul class="setAction hiddenContent">
+						<li class="elementAction">Préparer une newsletter</li>
+						<li class="elementAction">Programmer l'envoi</li>
+					</ul>
+					{% endif %}
+
+					{% if is_granted('ROLE_ADMIN')%}
+					<!-- Gestion de la pub -->
+					<li class="domainActions"><a href="#">Publicité</a></li>
+					<ul class="setAction hiddenContent">
+						<li class="elementAction">Préparer une newsletter</li>
+						<li class="elementAction">Programmer l'envoi</li>
+					</ul>
+					{% endif %}
+				</ul>
+				<ul class="adminActions">
+					{% if is_granted('ROLE_ADMIN')%}
+					<li class="domainActions"><a href="#">Utilisateurs</a></li>
+					<ul class="setAction hiddenContent">
+						<li class="elementAction">Liste des inscrits</li>
+						<li class="elementAction">Programmer l'envoi</li>
+					</ul>
+					{% endif %}
+
+					{% if is_granted('ROLE_ADMIN')%}
+					<li class="domainActions"><a href="#">Commentaires</a></li>
+					<ul class="setAction hiddenContent">
+						<li class="elementAction">Quarantaine</li>
+					</ul>
+					{% endif %}
+				</ul>
+				<ul class="adminActions">
+					{% if is_granted('ROLE_ADMIN')%}
+					<li class="domainActions"><a href="#">Rôles</a></li>
+					<ul class="setAction hiddenContent">
+						<li class="elementAction">
+							<a href="{{ path('NanaBundle_rolesIndex') }}">Liste des rôles</a></li>
+						<li class="elementAction">
+							<a href="{{ path('NanaBundle_roleAdd') }}">Ajouter un rôle</a></li>
+					</ul>
+					{% endif%}
+
+					{% if is_granted('ROLE_ADMIN')%}
+					<li class="domainActions"><a href="#">Rubriques</a></li>
+					<ul class="setAction hiddenContent">
+						<li class="elementAction">
+							<a href="{{ path('DocumentRubrique_Index') }}">Liste des rubriques</a></li>
+						<li class="elementAction">
+							<a href="{{ path('DocumentRubrique_Creer') }}">Ajouter une rubrique</a></li>
+					</ul>
+					{% endif %}
+				</ul>
+				</ul>
+			</div>
+		</section>
+		
+		<section id="communaute">
+		<div id="communaute">
+			<h3 class="titre vertical titre-communaute">Actus <span class="strong">Communauté</span></h3>
+			<div id="actus-communaute">
+				{% render "CoreBundle:Journal:display" %}
+				{% render "NanaBundle:Partial:showSelectionNanas" %}
+				{% render "CauseuseBundle:Partial:showFooterWidget" with {'limite': 10} %}
+			</div>
+		</section>
+		
+		<footer>
+			<div id="trucdenana">
+				<p>&copy; TRUCDENANA 2008-2012 &ndash; Tous droits réservés</p>
+				<img class="solide" src="{{asset('assets/images/theme/footer/logo_aufeminin.png')}}" />
+				<p>Ce e-zine est commercialisé par aufeminin.com</p>
+			</div>
+			<div class="colonne-footer">
+				<h4>Communautés</h4>
+				<ul>
+					<li>Facebook</li>
+					<li>Twitter</li>
+					<li>Instagram</li>
+					<li>Hellocoton</li>
+				</ul>
+			</div>
+			<div class="colonne-footer">
+				<h4>Site TDN</h4>
+				<ul>
+					<li><a href="{{ path('Document_equipeTDN') }}">Qui sommes-nous ?</a></li>
+					<li><a href="{{ path('Document_mentionsLegales') }}">Mentions légales</a></li>
+					<li>Mobile</li>
+					<li>Vos suggestions</li>
+				</ul>
+			</div>
+			<div class="colonne-footer">
+				<h4>Partenaires</h4>
+				<ul>
+					<li>Blouson cuir sur Fashion-Cuir</li>
+					<li>Pourelles</li>
+					<li>Jeuxconcours</li>
+					<li>Concours gratuits</li>
+				</ul>
+			</div>
+			<div class="colonne-footer">
+				<h4>Liens sponsorisés</h4>
+				<ul>
+					<li>Chemise homme cravate costume</li>
+					<li>monstylemoinscheer.com</li>
+					<li>Job étudiant</li>
+					<li>Boîte rangement vêtements</li>
+					<li>Tonvoyage.fr</li>
+				</ul>
+			</div>
+			
+		</footer>
+	</div>
+
+	<script src="{{ asset('assets/js/ckeditor/ckeditor.js') }}"></script>
+	<script src="{{ asset('assets/js/ckeditor/adapters/jquery.js') }}"></script>
+	<script type="text/javascript">
+    $(document).ready(function () {
+      $(".domainActions a").click(function (event) {
+        event.preventDefault();
+        $(this).parent().next().toggleClass('hiddenContent shownContent');
+      });
+
+      var alerte = $('.messages_systeme:not(:empty)');
+      function alerteFlash () {
+      	alerte.each(function() {
+      		$(this).toggleClass('latentSystemMessages alerteSystemMessages');
+      	});
+      }
+      if (alerte.children().length >= 1) {
+	      alerteFlash();
+	      setTimeout(alerteFlash, 10000);
+      }
+     });
+
+   	function confirmeDelete(theAction) {
+		// Confirmation is not required in the configuration file
+		// or browser is Opera (crappy js implementation)
+		if (typeof(window.opera) != 'undefined') {
+			return true;
+		}
+
+		var is_confirmed = confirm(theAction);
+
+		return is_confirmed;
+	}
+
+	</script>
+	
+	{% block footer_scripts %}
+	<script type="text/javascript">
+	$(document).ready(function () {
+		$('#mytdn-grip').on('click', function () {
+			$(this).closest('#mytdn').toggleClass('mytdn-closed mytdn-open');
+		});
+		$('#mainNavigation').on('mouseenter', '.mainMenuLabel', function () {
+			$(this).closest('#mainNavigation').find('.subMenuAffiche').each(function () { 
+				$(this).toggleClass('subMenuMasque subMenuAffiche');
+				var menu = $(this).closest('.main-menu');
+				var rubrique = menu.data('rubrique');
+				menu.toggleClass('menu'+rubrique+"Selected");
+			});
+			var menu = $(this).closest('.main-menu');
+			var rubrique = menu.data('rubrique');
+			menu.toggleClass('menu'+rubrique+"Selected");
+			$(this).parent().find('.subMenuMasque').toggleClass('subMenuMasque subMenuAffiche')
+		});
+		$('#mainNavigation').on('mouseleave', function () {
+			$(this).closest('#mainNavigation').find('.subMenuAffiche').each(function () { 
+				$(this).toggleClass('subMenuMasque subMenuAffiche')
+				var menu = $(this).closest('.main-menu');
+				var rubrique = menu.data('rubrique');
+				menu.toggleClass('menu'+rubrique+"Selected");
+			});
+		});
+		$('.deleteConfirm').click(function () {
+			return confirmeDelete("Voulez-vous vraiment faire cela ? La suppression sera irréversible.")
+		});
+		$('a.popin').colorbox();
+		// $(".nano").nanoScroller();
+	})
+	</script>
+	<!-- Google Analytics -->
+	{% endblock %}
+</body>
+</html>

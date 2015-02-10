@@ -1,0 +1,18 @@
+<section id="more" class="section-annexe more">
+    <h2 style="margin-left:10px; color:#fff">Pour aller plus loin...</h2>
+    {#% for contenu in more %#}
+       <div class="suite-article{#{more.type}#}">
+          <div>
+            <div class="vignette-sommaire-wrapper">
+               <div class="vignette-sommaire">
+                 <img src="{{ asset('assets/images/theme/image-test.jpg') }}" class="" />
+                </div>
+           </div>
+          </div>
+          <div class="suite-abstract">
+            <h2>Ma recette{#{more.titre}#}</h2>
+            <p>Lorem ipsum sed et eruditi deterruisset, perfecto rationibus eu per, ei sit magna temporibus. Mazim civibus id duo, an his aliquid fabellas, mundi vitae cetero duo eu. Id ius accusata scripserit, vel viderer fuisset ne, pro scaevola evertitur ad.{#{more.abstract}#}</p>
+          </div>
+       </div>
+    {#% endfor %#}
+</section>

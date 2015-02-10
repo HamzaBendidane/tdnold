@@ -1,0 +1,153 @@
+.illustrationConcours {
+	background-color: #F3F3F3;
+	float: left;
+	/*height: 300px;*/
+	margin: 0 40px 20px 0;
+	vertical-align: top;
+	width: 300px;
+}
+
+.texteConcours {
+	vertical-align: top;
+}
+
+.participation {
+	margin-bottom: 20px;
+	overflow: auto;
+}
+
+.block-question-qcm {
+	border: 1px solid #EEE;
+	border-radius: 5px;
+	float: left;
+	margin: 20px;
+	padding: 10px;
+	width: calc(50% - 62px);
+}
+
+.data-destinataire {
+	clear: both;
+}
+
+.option-qcm {
+	padding: 4px 0;
+}
+.option-qcm:nth-child(odd) {
+	background-color: #F9F9F9;
+}
+
+.option-qcm:nth-child(even) {
+	background-color: white;
+}
+
+.option-qcm .texte-option {
+	display: inline-block;
+	width: 80%;
+}
+
+.data-destinataire {
+	background-color: #AAE8E5;
+	border-radius: 12px;
+	margin-bottom: 10px;
+	/*margin-left: 48%;*/
+	padding: 10px;
+	width: 70%
+}
+
+.liste-concours .ferme {
+	opacity: 0.7;
+}
+
+.liste-concours .titre-resume {
+	border-bottom: 1px dotted #999;
+	font-size: 11px;
+	margin: 0;
+	padding: 4px;
+}
+
+.liste-concours .pop,
+.liste-concours .limite {
+	font-size: 9px;
+	margin: 4px;
+	text-align: left;
+}
+
+.liste-concours .resume-concours {
+	min-height: 260px;
+}
+
+.lien-standard {
+	color: #752670;
+	margin: 4px 0;
+	text-align: right;
+	text-decoration: underline;
+}
+
+.lien-standard:after {
+	content: url(../images/theme/centre/commentaires/button-right_14x14.png);
+	position: relative;
+	padding-left: 4px;
+	top: 4px;
+}
+
+.snapshot-concours {
+	width: 120px;
+}
+
+.snapshot-concours img {
+	padding: 6px 0 0 2px;
+	position: relative;
+	width: 110px;
+	z-index: 10;
+}
+
+.reponseConcoursOuvert {
+	border-bottom: 1px solid #E0F0F0;
+	margin-bottom: 8px;
+}
+
+.reponseConcoursOuvert .texteReponse {
+	display:inline-block; 
+	width: calc(75% - 80px);
+	padding: 10px;
+	vertical-align:top;
+}
+
+.reponseConcoursOuvert .voteConcours {
+	display:inline-block; 
+	text-align: right; 
+	padding: 10px 0; 
+	width: calc(25% - 30px);
+}
+
+.reponseConcoursOuvert .messageVote {
+	color: #666;
+	font-size: .8em;
+	margin: 0; 
+}
+
+.reponseConcoursOuvert .metaAuteur {
+	color: #999;
+	font-size: 0.8em;
+	margin: 0 0 4px 0;
+}
+
+.question-concours {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+.reponseConcoursOuvert .avatar {
+	display: inline-block;
+	margin: 0;
+	padding: 5px;
+	padding-left:10px;
+	vertical-align: top;
+	width: 50px;
+}
+
+.reponseConcoursOuvert .avatar-image {
+	border: 3px solid #FFF;
+	width: 40px;
+}
+

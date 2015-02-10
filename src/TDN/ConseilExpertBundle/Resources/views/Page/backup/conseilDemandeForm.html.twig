@@ -1,0 +1,42 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Demande de conseil à un expert" %}
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/commentaire.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/question.css') }}" type="text/css">
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/conseils-experts_titre_299x80.png')}}" />
+</div>
+<article id="article-wrapper" class="main article-redaction">
+<section class="contenu main-section">
+<div id="corps" class="corps">
+    <h1 class="titre-document titre-beaute">Pose une question à un expert</h1>
+	
+	<div class="rawTexte">
+    <p>Le but de TrucdeNana est de conseiller, aiguiller les internautes et livrer des astuces aux lectrices, des bons plans.</p>
+    <p>Tu peux poser une question à un expert dans la rubrique de ton choix et lui parler de ton problème avec sincérité, quel qu'il soit. Veille à ne pas faire de fautes d'orthographe ni à parler en langage sms. Tu obtiendras ta réponse dans les meilleurs délais.</p>
+    </div>
+ </div>
+ 
+  <div id="avis">
+  <h2 class="titreFormContribution">Quelle est ta question ?</h2>
+  <form name="demande-conseil" id="formCommentaire" class="formUser formCommentaire" class="table-content"  action="{{ path('ConseilExpert_creer') }}" method="post" {{ form_enctype(form) }}>
+  <figure class="avatar">
+		<img src="{{ avatar(app.user)}}" alt="Avatar de {{ app.user.username }}"/>
+	</figure>
+	<div id="fields">
+	 <div class="form-element"> {{ form_widget(form.question, {'attr': {'class': 'texteContribution'}}) }} </div>
+    <div class="form-element formCellFollow">{{ form_widget(formRubrique) }}</div>
+    <div class="form-element formCellAntispam">{{ form_row(form.lnImage) }}
+    {{ form_row(form._token) }}</div>
+	</div>
+    <input type="submit" name="poster" value="Poster" style="float:right; margin-top:10px; margin-right:20px"  />
+  </form>
+  </div>
+  <p>Tu peux aussi <a href="{{ path('CauseuseBundle_creer') }}">poser ta question à la communauté des nanas</a>, si tu préfères.</p>
+</section>
+</article>
+{% endblock %}

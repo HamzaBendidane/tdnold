@@ -1,0 +1,340 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Profil de " ~ me.username %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/profil.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/form.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/js/aloha/css/aloha.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+<script src="http://cdn.aloha-editor.org/latest/lib/require.js"></script>
+<script src="http://cdn.aloha-editor.org/latest/lib/aloha.js" data-aloha-plugins="common/ui,common/format,common/highlighteditables,common/link, common/image, common/list, common/table, extra/draganddropfiles"></script>
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/my-profil_titre.png')}}" />
+</div>
+<article id="document-wrapper" class="main article-redaction">
+ <section class="contenu main-section">
+<!-- Bloc pour l'affichage des métadonnées de l'article -->
+    <div id="metadata" class="metadata">
+       <p class="auteur">
+          <span class="standardEtiquette">Popularité : </span>   
+          <span class="date-publication">{{ me.popularite }}) </span>
+       </p>
+       <p>
+        <span class="standardEtiquette">Statut :</span> 
+        <span class="date-publication">Membre</span>       </p>
+    </div>
+
+<!-- Bloc pour l'affichage du contenu du profil -->
+    <div id="corps" class="corps" style="margin-top:20px">
+  <div id="enveloppe-avatar">
+    <div id="avatar">
+      {% set imgAvatar = avatar(me) %}
+      <a class="popin" href="{{ imgAvatar }}" >
+        <img src="{{ imgAvatar }}" />
+      </a>
+	  </div>
+    <p id="avatar_switcher">
+      <a href="{#{ path('change_avatar') }#}">Changer ma photo de profil</a>
+    </p>
+    <form name="selecteur_avatar" id="selecteur_avatar" class="closed-field" action="{{ path('NanaBundle_myAvatarUpdate')}}" method="post" {{ form_enctype(form_avatar) }}>
+    {{ form_row(form_avatar.upload) }}
+    {{ form_row(form_avatar.titre) }}
+    {{ form_rest(form_avatar) }}
+    <input type="submit" value="Afficher" style="margin-top:5px"/>
+    </form>
+  </div>
+  <div>{{ form_errors(form) }}</div>
+  <form name="editeur_profil" id="editeur_profil" action="{{ path('NanaBundle_myProfilUpdate')}}" method="post" {#{ form_enctype(form) }#}>
+    <div id="enveloppe-data">
+      <h1>Mon profil perso</h1>
+      <table id="data">
+        <tr>
+          <td > <span class="standardEtiquette">Prénom/Nom </span></td>
+          <td> <strong>{{ me.prenom ~ " " ~ me.nom }}</strong></td>
+          <td><a href="#" class="modif-bascule">Modifier</a></td>
+        </tr> 
+        <tr class="closed-field form-input">
+          <td colspan="2">{{ form_row(form.prenom) }}{{ form_row(form.nom) }}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><span class="standardEtiquette">Pseudo</span></td>
+          <td><strong>{{ me.username }}</strong></td>
+          <td><a href="#" class="modif-bascule">Modifier</a></td>
+        </tr>
+        <tr class="closed-field form-input">
+          <td colspan="3">{{ form_row(form.username) }}</td>
+        </tr>
+        <tr>
+          <td> <span class="standardEtiquette">Email</span></td>
+          <td><strong>{{ me.email }}</strong></td>
+          <td><a href="#" class="modif-bascule">Modifier</a></td>
+        </tr> 
+        <tr class="closed-field form-input">
+          <td colspan="3">{{ form_row(form.email) }}</td>
+        </tr>
+        <tr>
+          <td><span class="standardEtiquette">Mot de passe</span></td>
+          <td><strong>{#{ password }#}</strong></td>
+          <td class="modif-bascule"><a href="#" class="modif-bascule">Modifier</a></td>
+        </tr> 
+        <tr class="closed-field form-input">
+          <td colspan="3">{{ form_row(form.password) }}</td>
+        </tr>
+        <tr>
+          <td><span class="standardEtiquette">Date de naissance</span></td>
+          <td><strong>{{ me.dateNaissance | date('d m Y') }}</strong></td>
+          <td class="modif-bascule"><a href="#" class="modif-bascule">Modifier</a></td>
+        </tr>
+        <tr class="closed-field form-input">
+           <td colspan="3">{{ form_row(form.dateNaissance) }}</td>
+        </tr>
+        <tr>
+            <td><span class="standardEtiquette">Ville</span></td>
+            <td><strong>{{ me.ville }}</strong></td>
+            <td class="modif-bascule"><a href="#" class="modif-bascule">Modifier</a></td>
+        </tr> 
+        <tr class="closed-field form-input">
+             <td colspan="3">{{ form_row(form.ville) }}</td>
+        </tr>
+        <tr>
+            <td><span class="standardEtiquette">Job/Etudes</span></td>
+            <td><strong>{{ me.occupation }}</strong></td>
+           <td class="modif-bascule"><a href="#" class="modif-bascule">Modifier</a></td>
+        </tr>
+        <tr class="closed-field form-input">
+             <td colspan="3">{{ form_row(form.occupation) }}</td>
+        </tr>
+        <tr>
+          <td> <span class="standardEtiquette">Membre de </span></td>
+          <td> <img src="{{ asset('assets/images/theme/centre/profil/picto_facebook_20x20.png')}}" /> <img src="{{ asset('assets/images/theme/centre/profil/picto_tweeter_20x20.png')}}" /> <img src="{{ asset('assets/images/theme/centre/profil/picto_hellocoton_20x20.png')}}" />      </td>
+           <td class="modif-bascule"><a href="#" class="modif-bascule">Modifier</a></td>
+        </tr> 
+        <tr>
+          <td><span class="standardEtiquette">Newsletter</span></td>
+          <td><strong>{% if me.newsletter == 1 %}Inscrite{% else %}Non inscrite{% endif %}</strong></td>
+           <td class="modif-bascule"><a href="#" class="modif-bascule">Modifier</a></td>
+        </tr> 
+        <tr class="closed-field form-input" colspan=3>
+             <td colspan="3">{{ form_row(form.newsletter) }}</td>
+        </tr>
+      </table>
+    </div>
+    <div id="enveloppe-biographie">
+      <div style="text-align:right">
+        <span class="standardEtiquette">Ta présentation :</br> (Clique dans le cadre pour écrire)</span>
+      </div>
+      <div id="source-biographie" style="border:1px solid #A5E6E4; min-height:200px; overflow:visible; min-height:40px; width:480px; padding:10px; margin-left:5px">
+      {{ me.biographie | raw }}
+      </div>
+      <div style="display:none">{{ form_row(form.biographie, {'id':'raw-biographie'}) }}</div>
+    </div>
+   {{ form_rest(form) }}
+   <div style="margin-bottom:20px; text-align:right"> <input type="submit" value="Enregistrer" /> </div>
+  </form>
+
+  <div id="galerie-perso">
+    <h2>Ta galerie perso</h2>
+    {% if countGaleriePerso > 0 %}
+    {% for proxy in me.galeriePerso%}
+    {% set sourceGalerie = '/web/uploads/documents/profils/'~me.idNana~'/'~proxy.lnImage.fichier %}
+    <figure class="elementGalerie">
+      <img class="vignette-medium" src="{{ asset(sourceGalerie)}}" />
+      <figcaption>
+      <a href="{{ path('Nana_supprimerElementGalerie', {'id': proxy.idPortrait}) }}">Retirer</a>
+      </figcaption>
+    </figure>
+    {% endfor %}
+    {% endif %}
+    {% if countGaleriePerso < 9 %}
+    <p id="galerie_switcher">
+      <a href="{#{ path('NanaBundle_myGalerieUpdate') }#}">Ajoute des images dans ta galerie</a>
+    </p>
+    <form name="selecteur_galerie" id="selecteur_galerie" class="closed-field" action="{{ path('NanaBundle_myGalerieUpdate')}}" method="post" {{ form_enctype(form_avatar) }}>
+    {{ form_row(form_galerie.upload) }}
+    {{ form_row(form_galerie.titre) }}
+    {{ form_rest(form_galerie) }}
+    <input type="submit" value="Ajouter" />
+    </form>
+    {% endif %}
+  </div>
+</div>
+  </section>
+
+
+   <section id="reseau-tdn">
+    <div id="followers">
+      <div class="densite">
+        <span class="taille">{{ me.isFollowed|length }}</span> nana(s)
+      </div>
+      <h2>Elles aiment ton profil ...</h2>
+      {% if me.isFollowed|length > 0 %}
+      <div class="trombines">
+        {% for nana in me.isFollowed %}
+        <img class="vignette-avatar" src="{{ asset('assets/images/theme/centre/avatar_profil/avatar5_80x95.png')}}" /> 
+        {% endfor %}
+      </div>
+      {% else %}
+      <p><a href="#">Signale à tes amies de te rejoindre sur TDN</a></p>
+      {% endif %}
+    </div>
+    <div id="followings">
+      <div class="densite2">
+        <span class="taille">{{ me.follows|length }}</span> nana(s)
+      </div>
+      <h2>Tu t'intéresses à elles ...</h2>
+      {% if me.follows|length > 0 %}
+      <div class="trombines">
+        {#% for nana in me.follows %#}
+        <img class="vignette-avatar" src="{{ asset('assets/images/theme/centre/avatar_profil/avatar5_80x95.png')}}" /> 
+		<img class="vignette-avatar" src="{{ asset('assets/images/theme/centre/avatar_profil/avatar5_80x95.png')}}" /> 
+		<img class="vignette-avatar" src="{{ asset('assets/images/theme/centre/avatar_profil/avatar5_80x95.png')}}" />
+		<img class="vignette-avatar" src="{{ asset('assets/images/theme/centre/avatar_profil/avatar5_80x95.png')}}" /> 
+		<img class="vignette-avatar" src="{{ asset('assets/images/theme/centre/avatar_profil/avatar5_80x95.png')}}" /> 
+        {#% endfor %#}
+      </div>
+       {% else %}
+      <p><a href="#">Suis les nanas qui te plaisent sur TDN</a></p>
+      {% endif %}
+	  <div style="text-align:center"><label>Rechercher un membre</label>
+	  <div id="search"><input type="text" size="34"><input type="image" name="imageField" style="float:right" id="imageField" src="{{ asset('assets/images/theme/tetiere/navigation/bt-fleche-droite-recherche.png')}}"/></div>
+      </div>
+	
+    </form>
+  </section>
+
+  <section id="hobbies">
+    <h2>Ce que tu aimes dans la vie</h2>
+    {% if countHobbies > 0 %}
+    {% for hobby in my_hobbies %}
+    <div class="hobby-wrapper">
+      <div class="titre-hobby">
+        <span class="standardEtiquette">{{ hobby.domaine }}</span> : <span class=""hobby-precisions">{{ hobby.precisions }}</span>
+      </div>
+	  <div class="right"> <a href="#">voir mes images</a> <span class="separateur">I</span> <a href="#">modifier</a> </div>
+      <div class="galerie-hobbie">{% for image in hobby.galerieHobby %}
+      <img class="vignette-medium" src="{{ asset('/web/uploads/documents/profils/'~me.idNana~'/'~image.lnImage.fichier)}}" />
+	  
+      {% endfor %}</div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p class="warning-empty">Cette rubrique est encore vide</p>
+  {% endif %}
+  <p><div style="margin-bottom:5px; margin-right:12px; text-align:right">
+<input type="submit" value="Ajoute un hobby" id="switcherHobby">
+</div></p>
+    <form name="selecteur_hobby" id="selecteurHobby" class="closed-field" action="{{ path('NanaBundle_myHobbyAdd')}}" method="post" {{ form_enctype(form_hobby) }}>
+    {{ form_row(form_hobby.domaine) }}
+    {{ form_row(form_hobby.precisions) }}
+    {{ form_rest(form_hobby) }}
+     <p><a href="#"id="boutonAjoutImageHobby">Ajoute une image</a></p>
+    <input type="submit" value="Ajouter" />
+    </form>
+  </section>
+
+  <section id="activite">
+    <h2>Mon activité sur TDN</h2>
+    {% if productions == 0 %}
+    <p class="warning-empty">Cette rubrique est encore vide</p>
+    {% else %}
+      {% if my_question is defined %}
+      <section id="ses-questions" class="bloc-production">
+        <h4>Mes questions</h4>
+          {% for p in my_question %}
+          <p class="item-production">{{ p.titre }}</p>
+          {% endfor %}
+      </section>
+      {% endif %}
+    <section id="ses-commentaires"></section>
+      {% if my_reponse is defined %}
+      <section id="ses-reponses" class="bloc-production">
+        <h4>Mes réponses</h4>
+        {% for p in my_reponse %}
+        <p class="item-production">{{ p.lnConversation.titre }}</p>
+        {% endfor %}
+      </section>
+      {% endif %}
+      {% if my_article is defined %}
+      <section id="ses-articles" class="bloc-production">
+        <h4>Mes articles</h4>
+        {% for p in my_article %}
+        <p class="item-production">{{ p.titre }}</p>
+        {% endfor %}
+      </section>
+      {% endif %}
+      {% if my_conseil is defined %}
+      <section id="ses-conseils" class="bloc-production">
+        <h4>Mes demandes</h4>
+        {% for p in my_article %}
+        <p class="item-production">{{ p.titre }}</p>
+        {% endfor %}
+      </section>
+      {% endif %}
+    <section id="ses-infos" class="bloc-production"></section>
+    {% endif %}
+  </section>
+
+  <section id="tdn-like">
+    <h2>Ce que tu as aimé sur TDN</h2>
+    {% if likes is empty %}
+    <p class="warning">Cette rubrique est encore vide</p>
+    {% else %}
+    <section id="">
+      {% for isLiked in likes %}
+      {% endfor %}
+    </section>
+    {% endif %}
+  </section>
+
+</article>
+<script type="text/javascript">
+
+  function addTagForm(collectionHolder, $newLinkLi) {
+      var prototype = collectionHolder.attr('data-prototype');
+      var newForm = prototype.replace(/__name__/g, collectionHolder.children().length);
+      var $newFormLi = $('<li></li>').append(newForm);
+      $newLinkLi.before($newFormLi);
+  }
+
+  Aloha.ready( function() {
+     Aloha.jQuery('#source-biographie').aloha();
+  });
+  $(document).ready(function () {
+    $(".modif-bascule").click(function (event) {
+      event.preventDefault();
+      $(this).parent().parent().next().toggleClass('closed-field open-field');
+    });
+    $("#source-biographie").blur(function () {
+      $("#raw-biographie").html($("#source-biographie").html());
+    });
+    $("#avatar_switcher").click(function (event) {
+      event.preventDefault();
+      $("#selecteur_avatar").toggleClass('closed-field open-field');
+    });
+    $("#galerie_switcher").click(function (event) {
+      event.preventDefault();
+      $("#selecteur_galerie").toggleClass('closed-field open-field');
+    });
+    $("#switcherHobby").click(function (event) {
+      event.preventDefault();
+      $("#selecteurHobby").toggleClass('closed-field open-field');
+    });
+    $("#boutonAjoutImageHobby").click(function (event) {
+      event.preventDefault();
+      var $holder = $("#marylin_hobby_nana_galerieHobby");
+      var prototype = $holder.attr('data-prototype');
+      alert(prototype);
+      var newForm = prototype.replace(/__name__/g, $holder.children().length);
+      $holder.append(newForm);
+      return false;
+    })
+  });
+</script>
+{% endblock %}

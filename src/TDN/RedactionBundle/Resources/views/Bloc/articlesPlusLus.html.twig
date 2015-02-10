@@ -1,0 +1,32 @@
+<div id="hotarticles">
+	<h3 class="titre"><span>Articles</span> parmi les plus lus</h3>
+	{% if articlesPlusLus is empty %}
+	<p class="warning">Pas d'article publié à l'heure actuelle</p>
+	{% else %}
+	{% for a in articlesPlusLus %}
+	{% set princeps = rubriquePrincipale(a.lnThematique) %}
+	<div class="plusLus {{ princeps }}_secondaire">
+		{% if a.lnIllustration.fichier is not defined %}
+		    {% set alt = 'Vignette par défaut' %}
+		{% else %}
+		    {% set alt = a.lnIllustration.alt %}
+		{% endif %}
+ 		{% set r = a.rubriques %}
+		<div class="rubriqueMarqueur coin_{{ princeps }}">
+			<a href="{{ a|targetURL }}">
+	 			<img class="iconex40" src="{{ illustration(a) }}" alt="{{ alt }}" />
+ 			</a>
+ 		</div>
+ 		{% if a.abstract is empty %}
+ 		{% set abstract = a.corps|slice(0,80) %}
+ 		{% else %}
+ 		{% set abstract = a.abstract|slice(0,80) %}
+ 		{% endif %}
+			<p style="margin:0">
+				<a href="{{ a|targetURL }}">{{ a.titre }}</a>
+			</p>
+			<p class="credits">Par <a href="{{ path('NanaBundle_profil', {'id': a.lnAuteur.idNana}) }}">{{ a.lnAuteur.prenom~' '~a.lnAuteur.nom }}</a>, {{ a.datePublication|laps }}</p>
+	</div>
+	{% endfor %}
+	{% endif %}
+</div>

@@ -1,0 +1,275 @@
+#contenu {
+	background-color: #FFF;
+	border-radius: 12px;
+}
+
+.adminSidebar {
+	display: table-cell;
+    padding: 0 40px 40px;
+    vertical-align: top;
+    width: 220px;
+}
+
+.adminSidebar h2 {
+	background-color: #77DAD7;
+	font: bold 1.2em Questrial;
+	margin: 0;
+	padding: 10px 0;
+	text-align: center;
+}
+
+.adminSidebar .adminActions {
+	border: 2px solid #77DAD7;	
+	list-style: none;
+	margin: 0;
+	padding: 4px;
+}
+
+.adminSidebar .adminActions a {
+	display: block;
+}
+
+.adminSidebar .adminActions:not(:last-child) {
+	border-bottom: 1px solid #C9F0EF;
+}
+
+.adminSidebar .domainActions {
+	background-color: #FCDBF6;
+	font: bold 1.1em Questrial;
+	margin: 4px;
+	padding: 4px;
+}
+
+.adminSidebar .domainActions:hover {
+	color: #FFF;
+	background-color: #722670;
+}
+
+.adminSidebar .setAction {
+	list-style: none;
+	margin: 4px;
+	padding: 4px;
+}
+
+.hiddenContent {
+	display: none;
+	height: 0;
+}
+
+.shownContent {
+	transition-property: height;
+	transition-duration: 0.5s;
+	transition-timing-function: ease-out;
+	display: auto;
+	height: auto;
+}
+
+.adminSidebar .elementAction {
+	background-color: #EEE;
+    border-left: 4px solid #999;
+    font: normal 1em Questrial;
+    margin: 2px 0;
+	padding: 4px 4px 4px 8px;
+}
+
+.adminSidebar .elementAction:hover {
+	background-color: #333;
+	color: white;
+}
+.postit-contenu {
+    left: 60px;
+    position: absolute;
+    top: -20px;
+}
+
+.titrePage {
+	text-align: right;
+	margin-right: 40px;
+}
+
+.formSelection {
+	background: #77DAD7;
+	border-radius: 6px;
+	padding: 10px;
+}
+
+.formSelection label {
+	display: inline-block;
+	color: #299693;
+	font-weight: bold;
+	margin: 0 5px 0 20px;
+}
+
+.formSelection .selectSubmitter {
+	display: inline-block;
+	margin: 0 0 0 20px;
+}
+
+.adminLog {
+	background-color: #C9F0EF;
+    border-radius: 6px;
+    margin: 20px auto;
+    padding: 10px 10px 20px;
+    width: 100%;
+}
+
+.adminLog tbody tr:nth-child(odd) {
+	background-color: #FFF;
+}
+
+.adminLog tbody tr:nth-child(even) {
+	background-color: #FEF2FC;
+}
+
+.adminLog thead {
+	background-color: transparent;
+	color: #299693;
+	font-weight: bold;
+}
+
+.adminLog td {
+	padding: 8px;
+}
+
+.colonneAction {
+	width: 70px;
+	padding-bottom: 10px;
+	text-align: center;
+}
+
+.colonneId {
+	width: 30px;
+	padding-bottom: 10px;
+	text-align: center;
+}
+
+/* Formulaires */
+
+label {
+	font: bold 0.9em Questrial ;
+}
+
+.blockWidget,
+.lineWidget,
+.choiceWidget {
+	margin: 1em 0;
+}
+
+.blockWidget label {
+	display: block;
+	margin-top: 2.7em;
+	margin-bottom: 0.9em;
+}
+
+.lineWidget label {
+	display: inline-block;
+	padding-right: 6px;
+	text-align: right;
+	width: 150px;
+}
+
+.choiceWidget label {
+	display: inline-block;
+	margin-top: 2.7em;
+	margin-bottom: 0.9em;
+	padding-right: 6px;
+	text-align: right;
+	width: 150px;
+}
+
+.choiceWidget .choices {
+	display: inline-block;
+}
+
+.choiceWidget .choices label {
+	display: inline-block;
+	margin: 0;
+	padding-left: 6px;
+	padding-right: 20px;
+	text-align: left;
+	width: auto;
+
+}
+
+.fileWidget > div {
+ 	display: inline-block;
+ }
+
+ .fileWidget > div > label {
+	display: block;
+	margin: 1em 0;
+	width: 100%;
+	text-align: left;
+}
+
+.fileWidget .imageSelecteur label {
+	display: inline-block;
+	margin: 0.9em 0;
+	padding-right: 6px;
+	text-align: right;
+	width: 150px;
+}
+
+textarea {
+	width: 500px;
+	height: 200px;
+}
+
+ input[type='submit'] {
+	border: 0;
+	border-radius: 12px;
+	color: white;
+	display: inline-block;
+	margin: 2em 1em 2em 0;
+	background-attachment: scroll;
+	background-color: #752670;
+	background-image: url(../images/theme/forms/bt_fleche_droite.png);
+	background-repeat: no-repeat;
+	background-position: 93% 4px;
+	padding-top: 4px;
+	padding-right: 40px;
+	padding-bottom: 4px;
+	padding-left: 10px;
+	font-size: 1em;
+	font-weight: bold;
+	height: 24px;
+ }
+
+ .borderedInput {
+ 	border: 2px solid #77DAD7;
+ 	border: 2px -moz-bg-solid #77DAD7 !important; 
+ }
+
+.tiroirFerme {
+	display: none;
+}
+
+.tiroirOuvert {
+	display: block;
+}
+
+.formAdminData {
+	background-color: #C0EEEC;
+	border-radius: 12px;
+	padding: 20px 5px;
+}
+
+.form-section {
+	padding: 20px 0;
+}
+
+.form-section:not(:last-child) {
+	border-bottom: 1px solid #999;
+}
+
+.section-contenu {
+	background-color: rgba(255,255,255,0.6);
+	padding: 1px 20px 20px;
+}
+
+.apercu {
+ 	display: inline-block;
+    margin-right: 20px;
+    max-height: 150px;
+    vertical-align: top;
+ }

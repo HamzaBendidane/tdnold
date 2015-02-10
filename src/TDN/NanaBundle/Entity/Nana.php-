@@ -1,0 +1,973 @@
+<?php
+
+namespace TDN\NanaBundle\Entity;
+
+use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TDN\NanaBundle\Entity\Nana
+ */
+class Nana implements UserInterface, \Serializable {
+
+    /**
+     * @var string $username
+     */
+    private $username;
+
+    /**
+     * @var string $password
+     */
+    private $password;
+
+    /**
+     * @var string $salt
+     */
+    private $salt;
+
+    /**
+     * @var string $prenom
+     */
+    private $prenom;
+
+    /**
+     * @var string $nom
+     */
+    private $nom;
+
+    /**
+     * @var \DateTime $dateNaissance
+     */
+    private $dateNaissance;
+
+    /**
+     * @var string $email
+     */
+    private $email;
+
+    /**
+     * @var string $ville
+     */
+    private $ville;
+
+    /**
+     * @var string $occupation
+     */
+    private $occupation;
+
+    /**
+     * @var float $popularite
+     */
+    private $popularite;
+
+    /**
+     * @var string $biographie
+     */
+    private $biographie;
+
+    /**
+     * @var \DateTime $dateInscription
+     */
+    private $dateInscription;
+
+    /**
+     * @var \DateTime $dateAbonnement
+     */
+    private $dateAbonnement;
+
+    /**
+     * @var boolean $active
+     */
+    private $active;
+
+    /**
+     * @var boolean $newsletter
+     */
+    private $newsletter;
+
+    /**
+     * @var boolean $blacklist
+     */
+    private $blacklist;
+
+    /**
+     * @var string $adresseIP
+     */
+    private $adresseIP;
+
+    /**
+     * @var integer $idNana
+     */
+    private $idNana;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    private $productions;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    private $galeriePerso;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    private $expertises;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    private $roles;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    private $follows;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    private $Follow;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    private $pokes;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->productions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->galeriePerso = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->expertises = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->follows = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->Follow = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->pokes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Set username
+     *
+     * @param string $username
+     * @return Nana
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    
+        return $this;
+    }
+
+    /**
+     * Get username
+     *
+     * @return string 
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     * @return Nana
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    
+        return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string 
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set salt
+     *
+     * @param string $salt
+     * @return Nana
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+    
+        return $this;
+    }
+
+    /**
+     * Get salt
+     *
+     * @return string 
+     */
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+    /**
+     * Set prenom
+     *
+     * @param string $prenom
+     * @return Nana
+     */
+    public function setPrenom($prenom)
+    {
+        $this->prenom = $prenom;
+    
+        return $this;
+    }
+
+    /**
+     * Get prenom
+     *
+     * @return string 
+     */
+    public function getPrenom()
+    {
+        return $this->prenom;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     * @return Nana
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+    
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string 
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set dateNaissance
+     *
+     * @param \DateTime $dateNaissance
+     * @return Nana
+     */
+    public function setDateNaissance($dateNaissance)
+    {
+        $this->dateNaissance = $dateNaissance;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateNaissance
+     *
+     * @return \DateTime 
+     */
+    public function getDateNaissance()
+    {
+        return $this->dateNaissance;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return Nana
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string 
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set ville
+     *
+     * @param string $ville
+     * @return Nana
+     */
+    public function setVille($ville)
+    {
+        $this->ville = $ville;
+    
+        return $this;
+    }
+
+    /**
+     * Get ville
+     *
+     * @return string 
+     */
+    public function getVille()
+    {
+        return $this->ville;
+    }
+
+    /**
+     * Set occupation
+     *
+     * @param string $occupation
+     * @return Nana
+     */
+    public function setOccupation($occupation)
+    {
+        $this->occupation = $occupation;
+    
+        return $this;
+    }
+
+    /**
+     * Get occupation
+     *
+     * @return string 
+     */
+    public function getOccupation()
+    {
+        return $this->occupation;
+    }
+
+    /**
+     * Set popularite
+     *
+     * @param float $popularite
+     * @return Nana
+     */
+    public function setPopularite($popularite)
+    {
+        $this->popularite = $popularite;
+    
+        return $this;
+    }
+
+    /**
+     * Get popularite
+     *
+     * @return float 
+     */
+    public function getPopularite()
+    {
+        return $this->popularite;
+    }
+
+    /**
+     * Set biographie
+     *
+     * @param string $biographie
+     * @return Nana
+     */
+    public function setBiographie($biographie)
+    {
+        $this->biographie = $biographie;
+    
+        return $this;
+    }
+
+    /**
+     * Get biographie
+     *
+     * @return string 
+     */
+    public function getBiographie()
+    {
+        return $this->biographie;
+    }
+
+    /**
+     * Set dateInscription
+     *
+     * @param \DateTime $dateInscription
+     * @return Nana
+     */
+    public function setDateInscription($dateInscription)
+    {
+        $this->dateInscription = $dateInscription;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateInscription
+     *
+     * @return \DateTime 
+     */
+    public function getDateInscription()
+    {
+        return $this->dateInscription;
+    }
+
+    /**
+     * Set dateAbonnement
+     *
+     * @param \DateTime $dateAbonnement
+     * @return Nana
+     */
+    public function setDateAbonnement($dateAbonnement)
+    {
+        $this->dateAbonnement = $dateAbonnement;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateAbonnement
+     *
+     * @return \DateTime 
+     */
+    public function getDateAbonnement()
+    {
+        return $this->dateAbonnement;
+    }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     * @return Nana
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean 
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Set newsletter
+     *
+     * @param boolean $newsletter
+     * @return Nana
+     */
+    public function setNewsletter($newsletter)
+    {
+        $this->newsletter = $newsletter;
+    
+        return $this;
+    }
+
+    /**
+     * Get newsletter
+     *
+     * @return boolean 
+     */
+    public function getNewsletter()
+    {
+        return $this->newsletter;
+    }
+
+    /**
+     * Set blacklist
+     *
+     * @param boolean $blacklist
+     * @return Nana
+     */
+    public function setBlacklist($blacklist)
+    {
+        $this->blacklist = $blacklist;
+    
+        return $this;
+    }
+
+    /**
+     * Get blacklist
+     *
+     * @return boolean 
+     */
+    public function getBlacklist()
+    {
+        return $this->blacklist;
+    }
+
+    /**
+     * Set adresseIP
+     *
+     * @param string $adresseIP
+     * @return Nana
+     */
+    public function setAdresseIP($adresseIP)
+    {
+        $this->adresseIP = $adresseIP;
+    
+        return $this;
+    }
+
+    /**
+     * Get adresseIP
+     *
+     * @return string 
+     */
+    public function getAdresseIP()
+    {
+        return $this->adresseIP;
+    }
+
+    /**
+     * Get idNana
+     *
+     * @return integer 
+     */
+    public function getIdNana()
+    {
+        return $this->idNana;
+    }
+
+    /**
+     * Add productions
+     *
+     * @param TDN\DocumentBundle\Entity\Document $productions
+     * @return Nana
+     */
+    public function addProduction(\TDN\DocumentBundle\Entity\Document $productions)
+    {
+        $this->productions[] = $productions;
+    
+        return $this;
+    }
+
+    /**
+     * Remove productions
+     *
+     * @param TDN\DocumentBundle\Entity\Document $productions
+     */
+    public function removeProduction(\TDN\DocumentBundle\Entity\Document $productions)
+    {
+        $this->productions->removeElement($productions);
+    }
+
+    /**
+     * Get productions
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getProductions()
+    {
+        return $this->productions;
+    }
+
+    /**
+     * Add galeriePerso
+     *
+     * @param TDN\NanaBundle\Entity\NanaPortraitImageProxy $galeriePerso
+     * @return Nana
+     */
+    public function addGaleriePerso(\TDN\NanaBundle\Entity\NanaPortraitImageProxy $galeriePerso)
+    {
+        $this->galeriePerso[] = $galeriePerso;
+    
+        return $this;
+    }
+
+    /**
+     * Remove galeriePerso
+     *
+     * @param TDN\NanaBundle\Entity\NanaPortraitImageProxy $galeriePerso
+     */
+    public function removeGaleriePerso(\TDN\NanaBundle\Entity\NanaPortraitImageProxy $galeriePerso)
+    {
+        $this->galeriePerso->removeElement($galeriePerso);
+    }
+
+    /**
+     * Get galeriePerso
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getGaleriePerso()
+    {
+        return $this->galeriePerso;
+    }
+
+    /**
+     * Add expertises
+     *
+     * @param TDN\ConseilExpertBundle\Entity\ConseilExpert $expertises
+     * @return Nana
+     */
+    public function addExpertise(\TDN\ConseilExpertBundle\Entity\ConseilExpert $expertises)
+    {
+        $this->expertises[] = $expertises;
+    
+        return $this;
+    }
+
+    /**
+     * Remove expertises
+     *
+     * @param TDN\ConseilExpertBundle\Entity\ConseilExpert $expertises
+     */
+    public function removeExpertise(\TDN\ConseilExpertBundle\Entity\ConseilExpert $expertises)
+    {
+        $this->expertises->removeElement($expertises);
+    }
+
+    /**
+     * Get expertises
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getExpertises()
+    {
+        return $this->expertises;
+    }
+
+    /**
+     * Add roles
+     *
+     * @param TDN\NanaBundle\Entity\NanaRoles $roles
+     * @return Nana
+     */
+    public function addRole(\TDN\NanaBundle\Entity\NanaRoles $roles)
+    {
+        $this->roles[] = $roles;
+    
+        return $this;
+    }
+
+    /**
+     * Remove roles
+     *
+     * @param TDN\NanaBundle\Entity\NanaRoles $roles
+     */
+    public function removeRole(\TDN\NanaBundle\Entity\NanaRoles $roles)
+    {
+        $this->roles->removeElement($roles);
+    }
+
+    /**
+     * Get roles
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getRoles()
+    {
+        return $this->roles->toArray();
+    }
+
+    /**
+     * Add follows
+     *
+     * @param TDN\NanaBundle\Entity\Nana $follows
+     * @return Nana
+     */
+    public function addFollow(\TDN\NanaBundle\Entity\Nana $follows)
+    {
+       $this->follows[] = $follows;
+
+       if (! $follows->getFollows()->contains($this)) {
+            $follows->addFollow($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove follows
+     *
+     * @param TDN\NanaBundle\Entity\Nana $follows
+     */
+    public function removeFollow(\TDN\NanaBundle\Entity\Nana $follows)
+    {
+        $this->follows->removeElement($follows);
+    }
+
+    /**
+     * Get follows
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getFollows()
+    {
+        return $this->follows;
+    }
+
+    /**
+     * Get Follow
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getFollow()
+    {
+        return $this->Follow;
+    }
+
+    /**
+     * Add pokes
+     *
+     * @param TDN\DocumentBundle\Entity\Document $pokes
+     * @return Nana
+     */
+    public function addPoke(\TDN\DocumentBundle\Entity\Document $pokes)
+    {
+        $this->pokes[] = $pokes;
+    
+        return $this;
+    }
+
+    /**
+     * Remove pokes
+     *
+     * @param TDN\DocumentBundle\Entity\Document $pokes
+     */
+    public function removePoke(\TDN\DocumentBundle\Entity\Document $pokes)
+    {
+        $this->pokes->removeElement($pokes);
+    }
+
+    /**
+     * Get pokes
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getPokes()
+    {
+        return $this->pokes;
+    }
+
+    /**
+     * @see UserInterface::eraseCredentials()
+     */
+    public function eraseCredentials() {
+    
+    } 
+
+    /**
+     * @see \Serializable::serialize()
+     */
+    
+    public function serialize() {
+
+        return serialize($this->username);
+    }
+
+    /**
+     * @see \Serializable::unserialize()
+     */
+    public function unserialize($serialized) {
+        
+        $this->username = unserialize($serialized);
+    }
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    private $lnSociaux;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    private $lnHobbies;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    private $lnCommentaires;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    private $follow;
+
+
+    /**
+     * Add lnSociaux
+     *
+     * @param TDN\NanaBundle\Entity\NanaNetwork $lnSociaux
+     * @return Nana
+     */
+    public function addLnSociaux(\TDN\NanaBundle\Entity\NanaNetwork $lnSociaux)
+    {
+        $this->lnSociaux[] = $lnSociaux;
+    
+        return $this;
+    }
+
+    /**
+     * Remove lnSociaux
+     *
+     * @param TDN\NanaBundle\Entity\NanaNetwork $lnSociaux
+     */
+    public function removeLnSociaux(\TDN\NanaBundle\Entity\NanaNetwork $lnSociaux)
+    {
+        $this->lnSociaux->removeElement($lnSociaux);
+    }
+
+    /**
+     * Get lnSociaux
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getLnSociaux()
+    {
+        return $this->lnSociaux;
+    }
+
+    /**
+     * Add lnHobbies
+     *
+     * @param TDN\NanaBundle\Entity\NanaHobby $lnHobbies
+     * @return Nana
+     */
+    public function addLnHobbie(\TDN\NanaBundle\Entity\NanaHobby $lnHobbies)
+    {
+        $this->lnHobbies[] = $lnHobbies;
+    
+        return $this;
+    }
+
+    /**
+     * Remove lnHobbies
+     *
+     * @param TDN\NanaBundle\Entity\NanaHobby $lnHobbies
+     */
+    public function removeLnHobbie(\TDN\NanaBundle\Entity\NanaHobby $lnHobbies)
+    {
+        $this->lnHobbies->removeElement($lnHobbies);
+    }
+
+    /**
+     * Get lnHobbies
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getLnHobbies()
+    {
+        return $this->lnHobbies;
+    }
+
+    /**
+     * Add lnCommentaires
+     *
+     * @param TDN\CommentaireBundle\Entity\Commentaire $lnCommentaires
+     * @return Nana
+     */
+    public function addLnCommentaire(\TDN\CommentaireBundle\Entity\Commentaire $lnCommentaires)
+    {
+        $this->lnCommentaires[] = $lnCommentaires;
+    
+        return $this;
+    }
+
+    /**
+     * Remove lnCommentaires
+     *
+     * @param TDN\CommentaireBundle\Entity\Commentaire $lnCommentaires
+     */
+    public function removeLnCommentaire(\TDN\CommentaireBundle\Entity\Commentaire $lnCommentaires)
+    {
+        $this->lnCommentaires->removeElement($lnCommentaires);
+    }
+
+    /**
+     * Get lnCommentaires
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getLnCommentaires()
+    {
+        return $this->lnCommentaires;
+    }
+    /**
+     * @var TDN\ImageBundle\Entity\Image
+     */
+    private $lnAvatar;
+
+
+    /**
+     * Set lnAvatar
+     *
+     * @param TDN\ImageBundle\Entity\Image $lnAvatar
+     * @return Nana
+     */
+    public function setLnAvatar(\TDN\ImageBundle\Entity\Image $lnAvatar = null)
+    {
+        $this->lnAvatar = $lnAvatar;
+    
+        return $this;
+    }
+
+    /**
+     * Get lnAvatar
+     *
+     * @return TDN\ImageBundle\Entity\Image 
+     */
+    public function getLnAvatar()
+    {
+        return $this->lnAvatar;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     */
+    private $filProductions;
+
+
+    /**
+     * Add filProductions
+     *
+     * @param TDN\DocumentBundle\Entity\Document $filProductions
+     * @return Nana
+     */
+    public function addFilProduction(\TDN\DocumentBundle\Entity\Document $filProductions)
+    {
+        $this->filProductions[] = $filProductions;
+    
+        return $this;
+    }
+
+    /**
+     * Remove filProductions
+     *
+     * @param TDN\DocumentBundle\Entity\Document $filProductions
+     */
+    public function removeFilProduction(\TDN\DocumentBundle\Entity\Document $filProductions)
+    {
+        $this->filProductions->removeElement($filProductions);
+    }
+
+    /**
+     * Get filProductions
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getFilProductions()
+    {
+        return $this->filProductions;
+    }
+}

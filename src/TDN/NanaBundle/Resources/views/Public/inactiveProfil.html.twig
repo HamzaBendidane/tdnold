@@ -1,0 +1,44 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Profil de " ~ me.username %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/profil.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/profil-nana_titre_299x70.png')}}" />
+</div>
+<article id="document-wrapper" class="main article-redaction">
+
+  <section class="contenu main-section">
+<!-- Bloc pour l'affichage des métadonnées de l'article -->
+    <div id="metadata" class="metadata">
+       <p class="auteur">
+          <span class="standardEtiquette">Popularité : </span>   
+          <span class="date-publication">{{ me.popularite|stiletto|raw }}</span>
+       </p>
+       <p>
+        <span class="standardEtiquette">Statut :</span> 
+        <span class="date-publication">{% for r in me.roles %}{{ r.name~' | ' }}{% endfor %}</span></p>
+    </div>
+    <!-- Bloc pour l'affichage du contenu du profil -->
+    <div id="corps" class="corps" style="margin-top:20px">
+    <div id="enveloppe-avatar">
+	 <div id="avatar">
+        <img src="{{ asset('/assets/images/theme/centre/avatar_profil/avatar5%2080x95.png') }}" />
+	  </div>
+    </div>
+
+    <div id="enveloppe-data">
+      <h1>{{ me.username }}</h1>
+      <p class="inactif">Ce compte a été désactivé par son titulaire</p>
+    </div>
+	</div>
+  </section>
+</article>
+{% endblock %}

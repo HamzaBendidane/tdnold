@@ -1,0 +1,127 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Rejoins la communauté de Trucs de Nana" %}
+
+{% block local_stylesheets %}
+{% endblock %}
+
+{% block contenu_principal %}
+<div id="fenetre-inscription" class="inscription-page">
+	{% if message %}
+	<p>{{ message }}</p>
+	{% endif %}
+	<div id="silhouette" style="height:45px">
+		<h1 id="souhait">Rejoins la bande des nanas, tu accèderas à pleins d'avantages, bons plans, cadeaux...</h1>
+		<!--img class="inline-image closing" src="{{ asset('assets/images/theme/inscription/picto_closed.png')}}" /--> 
+	</div>
+	<section id="inscription" class="section-inscription">
+		<div id="choix-inscription" class="bloc-inscription degrade3 ">
+			<form class="public-form" action="{{ path('NanaBundle_registerCheck')}}" method="post" {{ form_enctype(form) }}>
+				<p class="stitre">Crée ton compte avec <img class="inline-image" src="{{ asset('assets/images/theme/inscription/picto_mytdn.png')}}" /></p>
+				<div class="markRequirement">
+					{{ form_row(form.user.username) }}
+				</div>
+				<div class="markRequirement">
+					{{ form_row(form.user.email, {'value': email}) }}
+				</div>
+				<div class="markRequirement">
+					{{ form_row(form.user.password) }}
+				</div>
+				<div class="markRequirement">
+					{{ form_row(form.user.dateNaissance) }}
+				</div>
+				{{ form_row(form.user.sexe) }}
+				{#{ form_row(form.user.newsletter) }#}
+				{{ form_row(form.user.offresPartenaires) }}
+				<p class="texte-annexe">J'accepte les <a href="{{ path('Document_mentionsLegales')}}" class="" target="_blank">conditions d'utilisation</a> {{ form_widget(form.termsAccepted) }}</p>
+				{#{ form_rest(form)}#}
+				<input type="hidden" name="referer" id="referer" value="{{ referer }}" />
+				<input type="hidden" name="callback" id="callback" value="{{ follow }}" />
+				<input type="hidden" name="nslFollowing" id="nslFollowing" value="1" />
+				<input type="submit" />
+			</form>
+		</div>
+	</section>
+	<section id="services" class="services">
+		<h1 id="pourquoi">
+			<span>Pourquoi s'inscrire sur TDN ?<span>
+		</h1>
+		<div class="blocwhy">
+			<img class="inline-image" style="float:left;" src="{{asset('assets/images/theme/inscription/n1.png')}}" />
+			<p>Fais partie d’une communauté 100% nanas pour se refiler des astuces, se serrer les coudes, échanger</p>
+		</div>
+		<div class="blocwhy">
+			<img class="inline-image" style="float:left;" src="{{asset('assets/images/theme/inscription/n2.png')}}" /><p>Pose tes questions à tous nos experts : sexologue, psychologue, coiffeur, maquilleur, relookeur, diététicien</p>
+		</div>
+		<div class="blocwhy">
+			<img class="inline-image" style="float:left;" src="{{asset('assets/images/theme/inscription/n3.png')}}" />
+			<p> Un doute, un problème&nbsp;? Demande l’avis de la communauté des nanas et partage tes expériences</p>
+		</div>
+		<div class="blocwhy">
+			<img class="inline-image" style="float:left;" src="{{asset('assets/images/theme/inscription/n4.png')}}" />
+			<p> Enrichis TrucDeNana en partageant ta vidéo coup de coeur et en postant ton bon plan ou un scoop sur le fil info</p>
+		</div>
+		<div class="blocwhy">
+			<img class="inline-image" style="float:left;" src="{{asset('assets/images/theme/inscription/n5.png')}}" />
+			<p>Tous les vendredis reçois ta newsletter personnalisée et découvre en exclu le bon plan du week-end et ton astrolove</p>
+		</div>
+		<div class="blocwhy">
+			<img class="inline-image" style="float:left;" src="{{asset('assets/images/theme/inscription/n6.png')}}" />
+			<p>Deviens membre VIP pour gagner des offres privilèges et des cadeaux exclusifs en participant activement sur TrucDeNana</p>
+		</div>
+	</section>
+	<p style="clear: both; margin-bottom: 60px;"> </p>
+</div>
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('#marylin_inscription_nana_user_username').on('focus', function() {
+			$(this).css('border-color', 'black');
+			$(this).val('');
+			$('#username-warning').detach();
+		});
+		$('#marylin_inscription_nana_user_username').on('blur', function() {
+			var data = {};
+			data.username = $(this).val();
+			if (data.username != '') {
+				$.getJSON('/usernamechecker.json', data)
+					.done(function (data) {
+						console.log(data);
+						var field = $('#marylin_inscription_nana_user_username');
+						if (data.used == 1) {
+							console.log('Pseudo déjà utilisé');
+							field.css('border-color', 'red');
+							field.parent().after('<p id="username-warning" class="register-warning">Ce pseudo est déja utilisé</p>');
+						}
+					})
+					.fail(function (data) {
+						console.log('Fail');
+						console.log(data);
+					})
+					.always(function (data) {
+						console.log('Always');
+						console.log(data);
+					})
+			}
+		})
+		$('#marylin_inscription_nana_user_email').on('focus', function() {
+			$(this).css('border-color', 'black');
+			$(this).val('');
+			$('#email-warning').detach();
+		});
+		$('#marylin_inscription_nana_user_email').on('blur', function() {
+			var data = {};
+			data.email = $(this).val();
+			if (data.email != '') {
+				$.getJSON('/mailchecker.json', data)
+					.done(function (data) {
+						var field = $('#marylin_inscription_nana_user_email');
+						if (data.used == 1) {
+							field.css('border-color', 'red');
+							field.parent().after('<p id="email-warning" class="register-warning">Un autre compte utilise déjà cette adresse</p>');
+						}
+					})			
+			}
+		})
+	})
+</script>
+{% endblock %}

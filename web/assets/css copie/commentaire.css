@@ -1,0 +1,150 @@
+.commentaire-wrapper {
+	border-top: 1px solid #448A8A;
+	display: table;
+	width: 100%;
+}
+
+.isMain {
+	margin-left: 0;
+}
+
+.isReponse {
+	margin-left: 40px;
+}
+
+#formCommentaire .avatar,
+.commentaire-wrapper .avatar {
+	display: table-cell;
+	padding: 5px;
+	vertical-align: top;
+	width: 50px;
+}
+
+#formCommentaire .avatar {
+	padding-top: 2em;
+}
+
+#formCommentaire .avatar-image,
+.commentaire-wrapper .avatar-image {
+	border: 3px solid #FFF;
+	width: 40px;
+}
+
+.commentaire-wrapper .commentaire {
+	display: table-cell;
+	padding: 5px;
+	vertical-align: top;
+}
+
+.commentaire-wrapper .metadata {
+	font-size: 0.9em;
+	margin: 0;
+}
+
+.commentaire-wrapper .metadata .auteur {
+	display: inline-block;
+	font-weight: bold;
+}
+
+.commentaire-wrapper .metadata .statut-tdn {
+	display: inline-block;
+	margin: 0 5px;
+}
+
+.commentaire-wrapper .metadata .statut-tdn:before {
+	content: '(';
+}
+
+.commentaire-wrapper .metadata .statut-tdn:after {
+	content: ')';
+}
+
+.commentaire-wrapper .metadata .date-publication {
+	color: #1DC1BB;
+}
+
+.commentaire-wrapper .texte {
+	margin: 0;
+	min-height: 40px;
+}
+
+.commentaire-wrapper .actions-commentaires {
+	font-style: italic;
+	font-weight: 0.9em;
+	margin:	0;
+}
+
+#formCommentaire {
+	display: table;
+	margin-bottom: 10px;
+	width: 100%;
+}
+
+#formCommentaire .fields {
+	display: table-cell;
+	vertical-align: top;
+}
+
+#formCommentaire #texteCommentaire {
+	border: 1px solid #FF6699;
+}
+
+#formCommentaire #bouton-submit {
+	display: table-cell;
+	vertical-align: middle;
+	width: 100px;	
+}
+
+.stalled {
+	display: none;
+}
+
+.unstall {
+	display: block;
+}
+
+.restall {
+	display: none;
+}
+
+.unstall,
+.restall {
+	text-align: center;
+	background-color: #F1F5FA;
+	border: 1px solid #C0D4E4;
+	margin: 4px 40px;
+	padding: 4px;
+}
+
+.unstall:hover,
+.restall:hover {
+	cursor: pointer;
+}
+
+/* Labels */
+
+.form-element:not(:first-child) {
+	margin-top: 1em;
+}
+
+.inline-label {
+	display: inline-block;
+	margin: 0 1em 0 0;
+}
+
+.block-label {
+	display: block;
+	margin: 0;
+}
+
+/* Liens */
+
+.bottomTextLink {
+	display: inline-block;
+	margin: 0 0 0 5px;
+}
+
+.bottomTextLink:after {
+	content: ' • ';
+	margin: 0 0 0 5px;
+}

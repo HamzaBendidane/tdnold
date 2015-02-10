@@ -1,0 +1,8 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>La Nana qui a gagné les escarpins ce mois-ci est : {{ pseudo }} </p>
+<p>
+	<a href="http://www.trucsdenana.com{{ path('NanaBundle_profil', {'id': id}) }}">Accéder à son profil</a>
+</p>
+{% endblock %}

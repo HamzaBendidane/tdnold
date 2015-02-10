@@ -1,0 +1,142 @@
+ .borderedInput {
+ 	border: 2px solid #77DAD7;
+ 	border: 2px -moz-bg-solid #77DAD7 !important; 
+ }
+
+.tiroirFerme {
+	display: none;
+}
+
+.tiroirOuvert {
+	display: block;
+}
+
+.closing {
+	float: right;
+	position: relative;
+	top: -42px;
+}
+label {
+	display: block;
+	font: normal 0.9em Questrial ;
+	margin: 0.5em 0;
+}
+
+textarea {
+	width: 570px;
+	height: 200px;
+}
+
+ input[type='submit'] {
+	border: 1px solid #93117E;
+	border-radius: 12px;
+	color: white;
+	display: inline-block;
+	background-image: url(../images/theme/forms/bg_degrade_right.png);
+	background-attachment: scroll;
+	background-repeat: no-repeat;
+	background-position: right center;
+	margin: 5px 0px 10px 0px;
+	padding: 0 30px 0 8px;
+	font-family: Questrial;
+	font-size: 1.2em;
+	background-color: #fff;
+ }
+  input[type='text'] {
+	border: 1px solid #25BEB5;	
+ }
+  input[type='password']{
+	border: 1px solid #25BEB5;	
+ }
+
+ input[type='email'] {
+	border: 1px solid #25BEB5;	
+ }
+
+ input[type='file'] {
+	border: 1px solid #25BEB5;	
+ }
+
+ #formCommentaire #avatar {
+ 	width: 50px;
+ }
+
+ #formCommentaire > * {
+ 	vertical-align: middle;
+ }
+
+ .submit-wrapper {
+ 	text-align: right;
+ }
+
+ #raw-source {
+ 	display: none;
+ }
+
+ .apercu {
+ 	display: inline-block;
+    margin-right: 20px;
+    max-height: 150px;
+    vertical-align: top;
+ }
+
+ .fileWidget > div {
+ 	display: inline-block;
+ }
+ .invite-avis  {
+  font: bold 18px "Questrial"; /*new*/
+
+}
+#pagerForm{
+	font: normal 14px "Questrial"; /*new*/
+	text-align: right;
+	margin-top: 10px;
+	margin-right: 0px;
+	margin-bottom: 20px;
+	margin-left: 0px;
+}
+#recherche-membre{
+	height: 20px;
+	width: 200px;
+	background: url("../images/theme/tetiere/navigation/loupe.png") no-repeat scroll 7px 3px #A9E8E5;
+	border-radius: 40px 40px 40px 40px;
+	display: block;
+	margin-bottom: 6px;
+	margin-right: auto;
+	margin-top: 6px;
+	margin-left: auto;
+	padding-right: 0px;
+	padding-bottom: 3px;
+	padding-left: 30px;
+	line-height: 20px;
+}
+
+#formul_newsletter{
+	background-color: #E8F8F8;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	-webkit-border-radius: 0px 0px 8px 8px;
+	border-radius: 0px 0px 8px 8px;
+	text-align: center;
+}
+
+.opener {
+	cursor: pointer;
+}
+
+.openBlockNewsletter {
+	padding: 10px;
+	height: 75px;
+	overflow: hidden;
+	transition-property: height;
+	transition-duration: 1s;
+	transition-timing-function: ease-out;
+}
+.closedBlockNewsletter {
+	height: 0;
+	overflow: hidden;
+	padding: 0 10px;
+	transition-property: height;
+	transition-duration: 1s;
+	transition-timing-function: ease-out;
+}

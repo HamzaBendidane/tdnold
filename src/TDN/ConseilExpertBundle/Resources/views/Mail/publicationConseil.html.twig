@@ -1,0 +1,8 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>L’expert <strong>{{ expert }}</strong> a bien répondu à une question que tu lui a posée sur TDN :</p>
+<div>{{ question |raw }}</div>
+<p>Tu peux lire la réponse ici : <a href="{{ url }}">{{ titre }}</a></p>
+<p>Va vite lire ses conseils mode, relooking et style, c’est par ici.  Si tu kiffes sa réponse, partage-la sur les réseaux sociaux !</p>
+{% endblock %}

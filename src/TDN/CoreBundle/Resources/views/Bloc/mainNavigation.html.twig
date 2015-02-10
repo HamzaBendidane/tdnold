@@ -1,0 +1,18 @@
+<nav id="mainNavigation">
+	<ul>
+		{% for rubriquePrincipale in princeps %}
+		{% set menu = rubriquePrincipale.slug %}
+		{% set titre = rubriquePrincipale.titre %}
+		<li class="main-menu menu-{{ menu }}" data-rubrique="{{ menu }}">
+			<span class="mainMenuLabel"><a href="{{path('Core_sommaire', {'slug': menu}) }}">{{ titre }}</a></span>
+			<ul class="subMenuMasque">
+				{% for subMenu in navigation[menu] %}
+				<li class="sub-menu">
+					<a href="{{path('Core_sommaire', {'slug': subMenu.slug})}}">{{ subMenu.titre}}</a>
+				</li>
+				{% endfor %}
+			</ul>
+		</li>
+		{% endfor %}
+	</ul>
+</nav>

@@ -1,0 +1,14 @@
+
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Connecteé-vous à Truc de Nana" %}
+
+{% block contenu_principal %}
+{% if error %}
+    <div>{{ error.message }}</div>
+{% endif %}
+
+<form action="{{ path('login_check') }}" method="post">
+    <button type="submit">login</button>
+</form>
+{* endblock *}

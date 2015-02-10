@@ -1,0 +1,13 @@
+
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Cette page n'existe plus" %}
+
+{% block contenu_principal %}
+{% if error is defined %}
+    <div>{{ error.message }}</div>
+{% endif %}
+
+<h1>Cette page n'existe plus</h1>
+<p>Certaines URL ont changé depuis la mise en œuvre de la nouvelle versions de trucsdenana.com. Nous sommes désolés de ne pouvoir faire aboutir ta recherche. Utilise le poteur de de recherche du site pour trouver la nouvelle adresse de la page.</p>
+{% endblock %}

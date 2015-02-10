@@ -1,0 +1,7 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>{{ pseudo }} à déposé une nouvelle vidéo :</p>
+<div>{{ titre | raw }}</div>
+<p>Cette vidéo a le statut : <strong>{% if statut == 'VIDEO_PUBLIEE' %}publié{% else%}brouillon{% endif %}</strong>.</p>
+{% endblock %}

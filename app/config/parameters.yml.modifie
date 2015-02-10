@@ -1,0 +1,14 @@
+parameters:
+    database_driver: pdo_mysql
+    database_host=localhost
+    database_port: null
+    database_name: tdn3_marylin
+    database_user: trucdenana
+    database_password: ju75via
+    mailer_transport: smtp
+    mailer_host: localhost
+    mailer_user: null
+    mailer_password: null
+    locale: en
+    secret: 486cfcb688bdb09f2ba4ac45248d7e93c4bd4754
+    database_path: null

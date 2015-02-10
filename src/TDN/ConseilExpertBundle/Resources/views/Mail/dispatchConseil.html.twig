@@ -1,0 +1,7 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>Une question a été posée par {{ pseudo }}, {{ age }} ans :</p>
+<div>{{ question |raw }}</div>
+<p>Merci de répondre dans le meilleurs délais.</p>
+{% endblock %}

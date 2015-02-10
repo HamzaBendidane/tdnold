@@ -1,0 +1,42 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/js/aloha/css/aloha.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+<script src="{{ asset('assets/js/aloha/lib/require.js') }}"></script>
+<script src="{{ asset('assets/js/aloha/lib/aloha.js') }}" data-aloha-plugins="common/ui,common/format,common/highlighteditables,common/link, common/image, common/list, common/table, extra/draganddropfiles"></script>
+{% endblock %}
+
+{% block title titreDetail %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/administration_titre.png')}}" />
+</div>
+
+<h1>{{ titreDetail }}</h1>
+<div>{{ form_errors(form) }}</div>
+
+<form action="{{ path(formCallback, {'id': id}) }}" class="adminForm adminDetail" id="formDetailDocument" name="formDetailDocument" method="post" {{ form_enctype(form) }} >
+	{{ form_widget(form._token) }}
+	<input type="submit" />
+
+	<div id="postDocument" class="formAdminData">
+
+		<section id="contenuDocument" class="form-section section-contenu">
+		{% block form_contenuDocument %}
+		{% endblock %}
+		</section>
+
+	</div>
+
+	<input type="submit" />
+
+</form>
+{% block form_script%}
+{% endblock %}
+
+{% endblock %}

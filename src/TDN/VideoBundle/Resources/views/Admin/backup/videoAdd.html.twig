@@ -1,0 +1,49 @@
+{% extends 'DocumentBundle:Admin:documentDetail.html.twig' %}
+
+{% block form_contenuDocument %}
+<section id="contenuArticle" class="form-section section-contenu">
+	<div id="videoAbstract" class="blockWidget">
+        {{ form_row(form.abstract) }}
+ 	</div>
+    <fieldset id="infosAutomatiques">
+        <legend>Traitement automatique</legend>
+        <p>Si la vidéo est hébergée chez Youtube, DailyMotion ou Vimeo, l'URL suffit à déterminer toutes les informations nécessaires</p>
+        <div id="videoID" class="blockWidget">
+            {{ form_row(form.idVideo) }}
+        </div>
+    </fieldset>
+    <fieldset id="infosManuelles">
+        <legend>Traitement manuel</legend>
+        <p>Vous pouvez aussi entrer les différents éléments constitutifs séparément.</p>
+        <div id="videoHebergeur" class="blockWidget">
+            {{ form_row(form.idHebergeur) }}
+        </div>
+        <div id="videoVignette" class="blockWidget">
+            {{ form_row(form.vignette) }}
+        </div>
+        <div id="videoCodeIntegration" class="blockWidget">
+            {{ form_row(form.codeIntegration) }}
+        </div>
+        <div id="videoDuree" class="blockWidget">
+            {{ form_row(form.duree) }}
+        </div>
+    </fieldset>
+
+</section>
+{% endblock %}
+
+{% block form_script%}
+<script type="text/javascript">
+    $(document).ready(function () {
+        //CKEDITOR.disableAutoInline = true;
+         CKEDITOR.replace('video_add_abstract', {
+          customConfig: 'config_chapo.js'
+        });
+
+    	$("#miseEnAvant").click(function () {
+    		$("#section_miseEnAvant").toggleClass('tiroirOuvert tiroirFerme');
+    	});
+    })
+</script>
+{% endblock %}
+

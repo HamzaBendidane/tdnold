@@ -1,0 +1,68 @@
+<div id="selection-shopping">
+	<h3 class="titreBicolore"><span class="gris">Nos coups de coeur</span> shopping</h3>
+	<div id="slider-shopping">
+		<img class="cell left" src="{{ asset('assets/images/theme/sommaire/shopping/left.png') }}" />
+		<div id="scene-shopping" class="cell">
+			<div class="conteneur">
+				<div class="flux-shopping">
+					{% for produit in coupsDeCoeur %}
+					<figure class="snapshotProduit">
+						<a href="{{ path('Produit_showProduit', {'id':produit.idDocument, 'slug':produit.slug}) }}">
+							<img src="{{ illustration(produit) }}"/>
+						</a>
+						<figcaption>
+							<a href="{{ path('Produit_showProduit', {'id':produit.idDocument, 'slug':produit.slug}) }}">{{ produit.titre}}</a>					
+						</figcaption>
+					</figure>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		<img class="cell right" src="{{ asset('assets/images/theme/sommaire/shopping/right.png') }}" />
+	</div>
+</div>
+<script type="text/javascript">
+
+	var move;
+	function moveleft () {
+		var pos = $('.flux-shopping').css('left');
+		console.log(pos.slice(0,-2));
+		if (parseInt(pos.slice(0,-2)) <= 0) {
+			clearInterval(move)
+		} else {
+			$('.flux-shopping').css('left', '-=4');
+		}
+	}
+	
+	function moveright () {
+		var pos = $('.flux-shopping').css('left');
+		console.log(pos.slice(0,-2));
+		if (parseInt(pos.slice(0,-2)) >= 742) {
+			clearInterval(move)
+		} else {
+			$('.flux-shopping').css('left', '+=4');
+		}
+	}
+
+	$(document).ready(function() {
+		$('.flux-shopping').draggable({
+			'axis': 'x',
+			'containment': 'parent',
+			'scroll': false
+		});
+		$('#selection-shopping .right').mousedown(function () {
+			console.log('down');
+			move = setInterval(moveleft, 10);
+		})
+		$('#selection-shopping .right').mouseup(function () {
+			clearInterval(move);
+		})
+		$('#selection-shopping .left').mousedown(function () {
+			console.log('down');
+			move = setInterval(moveright, 10);
+		})
+		$('#selection-shopping .left').mouseup(function () {
+			clearInterval(move);
+		})
+	});
+</script>

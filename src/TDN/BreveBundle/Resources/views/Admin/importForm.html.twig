@@ -1,0 +1,18 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block title "Nouvelle info" %}
+
+{% block local_stylesheets %}
+{% endblock %}
+
+{% block contenu_principal %}
+<form action="{{ path('Breve_import') }}" method="post" {{ form_enctype(form) }}>
+
+	<div id="texteBreve" class="blockWidget">
+		<label for="fichierImport"></label>
+		<input id="fichierImport" name="fichierImport" type="text" size="30" />
+	</div>
+
+    <input type="submit" />
+</form>
+{% endblock %}

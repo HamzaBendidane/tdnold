@@ -1,0 +1,9 @@
+{% extends 'CoreBundle:Mail:notification.html.twig' %}
+
+{% block corps %}
+<p>Un commentaire a été publié par {% if app.user.username is defined %}{{ app.user.username }}{% else %}un lecteur anonyme{% endif %} sur une page que tu suis :</p>
+<p><a href="http://www.trucdenana.com{{ url }}">{{ titre }}</a></p>
+<hr/>
+<div>{{ commentaire|raw }}</div>
+<p>Pour continuer la discussion, rends-toi sur la page en question</p>
+{% endblock %}

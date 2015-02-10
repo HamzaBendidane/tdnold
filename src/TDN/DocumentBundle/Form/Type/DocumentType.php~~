@@ -1,0 +1,69 @@
+<?php
+
+namespace TDN\DocumentBundle\Form\Type;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
+use TDN\ImageBundle\Form\Type\simpleImageType;
+use TDN\DocumentBundle\Form\Type\ThematiqueType;
+
+class DocumentType extends AbstractType {
+
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+
+        // Document Héritage
+        $builder->add('typeDocument', 'hidden');
+        $builder->add('titre', 'text', 
+            array('label' => 'Titre de l’article'));
+        $builder->add('slug', 'text', 
+            array('label' => 'Chaîne d’URL',
+                   'required' => false));
+        $builder->add('abstract', 'textarea');
+        $builder->add('tags', 'text');
+        $builder->add('lnIllustration', new simpleImageType(), 
+            array(
+                'label' => 'Vignette liée au document',
+                'required' => false
+            ));
+        $builder->add('statut', 'choice', 
+            array('label' => 'Etat de publication', 
+                  'choices' => array('brouillon', 'publié'),
+                  'expanded' => true,
+                  'multiple' => false,
+                  'preferred_choices' => array('brouillon')
+            ));
+        $builder->add('version', 'text', 
+            array('label' => 'Version',
+                  'required' => false
+            ));
+        $builder->add('datePublication', 'date');
+        $builder->add('dateModification', 'date');
+        $builder->add('lnPromu', new SlideType(), 
+            array(
+                'label' => 'Promotion en page d’accueil',
+                'required' => false
+            ));
+        $builder->add('rubriques', 'collection',
+            array('type' => new ThematiqueType(),
+                  'options' => array('label' => 'Insère l’article dans une/des rubrique/s')
+                  'allow_add' => true
+            ));
+    }
+
+
+	public function setDefaultOptions(OptionsResolverInterface $resolver) {
+
+	    $resolver->setDefaults(array(
+	    	'data_class' => 'TDN\DocumentBundle\Entity\Document',
+    	));
+	}
+
+    public function getName()
+    {
+        return 'document';
+    }
+}

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping 
+	xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" 
+	xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="TDN\BreveBundle\Entity\Breve"
+			repository-class="TDN\BreveBundle\Entity\BreveRepository">
+
+		<id name="id" type="integer" column="id_article">
+			<generator strategy = "AUTO" />
+		</id>
+		<field name="message" type="text" column="message" />
+		<field name="url" type="string" column="url" nullable="true" />
+		<field name="tinyURL" type="string" column="tiny_url" nullable="true" />
+		<field name="datePublication" type="datetime" column="date_publication" />
+		<field name="statut" type="string" column="statut" default="BREVE_ACQUISE" />
+
+		<!-- Owner de la relation (bi) Est posté par -->
+		<many-to-one field="lnAuteur" target-entity="TDN\NanaBundle\Entity\Nana">
+	        <cascade>
+                <cascade-persist/>
+            </cascade>
+           <join-column name="ln_auteur" referenced-column-name="id" />
+        </many-to-one>
+
+ 		<!-- Owner de la relation (bi) Est indexée dans la rubrique -->
+		<many-to-one field="lnRubrique" target-entity="TDN\DocumentBundle\Entity\DocumentRubrique">
+	        <cascade>
+                <cascade-persist/>
+            </cascade>
+           <join-column name="ln_rubrique" referenced-column-name="id" />
+        </many-to-one>
+
+		<lifecycle-callbacks>
+			<lifecycle-callbacks type="PrePersist" method="prepareBreve" />
+			<lifecycle-callbacks type="PreUpdate" method="updateBreve" />
+		</lifecycle-callbacks>
+		
+	</entity>
+	
+</doctrine-mapping>

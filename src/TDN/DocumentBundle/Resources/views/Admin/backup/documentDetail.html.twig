@@ -1,0 +1,193 @@
+{% extends 'DocumentBundle:Default:TDNAdmin.html.twig' %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/js/aloha/css/aloha.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}" type="text/css">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/colorbox.css') }}" />
+{% endblock %}
+
+{% block local_header_scripts %}
+<!--script src="{{ asset('assets/js/aloha/src/lib/vendor/jquery-1.7.2.js')}}"></script-->
+<script>
+Aloha = window.Aloha || {};
+Aloha.settings = Aloha.settings || {};
+// Restore the global $ and jQuery variables of your project's jQuery
+Aloha.settings.jQuery = window.jQuery;
+</script>
+<script src="{{ asset('assets/js/aloha/lib/require.js') }}"></script>
+<script src="{{ asset('assets/js/aloha/lib/aloha.js') }}" data-aloha-plugins="common/ui,common/format,common/highlighteditables,common/link, common/image, common/list, common/table, extra/draganddropfiles"></script>
+
+{% endblock %}
+
+{% block title titreDetail %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/administration_titre.png')}}" />
+</div>
+
+<h1>{{ titreDetail }}</h1>
+<div>{{ form_errors(form) }}</div>
+
+{% if TDNDoc_id is defined %}
+<form action="{{ path(formCallback, {'id': TDNDoc_id }) }}" class="adminForm adminDetail" id="formDetailDocument" name="formDetailDocument" method="post" {{ form_enctype(form) }} >
+{% else %}
+<form action="{{ path(formCallback) }}" class="adminForm adminDetail" id="formDetailDocument" name="formDetailDocument" method="post" {{ form_enctype(form) }} >
+{% endif %}
+	{{ form_widget(form._token) }}
+	{#{ form_row(form.typeDocument), {'attr' : {'value' : typeDocument }}}#}
+	<input type="submit" />
+
+	<div id="postDocument" class="formAdminData">
+		<section id="titreDocument" class="form-section">
+			<div class="lineWidget">
+				{{ form_row(form.titre, {'attr' : {'class':'borderedInput', 'size':'50' }}) }}
+			</div>
+			<div class="lineWidget">
+				{{ form_row(form.slug, {'attr' : {'class':'borderedInput', 'size':'50' }}) }}
+			</div>
+		</section>	
+
+		<section id="contenuDocument" class="form-section section-contenu">
+		{% block form_contenuDocument %}
+		{% endblock %}
+		</section>
+
+		<section id="metaDocument" class="form-section">
+			<div class="fileWidget">
+				{% if pathIllustration is defined %}
+				<a href="{{ pathIllustration }}" rel="apercu">
+					<img src="{{ pathIllustration }}" class="apercu" />
+				</a>
+				{% endif %}
+				{{ form_row(form.lnIllustration, {'attr' : { 'class':'imageSelecteur' }}) }}
+			</div>
+			<div class="lineWidget">
+				<label for="reuseIllustration">Utiliser l’illustration d’un autre document</label>
+				<input type="number" size="6" name="reuseIllustration" id="reuseIllustration" pattern="[0-9]+" />
+			</div>
+			<div class="lineWidget">
+				{{ form_row(form.tags) }}
+			</div>
+			{% if formIndex is defined %}
+			<div class="lineWidget">
+				<div id="widgetRubriques"></div>
+				<p><a href="#" id="boutonAjoutTag" class="collectionPush">Ajoute des mots-clefs</a></p>
+			    {{ form_row(formIndex.index, {'attr': {'class': 'modeleFormTag'}}) }}
+			</div>
+			{% endif %}
+			<div class="choiceWidget">
+				{{ form_row(form.statut, {'attr' : { 'class':'choices' }}) }}
+				<textarea class="message_notification" name="messageNotification" placeholder="Un message pour l'auteur ?" style="width:60%; height:40px"></textarea>
+			</div>
+			<div class="lineWidget">
+				{{ form_label(form.datePublication) }}
+				{{ form_widget(form.datePublication, {'attr': {'style': 'display:inline-block'}}) }}
+			</div>
+			<div class="lineWidget">
+				<div id="widgetRubriques"></div>
+				<p><a href="#" id="boutonAjoutRubrique" class="collectionPush">Insère le contenu dans une/des rubrique/s</a></p>
+			    {#{ form_row(form.rubriques, {'attr': {'class': 'modeleFormRubrique'}}) }#}
+			    {{ form_row(formThematiques.rubriques, {'attr': {'class': 'modeleFormRubrique'}}) }}
+			</div>
+		    <div id="feuilletDossier" class="blockWidget">
+		        {{ form_row(form.lnDossier, {'attr' : {'class': 'selecteurDossier'}}) }}
+		    </div>
+		    <div id="ordreDossier" class="blockWidget">
+		        {{ form_row(form.ordreDossier, {'attr' : {'disabled': 'disabled', 'class': "inputOrdreDossier"}}) }}
+		    </div>
+			{% if relecture is not defined %}
+			<p class="numeroVersion">Version non déterminée</p>
+			{% elseif relecture == 0%}
+			<p class="numeroVersion">Première version</p>
+			{% else %}
+			<p class="numeroVersion">Relecture n°{{ relecture }} </p>
+			{% endif %}
+		</section>
+
+		<section id="promotionDocument">
+			<div class="choiceWidget">
+				<label for="miseEnAvant">Mettre en avant : </label>
+				<input type="checkbox" name="miseEnAvant" id="miseEnAvant" class="TDN_checkbox" value="1" {% if isChecked is defined %}checked="checked"{% endif %} />
+			</div>
+			<div id="section_miseEnAvant" class="tiroirFerme">
+				<div class="lineWidget">
+					{{ form_row(formSlider.pitch) }}
+				</div>
+				<div class="choiceWidget">
+					{{ form_row(formSlider.statut, {'attr' : { 'class':'choices' }}) }}
+				</div>
+				<div class="fileWidget">
+					{{ form_row(formSlider.lnCover, {'attr' : { 'class':'imageSelecteur' }}) }}
+				</div>
+			</div>
+			{{ form_rest(formSlider) }}
+		</section>
+	</div>
+
+	<input type="submit" />
+
+</form>
+<script type="text/javascript">
+
+$(document).ready(function () {
+
+	(function($){
+	 
+		$.fn.addDeleteLink = function(){
+		    var $removeFormA = $('<a href="#">Supprimer de la liste</a>');
+	 	    $(this).append($removeFormA);
+
+		    $removeFormA.on('click', function(e) {
+		        e.preventDefault();
+		        $(this).parent().remove();
+		    });
+	    };
+	})(jQuery);
+
+	// Surcharge de la valeur par défaut si on modifie une fiche
+	if ($(".selecteurDossier").val() !== '') {
+		$(".inputOrdreDossier").removeProp("disabled");
+	}
+	var nombreRubriques = $(".modeleFormRubrique").children().length;
+    $("#boutonAjoutRubrique").click(function (event) {
+      event.preventDefault();
+      var $holder = $(".modeleFormRubrique");
+      var prototype = $holder.attr('data-prototype');
+      var newForm = prototype.replace(/__name__/g, nombreRubriques);
+      $holder.append(newForm);
+      $holder.children().last().addDeleteLink();
+      nombreRubriques += 1;
+      return false;
+    });
+    $("#boutonAjoutTag").click(function (event) {
+      event.preventDefault();
+      var $holder = $(".modeleFormTag");
+      var prototype = $holder.attr('data-prototype');
+      var newForm = prototype.replace(/__name__/g, $holder.children().length);
+      $holder.append(newForm);
+      $holder.children().last().addDeleteLink();
+      return false;
+    });
+    $(".apercu").colorbox();
+    if ($('#miseEnAvant').is(':checked')) {
+    	$('#section_miseEnAvant').toggleClass('tiroirOuvert tiroirFerme')
+    }
+    $(".modeleFormRubrique > div").each(function() {
+    	$(this).addDeleteLink();
+    })
+    $(".selecteurDossier").on('change', function () {
+    	if ($(this).val() !== '') {
+    		$(".inputOrdreDossier").removeProp("disabled");
+    	} else {
+	    	$(".inputOrdreDossier").prop("disabled", "disabled");	
+    	}
+    });
+ })
+
+
+</script>
+{% block form_script%}
+{% endblock %}
+
+{% endblock %}

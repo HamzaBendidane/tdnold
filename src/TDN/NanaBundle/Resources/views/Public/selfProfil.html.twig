@@ -1,0 +1,519 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Profil de " ~ me.username %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/profil.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/css/form.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('assets/js/aloha/css/aloha.css') }}" type="text/css">
+{% endblock %}
+
+{% block local_header_scripts %}
+<script>
+Aloha = window.Aloha || {};
+Aloha.settings = Aloha.settings || {};
+// Restore the global $ and jQuery variables of your project's jQuery
+Aloha.settings.jQuery = window.jQuery;
+</script>
+<script src="http://cdn.aloha-editor.org/latest/lib/require.js"></script>
+<script src="http://cdn.aloha-editor.org/latest/lib/aloha.js" data-aloha-plugins="common/ui,common/format,common/highlighteditables,common/link, common/image, common/list, common/table, extra/draganddropfiles"></script>
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+  <img src="{{ asset('assets/images/theme/centre/titres/my-profil_titre.png')}}" />
+</div>
+<article id="document-wrapper" class="main article-redaction">
+  <section class="contenu main-section">
+    <!-- Bloc pour l'affichage des métadonnées de l'article -->
+    <div id="metadata" class="metadata">
+     <p class="auteur">
+      <span class="standardEtiquette">Popularité : </span>   
+      <span class="date-publication">{{ me.popularite|stiletto|raw }}</span>
+    </p>
+    <p>
+      <span class="standardEtiquette">Statut :</span> 
+        <span class="date-publication">{% for r in me.roles %}{{ r.name~' | ' }}{% endfor %}</span></p>
+    </p>
+    </div>
+
+<!-- Bloc pour l'affichage du contenu du profil -->
+    <div id="corps" class="corps" style="margin-top:20px">
+    {{ form_errors(form) }}
+  <div id="enveloppe-avatar">
+    <div id="avatar">
+      {% set imgAvatar = avatar(me, 'sqr_') %}
+      <a class="popin" href="{{ imgAvatar }}" >
+        <img src="{{ imgAvatar }}" />
+      </a>
+	  </div>
+    <p id="avatar_switcher">
+      <a href="{#{ path('change_avatar') }#}">Changer ma photo de profil</a>
+    </p>
+    <form name="selecteur_avatar" id="selecteur_avatar" class="closed-field constraintFile" action="{{ path('NanaBundle_myAvatarUpdate')}}" method="post" {{ form_enctype(form_avatar) }}>
+      <p class="maxSizeWarning">Les images doivent être dans un format compatible (gif, jpg, png, svg), poids maximum 2Mo</p>
+      {{ form_row(form_avatar.upload) }}
+      {{ form_row(form_avatar.titre) }}
+      {{ form_rest(form_avatar) }}
+      <input type="submit" value="Afficher" style="margin-top:5px"/>
+    </form>
+  </div>
+  <div>{{ form_errors(form) }}</div>
+  <form name="editeur_profil" id="editeur_profil" action="{{ path('NanaBundle_myProfilUpdate')}}" method="post" {#{ form_enctype(form) }#}>
+    <div id="enveloppe-data">
+      <h1>Mon profil perso</h1>
+      <div id="donneesPersonnelles">
+        <div class="rowDonneesPersonnelles">
+          <span class="champ standardEtiquette">Prénom/Nom</span></span>
+          <span class="data"><strong>{{ me.prenom ~ " " ~ me.nom }}</strong></span>
+          <span class="bascule"><a href="#" class="modif-bascule">Modifier</a></span>
+        </div> 
+        <div class="closed-field form-input">
+          <span>{{ form_row(form.prenom) }}{{ form_row(form.nom) }}</span>
+        </div>
+        <div class="rowDonneesPersonnelles">
+          <span class="champ standardEtiquette">Pseudo</span>
+          <span class="data"><strong>{{ me.username }}</strong></span>
+          <span class="bascule"><a href="#" class="modif-bascule">Modifier</a></span>
+        </div>
+        <div class="closed-field form-input">
+          <span>{{ form_row(form.username) }}</span>
+        </div>
+        <div class="rowDonneesPersonnelles">
+          <span class=" champ standardEtiquette">Email</span>
+          <span class="data"><strong>{{ me.email }}</strong></span>
+          <span class="bascule"><a href="#" class="modif-bascule">Modifier</a></span>
+        </div> 
+        <div class="closed-field form-input">
+          <span>{{ form_row(form.email) }}</span>
+        </div>
+        <div class="rowDonneesPersonnelles">
+          <span class="champ standardEtiquette">Mot de passe</span>
+          <span class="data"><strong>{#{ password }#}</strong></span>
+          <span class="bascule"><a href="#" class="modif-bascule">Modifier</a></span>
+        </div> 
+        <div class="closed-field form-input">
+          <span>{{ form_row(form.password) }}</span>
+        </div>
+        <div class="rowDonneesPersonnelles">
+          <span class=" champ standardEtiquette">Date de naissance</span>
+          <span class="data"><strong>{{ me.dateNaissance | date('d m Y') }}</strong></span>
+          <span class="bascule"><a href="#" class="modif-bascule">Modifier</a></span>
+        </div>
+        <div class="closed-field form-input">
+           <span>{{ form_row(form.dateNaissance) }}</span>
+        </div>
+        <div class="rowDonneesPersonnelles">
+          <span class=" champ standardEtiquette">Sexe</span>
+          <span class="data"><strong>{% if me.sexe == 1 %}Garçon{% else %}Fille{% endif %}</strong></span>
+          <span class="bascule"><a href="#" class="modif-bascule">Modifier</a></span>
+        </div>
+        <div class="closed-field form-input">
+           <span>{{ form_row(form.sexe) }}</span>
+        </div>
+        <div class="rowDonneesPersonnelles">
+            <span class="champ standardEtiquette">Ville</span>
+            <span clss="data"><strong>{{ me.ville }}</strong></span>
+            <span class="bascule"><a href="#" class="modif-bascule">Modifier</a></span>
+        </div> 
+        <div class="closed-field form-input">
+             <span>{{ form_row(form.ville) }}</span>
+        </div>
+        <div class="rowDonneesPersonnelles">
+          <span class="champ standardEtiquette">Job/Etudes</span>
+          <span class="data"><strong>{{ me.occupation }}</strong></span>
+          <span class="bascule"><a href="#" class="modif-bascule">Modifier</a></span>
+        </div>
+        <div class="closed-field form-input">
+             <span>{{ form_row(form.occupation) }}</span>
+        </div>
+        <!---div class="rowDonneesPersonnelles">
+          <span class="standardEtiquette">Membre de</span>
+          <span class="data">
+            <img src="{{ asset('assets/images/theme/centre/profil/picto_facebook_20x20.png')}}" />
+            <img src="{{ asset('assets/images/theme/centre/profil/picto_tweeter_20x20.png')}}" /> 
+            <img src="{{ asset('assets/images/theme/centre/profil/picto_hellocoton_20x20.png')}}" />
+          </span>
+          <span class="bascule"><a href="#" class="modif-bascule">Modifier</a></span>
+        </div--> 
+        <div class="rowDonneesPersonnelles">
+          <span class="champ standardEtiquette">Newsletter</span>
+          <span class="data">{% if me.newsletter == 1 %}Inscrite{% else %}Non inscrite{% endif %}</span>
+           <span class="bascule"><a href="#" class="modif-bascule">Modifier</a></span>
+        </div> 
+        <div class="closed-field form-input" colspan=3>
+             <span>{{ form_row(form.newsletter) }}</span>
+        </div>
+        <div class="rowDonneesPersonnelles">
+          <span class="champ standardEtiquette">Partenaires</span>
+          <span class="data">{% if me.newsletter == 1 %}Je reçois les offres{% else %}Je ne reçois pas les offres{% endif %}</span>
+           <span class="bascule"><a href="#" class="modif-bascule">Modifier</a></span>
+        </div> 
+        <div class="closed-field form-input" colspan=3>
+             <span>{{ form_row(form.offresPartenaires) }}</span>
+        </div>
+      </div>
+    </div>
+    <div id="enveloppe-biographie">
+      <div style="text-align:right;display:inline-block">
+        <span class="standardEtiquette">Ta présentation : <a href="#" id="switchEditor" class="lien-mince">Modifier</a></span>
+      </div>
+      <div class="dualEdition hiddenEditor">{{ me.biographie | raw }}</div>
+      <!--div id="source-biographie" class="dualEdition activeEditor" style="border:1px solid #A5E6E4; min-height:200px; overflow:visible; min-height:40px; width:480px; padding:10px; margin-left:5px">
+      {#{ me.biographie | raw }#}
+      </div-->
+      <div class="dualEdition activeEditor" style="margin:20px">
+        {{ form_row(form.biographie, {'id':'raw-biographie', 'attr': {'style': 'width:460px; height:200px;'}}) }}</div>
+    </div>
+   {{ form_rest(form) }}
+   <div style="margin-bottom:20px; text-align:right"> <input type="submit" value="Enregistrer tes données perso" /> </div>
+  </form>
+
+  <div id="galerie-perso">
+    <h2>Ta galerie perso</h2>
+    {% if countGaleriePerso > 0 %}
+    {% for proxy in me.galeriePerso%}
+    {% set sourceGalerie = '/uploads/documents/profils/'~me.idNana~'/'~proxy.lnImage.fichier %}
+    {% set vignetteGalerie = imagePerso(proxy.lnImage, me.idNana, 'SQUARE') %}
+    <figure class="elementGalerie">
+      <a class="popin" href="{{ asset(sourceGalerie)}}" title="{{ proxy.lnImage.titre }}">
+        <img class="vignette-medium" src="{{ asset(vignetteGalerie)}}" alt="{{ proxy.lnImage.titre }}" />
+      </a>
+      <figcaption>
+      <a href="{{ path('Nana_supprimerElementGalerie', {'id': proxy.idPortrait}) }}">Retirer</a>
+      </figcaption>
+    </figure>
+    {% endfor %}
+    {% endif %}
+    {% if countGaleriePerso < 9 %}
+    <p id="galerie_switcher">
+      <a href="#">Ajoute des images dans ta galerie</a>
+    </p>
+    <form name="selecteur_galerie" id="selecteur_galerie" class="closed-field constraintFile" action="{{ path('NanaBundle_myGalerieUpdate')}}" method="post" {{ form_enctype(form_avatar) }}>
+      <p class="maxSizeWarning">Les images doivent être dans un format compatible (gif, jpg, png, svg), poids maximum 2Mo</p>
+      {{ form_row(form_galerie.upload) }}
+      {{ form_row(form_galerie.titre) }}
+      {{ form_rest(form_galerie) }}
+      <input type="submit" value="Valider" />
+    </form>
+    {% endif %}
+  </div>
+</div>
+  </section>
+
+
+   <section id="reseau-tdn">
+    <div id="followers">
+      <div class="densite">
+        <span class="taille">{{ me.isFollowed|length }}</span> nana(s)
+      </div>
+      <h2>Elles aiment ton profil</h2>
+      {% if me.isFollowed|length > 0 %}
+      <div class="trombines">
+        {% for nana in me.isFollowed %}
+        <a href="{{ path('NanaBundle_profil', {'id': nana.idNana}) }}" title="{{ nana.username }}">
+          <img class="vignette" src="{{ avatar(nana) }}" />
+        </a>
+        {% endfor %}
+      </div>
+      {% endif %}
+      <!--p><a href="#">Signale à tes amies de te rejoindre sur TDN</a></p-->
+    </div>
+    <div id="followings">
+      <div class="densite2">
+        <span class="taille">{{ me.follows|length }}</span> nana(s)
+      </div>
+      <h2>Tu t'intéresses à elles</h2>
+      {% if me.follows|length > 0 %}
+      <div class="trombines">
+        {% for nana in me.follows %}
+        <a href="{{ path('NanaBundle_profil', {'id': nana.idNana}) }}" title="{{ nana.username }}">
+          <img class="vignette" src="{{ avatar(nana) }}" />
+        </a>
+        {% endfor %}
+      </div>
+       {% else %}
+      <p><a href="#">Suis les nanas qui te plaisent sur TDN</a></p>
+      {% endif %}
+	  <div style="text-align:center">
+      <form name="recherche-membre" id="recherche-membre" action="{{ path('NanaBundle_rechercheNanas') }}">
+        <input type="text" name="seed" id="seed" size="24" style="margin-top:3px" />
+        <input type="image"  src="{{ asset('assets/images/theme/forms/bt_fleche_droite.png') }}" align="absmiddle" style="top: -2px;position: relative;"/>    
+    </form>
+  </section>
+
+  <section id="hobbies">
+    <h2>Ce que tu aimes dans la vie</h2>
+    {% if countHobbies > 0 %}
+    {% for hobby in my_hobbies %}
+    <div class="hobby-wrapper" data-idhobby="{{ hobby.idHobby }}">
+      <div class="titre-hobby">
+        <span class="standardEtiquette">{{ hobby.domaine }}</span> : <span class="hobby-precisions">{{ hobby.precisions }}</span>
+      </div>
+      <div class="right">
+        <a class="boutonAjoutImageHobby" href="#">ajouter une image</a> <span class="separateur">I</span> 
+        <a class="boutonModificationHobby" href="#">modifier</a>
+      </div>
+      <div class="galerie-hobbies">
+      {% for proxy in hobby.galerieHobby %}
+      {% set sourceGalerie = '/uploads/documents/profils/'~me.idNana~'/'~proxy.lnImage.fichier %}
+      <figure class="elementGalerie">
+        <a class="popin framedGalerie" href="{{ asset(sourceGalerie)}}" title="{{ proxy.lnImage.titre }}">
+          <img class="vignette-medium" src="{{ imagePerso(proxy.lnImage, me.idNana, 'sqr_')}}" alt="{{ proxy.lnImage.titre }}" />
+        </a>
+        <figcaption>
+        <a href="{{ path('Nana_supprimerImageHobby', {'id': proxy.idImageHobby}) }}">Retirer</a>
+        </figcaption>
+      </figure>
+      {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+    <form name="formModificationHobby" id="formModificationHobby" class="closed-field" action="{{ path('NanaBundle_myHobbyModifier')}}" method="post" {{ form_enctype(form_avatar) }}>
+    {{ form_row(form_modification_hobby.domaine) }}
+    {{ form_row(form_modification_hobby.precisions) }}
+    {{ form_row(form_modification_hobby._token) }}
+    <input type="hidden" name="idHobby" id="idHobby" value="" />
+    <input type="submit" name="submitModificationsHobby" value="Valider" />
+    </form>
+    <form name="selecteurImageHobby" id="selecteurImageHobby" class="closed-field constraintFile" action="{{ path('Nana_ajouterImageHobby')}}" method="post" {{ form_enctype(form_image_hobby) }}>
+      <p class="maxSizeWarning">Les images doivent être dans un format compatible (gif, jpg, png, svg), poids maximum 2Mo</p>
+      {{ form_row(form_image_hobby.upload) }}
+      {{ form_row(form_image_hobby.titre) }}
+      {{ form_rest(form_image_hobby) }}
+      <input type="hidden" name="idHobby" id="idHobby" value="" />
+      <input type="submit" name="ajoutImageHobby" value="Valider" />
+    </form>
+
+  {% else %}
+    <p class="warning-empty">Cette rubrique est encore vide</p>
+  {% endif %}
+  <p><div style="margin-bottom:5px; margin-right:12px; text-align:right">
+<input type="submit" value="Ajoute un hobby" id="switcherHobby">
+</div></p>
+    <form name="selecteur_hobby" id="selecteurHobby" class="closed-field" action="{{ path('NanaBundle_myHobbyAdd')}}" method="post" {{ form_enctype(form_hobby) }}>
+    {{ form_row(form_hobby.domaine) }}
+    {{ form_row(form_hobby.precisions) }}
+    {{ form_rest(form_hobby) }}
+     <p><a href="#"id="boutonAjoutImageHobby">Ajoute une image</a></p>
+    <input type="submit" value="Valider" />
+    </form>
+  </section>
+
+  <section id="activite">
+    <h2>Ton activité sur TDN</h2>
+    {% if productions is empty %}
+    <p class="warning-empty">Cette rubrique est encore vide</p>
+    {% else %}
+      {% if productions['questions'] is not empty %}
+      <section id="ses-questions">
+       <div class="bloc-production nano">
+         <div class="content">
+          <h4>Ses questions</h4>
+          {% for p in productions['questions'] %}
+          <p class="item-production"><a href="{{ p|targetURL }}">{{ p.titre }}</a></p>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    {% endif %}
+    {% if productions['commentaires'] is not empty %}
+    <section id="ses-commentaires">
+     <div class="bloc-production nano">
+       <div class="content">
+        <h4>Ses commentaires</h4>
+        {% for p in productions['commentaires'] %}
+        <p class="item-production">{{ p.texteCommentaire|slice(0,100) }}</p>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+      {% if productions['reponses'] is not empty %}
+      <section id="ses-reponses">
+        <div class="bloc-production nano">
+          <div class="content">
+           <h4>Ses réponses</h4>
+           {% for p in productions['reponses'] %}
+           <p class="item-production"><a href="{{ p.lnConversation|targetURL }}">{{ p.reponse|slice(0,100) }}</a></p>
+           {% endfor %}
+         </div>
+       </div>
+     </section>
+     {% endif %}
+      {% if productions['articles'] is not empty %}
+      <section id="ses-articles">
+        <div class="bloc-production nano">
+          <div class="content">
+           <h4>Ses articles</h4>
+           {% for p in productions['articles'] %}
+           <p class="item-production">
+            {% if p.rubriques is iterable %}
+            <a href="{#{ p|targetURL }#}#">{{ p.titre }}</a>
+            {% else %}
+            {{ p.titre }}
+            {% endif%}
+          </p>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+      {% endif %}
+      {% if productions['demandes'] is not empty %}
+      <section id="ses-demandes-de-conseil">
+        <div class="bloc-production nano">
+          <div class="content">
+            <h4>Ses demandes de conseil</h4>
+            {% for p in productions['demandes'] %}
+            <p class="item-production">
+              <a href="{{ p|targetURL }}">{{ p.titre }}</a>
+            </p>
+            {% endfor %}
+          </div>
+        </div>
+        <a class="lien-mince lien-bloc popin" href="{{ path('ConseilExpert_filPerso', {'id': me.idNana}) }}">Toutes ses demandes de conseil</a>
+      </section>
+      {% endif %}
+      {% if productions['conseils'] is not empty %}
+      <section id="ses-conseils">
+        <div class="bloc-production nano">
+          <div class="content">
+            <h4>Ses conseils</h4>
+            {% for p in productions['conseils'] %}
+            <p class="item-production">
+              <a href="{{ p|targetURL }}">{{ p.titre }}</a>
+            </p>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+      {% endif %}
+      {% if productions['breves'] is not empty %}
+      <section id="ses-infos">
+        <div  class="bloc-production nano">
+          <div class="content">
+            <h4>Ses infos</h4>
+            {% for p in productions['breves'] %}
+            <p class="item-production">{{ p.message }}</p>
+            {% endfor %}
+          </div>
+        </div>
+        <a class="lien-mince lien-bloc" href="{{ path('BreveBundle_filPerso', {'id': me.idNana}) }}">Toutes ses infos</a>
+      </section>
+      {% endif %}
+    {% endif %}
+  </section>
+
+  <section id="tdn-like">
+    <h2>Ce que tu as aimé sur TDN ({{ likes|length }})</h2>
+    {% if likes is empty %}
+    <p class="warning">Cette rubrique est encore vide</p>
+    {% else %}
+      {% for isLiked in likes %}
+      <div class="hasLiked like-{{rubriquePrincipale(isLiked.lnRubrique)}}">
+        <a href="{{ isLiked.url }}" class="lien-{{ rubriquePrincipale(isLiked.lnRubrique) }}">{{ isLiked.titre }}</a>
+      </div>
+      {% endfor %}
+    {% endif %}
+  </section>
+
+</article>
+<script type="text/javascript">
+
+  var avertissementPerso = true;
+
+  function addTagForm(collectionHolder, $newLinkLi) {
+      var prototype = collectionHolder.attr('data-prototype');
+      var newForm = prototype.replace(/__name__/g, collectionHolder.children().length);
+      var $newFormLi = $('<li></li>').append(newForm);
+      $newLinkLi.before($newFormLi);
+  }
+
+  $(document).ready(function () {
+    $(".modif-bascule").click(function (event) {
+      event.preventDefault();
+      $(this).parent().parent().next().toggleClass('closed-field open-field');
+    });
+    $("#source-biographie").blur(function () {
+      $("#raw-biographie").html($("#source-biographie").html());
+    });
+    $("#avatar_switcher").click(function (event) {
+      event.preventDefault();
+      $("#selecteur_avatar").toggleClass('closed-field open-field');
+    });
+    $("#galerie_switcher").click(function (event) {
+      event.preventDefault();
+      $("#selecteur_galerie").toggleClass('closed-field open-field');
+    });
+    $("#switcherHobby").click(function (event) {
+      event.preventDefault();
+      $("#selecteurHobby").toggleClass('closed-field open-field');
+    });
+    $("#boutonAjoutImageHobby").click(function (event) {
+      event.preventDefault();
+      var $holder = $("#marylin_hobby_nana_galerieHobby");
+      var prototype = $holder.attr('data-prototype');
+      var newForm = prototype.replace(/__name__/g, $holder.children().length);
+      $holder.append(newForm);
+      return false;
+    });
+    $(".boutonModificationHobby").click(function (event) {
+      event.preventDefault();
+      var occ = $("#hobbies #formModificationHobby").detach();
+      $(this).closest('.hobby-wrapper').append(occ);
+      var id = $(this).closest('.hobby-wrapper').data('idhobby');
+      occ.children('#idHobby').val(id);
+      occ.toggleClass('closed-field open-field');
+      return false;
+    });
+    $(".boutonAjoutImageHobby").click(function (event) {
+      event.preventDefault();
+      var occ = $("#hobbies #selecteurImageHobby").detach();
+      $(this).closest('.hobby-wrapper').append(occ);
+      var id = $(this).closest('.hobby-wrapper').data('idhobby');
+      occ.children('#idHobby').val(id);
+      occ.toggleClass('closed-field open-field');
+      return false;
+    });
+
+    $(".constraintFile").submit(function(event) {
+      var obj = $(this).find('#image_upload');
+      var fichier = obj['0'].files[0];
+      if (fichier.size > 2*1024*1024) {
+        event.preventDefault();
+        alert("Ton image est trop volumineuse");
+      } else {
+        var mimeType = fichier.type;
+        var types = mimeType.match(/(\w+)\/(\w+)/);
+        console.log(types);
+        if (types[1] !== 'image') {
+          event.preventDefault();
+          alert('Ce fichier n’est pas une image');
+        } else if (['png','gif','jpeg','jpg','svg'].indexOf(types[2]) === -1) {
+          event.preventDefault();
+          alert('Ce fichier n’est pas un dans un format lisible : '+types[2]);
+        }
+      }
+    });
+
+    $("#switchEditor").click(function (event) {
+      event.preventDefault();
+      $(".dualEdition").toggleClass('hiddenEditor activeEditor');
+    });
+    $('.stiletto').click(function () {
+      alerte = $('.messages_systeme');
+      alerte.html("Les escarpins représentent ta popularite sur TDN. Pour en gagner, participe autant que tu peux à la vie de la communauté.");
+      alerte.toggleClass('latentSystemMessages alerteSystemMessages');
+    });
+    $('.modif-bascule').click(function (event) {
+      if (avertissementPerso) {
+       alerte = $('.messages_systeme');
+       alerte.html("Les modifications seront enregistrées lorsque tu cliqueras sur le bouton <strong>Enregistrer les données perso</strong>.");
+       alerte.toggleClass('latentSystemMessages alerteSystemMessages');
+       setTimeout(function () {alerte.toggleClass('latentSystemMessages alerteSystemMessages')}, 10000);
+     }
+     avertissementPerso = false;
+    })
+  });
+</script>
+{% endblock %}

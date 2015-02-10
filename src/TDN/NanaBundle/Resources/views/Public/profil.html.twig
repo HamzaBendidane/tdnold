@@ -1,0 +1,138 @@
+{% extends 'DocumentBundle:Default:TDNDocument.html.twig' %}
+
+{% block title "Profil de " ~ me.username %}
+
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/profil.css') }}" type="text/css">
+{% endblock %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/profil_titre_299x80.png')}}" />
+</div>
+<article id="enveloppe-profil">
+
+  <section id="perso">
+    <section class="ours">
+      <p>Popularité : {{ me.popularite }}) </p>
+      <p>Statut : <span class="rubrique-beaute">{% for role in me.roles %}{{ role.name }}{% endfor %}</span></p>
+    </section>
+    <div id="enveloppe-avatar">
+      <img src="{{ asset('assets/images/theme/centre/avatar_profil/avatar5%2080x95.png')}}" />
+    </div>
+    <div id="enveloppe-data">
+      <h1>{{ me.username }}</h1>
+      <table id="data">
+        <tr>
+          <td>Prénom/Nom</td>
+          <td>{{ me.prenom ~ " " ~ me.nom }}</td>
+        </tr> 
+        <tr>
+          <td>Pseudo</td>
+          <td>{{ me.username }}</td>
+        </tr> 
+        <tr>
+          <td>Email</td>
+          <td>{{ me.email }}</td>
+         </tr> 
+        <tr>
+          <td>Date de naissance</td>
+          <td>{{ me.dateNaissance | date('d m Y') }}</td>
+        </tr> 
+        <tr>
+          <td>Ville</td>
+          <td>{{ me.ville }}</td>
+        </tr> 
+      <tr>
+        <td>Occupation</td>
+        <td>{{ me.occupation }}</td>
+      </tr> 
+      <tr>
+        <td>Membre de</td>
+        <td></td>
+      </tr> 
+    </table>
+  </div>
+  <div id="enveloppe-biographie">
+    <div>C'est moi !</div>
+    <div>{{ me.biographie | raw }}</div>
+  </div>
+
+  <div id="galerie-perso">
+    <h2>Ta galerie perso</h2>
+    {% if countGaleriePerso > 0 %}
+    {#% for image in galeriePerso%#}
+    <img class="vignette" src="{{ asset('assets/images/theme/image-test.jpg')}}" />
+    {#% endfor %#}
+    {% else %}
+    <p>Ajoute des images dans ta galerie</p>
+    {% endif %}
+  </div>
+
+  </section>
+
+   <section id="reseau-tdn">
+    <div id="followers">
+      <div class="densite">
+        <span class="taille">{{ countFollowed }}</span> nanas
+      </div>
+      <h2>Elles aiment ton profil</h2>
+      {% if countFollowed > 0 %}
+      <div class="trombines">
+        {#% for nana in me.isFollowed %#}
+        <img class="vignette" src="{{ asset('assets/images/theme/image-test.jpg')}}" />
+        {#% endfor %#}
+      </div>
+      {% endif %}
+      <p>Signale à tes amies de te rejoindre sur TDN</p>
+    </div>
+    <div id="followings">
+      <div class="densite">
+        <span class="taille">{{ countFollow }}</span> nanas
+      </div>
+      <h2>Tu t'intéresses à elles</h2>
+      {% if countFollow > 0 %}
+      <div class="trombines">
+        {#% for nana in me.Follow %#}
+        <img class="vignette" src="{{ asset('assets/images/theme/image-test.jpg')}}" />
+        {#% endfor %#}
+      </div>
+       {% else %}
+      <p>Suis les nanas qui te plaisent sur TDN</p>
+      {% endif %}
+    </div>
+  </section>
+
+  <section id="hobbies">
+    <h3>Ce qy'elle aime dans la vie</h3>
+    {% if countHobbies > 0 %}
+    {#% for hobby in me.hobbies %#}
+    <div class="hobby-wrapper">
+      <h4 class="titre-hobby">{{ hobby.domaine }} : {{ hobby.precisions }}</h4>
+      {#% for images in hobby.galerieHobby %#}
+      <img class="vignette-galerie" src="" />
+      {#% endfor %#}
+    </div>
+    {#% endfor %#}
+    {% else %}
+    <p class="warning-empty">Cette rubrique est encore vide</p>
+    {% endif %}
+  </section>
+
+  <section id="activite">
+    <h3>Son activité sur TDN</h3>
+    <section id="ses-questions"></section>
+    <section id="ses-commentaires"></section>
+    <section id="ses-reponses"></section>
+    <section id="ses-articles"></section>
+    <section id="ses-conseils"></section>
+    <section id="ses-infos"></section>
+  </section>
+
+  <section id="tdn-like">
+    <h3>Ce qu'elle aime sur TDN</h3>
+    <section id=""></section>
+  </section>
+
+</article>
+{% endblock %}

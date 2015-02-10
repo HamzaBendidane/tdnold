@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Test JSON | Truc de nana</title>
+	<!-- <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}" /> -->
+
+	<link href='http://fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css' />
+	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
+
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
+	<script src="{{ asset('assets/js/jquery-ui-1.10.3.custom.min.js') }}"></script>
+	<style type="text/css">
+		h2 {
+			color: #333;
+			margin-top: 0;
+		}
+		.news {
+			background-color: #F3F3F3;
+			border-radius: 8px;
+			clear: both;
+			margin: 10px;
+			overflow: auto;
+			padding: 10px
+		}
+		.vignette {
+			float: left;
+			margin: 0 20px 0 0;
+			max-width: 80px;
+		}
+		.abstract {
+			color: #999;
+		}
+	</style>
+</head>
+<body class="">
+	<div id="flux"></div>
+	<p class="switcher">Importer le flux</p>
+	
+	<script type="text/javascript">
+	
+		$(document).ready(function () {
+			$('.switcher').on('click', function() {
+				$.ajax(
+					// '/feed.json'
+					'/lib/rss/json_tdn.php'
+					// '/lib/rss/v3/json_tdn.php'
+					)
+					.done(function (data) {
+						var items = data.flux;
+						$(items).each(function () {
+							var obj = $(this)[0];
+							console.log(obj.titre);
+							var block = $("<div class='news'></div>");
+							block.html("<img src='"+obj.photo+"' class='vignette' />");
+							var titre = $("<h2></h2>");
+							titre.html(obj.titre);
+							block.append(titre);
+							var abstract = $("<div class='abstract'></div>");
+							abstract.html(obj.contenu);
+							block.append(abstract);
+							$("#flux").append(block);
+						});
+						// var feed = $.parseJSON(data.flux);
+						if (items === null) {
+							console.log('Le flux est mal formé');
+						} else {
+							console.log('Items : '+items.length);
+						}
+
+					})
+					.fail(function (jqXHR, textStatut, errorThrown) {
+						console.log('Erreur : '+errorThrown);
+					})
+					.always(function () {
+						console.log('Fini');
+					})
+					.complete(function () {
+						console.log('Transféré');
+					})
+			})
+		})
+	</script>
+	<!-- Google Analytics -->
+
+</body>
+</html>

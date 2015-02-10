@@ -1,0 +1,66 @@
+{% extends 'DocumentBundle:Admin:adminSimple.html.twig' %}
+
+{% block contenu_principal %}
+<div class="postit-contenu">
+   <img src="{{ asset('assets/images/theme/centre/titres/articles-redac_titre_299x80.png')}}" />
+</div>
+<div id="main-wrapper">
+  <section id="avertissment">
+    <h1>Transmettre une question à un expert</h1>
+    <p>Choisis une expert dans le domaine de la question posée</p>
+    <p>La question a été postée par {{ auteur }}, {{ age }} ans, le : {{ dateSoumission|date('d m Y') }}</p>
+    {% if image is defined %}
+    <p>
+      <img class="image-question" src="/uploads/documents/{{ image }}" alt="{{ alt }}" style="max-width:400px" />
+    </p>
+    {% endif %}
+  </section>
+  <form name="dispatch-conseil" id="dispatch-conseil" class="form-admin" action="{{ path('ConseilExpertBundle_flowDeleguer') }}" method="post">
+    <input type="hidden" name="flowId" value="{{flowId}}" />
+    {{ form_row(form.statut) }}
+    <div id="abstractArticle" class="blockWidget">
+      {{ form_row(form.question, {'attr' : {'class':'tiroirFerme' }}) }}
+      <div id="source-question" style="border:1px solid #999; min-height:200px; overflow:visible">
+      {% if sourceQuestion is defined %}{{ sourceQuestion }}{% endif %}
+      </div>
+    </div>
+    {{ form_row(form.lnExpert) }}
+    <div class="blockwidget">
+      <div id="widgetRubriques"></div>
+      <p><a href="#" id="boutonAjoutRubrique" class="collectionPush">Insère le contenu dans une/des rubrique/s</a></p>
+        {{ form_row(formRubrique.rubriques, {'attr': {'class': 'modeleFormRubrique'}}) }}
+    </div>
+    <div class="blockwidget">
+      <label  for="dismiss_demande">Ecarter la demande</label>
+      <input type="checkbox" name="dismiss_demande" id="dismiss_demande" value="1" />
+    </div>
+    <div class="blockwidget">
+      <textarea name="dismiss_texte" id="dismiss_texte" placeholder="Ecris un message pour la lectrice qui a soumis cette demande"></textarea>
+    </div>
+    <input type="submit" name="poster" value="Transmettre" />
+    </form>
+  </div>
+{#% endblock %#}
+
+{#% block form_script%#}
+<script type="text/javascript">
+    Aloha.ready( function() {
+       Aloha.jQuery('#source-question').aloha();
+    });
+    $(document).ready(function () {
+      $("#source-question").blur(function () {
+        $("#tdn3_conseilexpert_dispatch_question").html($("#source-question").html());
+      });
+    $("#boutonAjoutRubrique").click(function (event) {
+      event.preventDefault();
+      var $holder = $("#tdn3_thematique_rubriques");
+      var nbChamps = $holder.children().length;
+      var prototype = $holder.attr('data-prototype');
+      var newForm = prototype.replace(/__name__/g, nbChamps);
+      $('#widgetRubriques').append(newForm);
+      return false;
+    });
+
+    })
+</script>
+{% endblock %}

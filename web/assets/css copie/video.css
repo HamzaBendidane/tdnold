@@ -1,0 +1,65 @@
+.table-content {
+	display: table;
+}
+
+.table-content > * {
+	display: table-cell;
+	vertical-align: top;
+}
+
+.snapshot-wrapper {
+	background: white;
+	float: left;
+	width: 128px;
+	margin: 5px;
+	padding: 5px;
+}
+
+.snapshot .titre {
+	font-size: 0.7em;
+	color: #666;
+	margin: 4px;
+}
+
+.snapshot .credits {
+	font-size: .7em;
+	color: #666;
+	font-style: italic;
+	margin: 4px;
+}
+
+.vignette-video:before {
+	background: #1D47B0;
+	content: "";
+	display:  block;
+	height: 40px;
+	width:	40px;
+	position: absolute;
+	z-index: 1;
+}
+
+.vignette-video img {
+	height: 60px;
+	padding: 6px 0 0 6px;
+	position: relative;
+	width: 80px;
+	z-index: 10;
+
+}
+
+#corps-video {
+	color: #333;
+	font-size: 0.9em;
+	margin-top: 40px;
+	padding: 0 10px;
+}
+
+#more {
+	overflow: auto;
+}
+
+.hot-number {
+	color: black;
+	font-size: 1.2em;
+	font-weight: bold;
+}

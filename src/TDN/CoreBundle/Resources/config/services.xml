@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="core.antispam.class">TDN\CoreBundle\Antispam\simpleScanner</parameter>
+        <parameter key="core.shortener.class">TDN\CoreBundle\URL\URLShortener</parameter>
+        <parameter key="core.sitemapper.class">TDN\CoreBundle\URL\URLSitemapper</parameter>
+        <parameter key="core.textprocessor.class">TDN\CoreBundle\Texte\TextProcessor</parameter>
+    </parameters>
+
+    <services>
+        <service id="tdn.core.antspam" class="%core.antispam.class%"></service>
+        <service id="tdn.core.urlshortener" class="%core.shortener.class%"></service>
+        <service id="tdn.core.urlsitemapper" class="%core.sitemapper.class%"></service>
+        <service id="tdn.core.textprocessor" class="%core.textprocessor.class%"></service>
+
+        <service id="tdn.twig.age_extension" class="TDN\CoreBundle\Twig\DateExtension">
+            <tag name="twig.extension" />
+        </service>
+
+    </services>
+
+</container>
