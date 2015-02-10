@@ -185,7 +185,7 @@ abstract class Document
      */
     public function getIdDocument()
     {
-        return intval($this->idDocument);
+        return $this->idDocument;
     }
     /**
      * @var string $slug
@@ -312,7 +312,21 @@ abstract class Document
      */
     public function makeSlug () 
     {
-        return $slug = $this->slug;
+        $slug = $this->slug;
+        if ($slug == "") {
+            $str = $this->titre;
+            if($str !== mb_convert_encoding( mb_convert_encoding($str, 'UTF-32', 'UTF-8'), 'UTF-8', 'UTF-32') )
+                $str = mb_convert_encoding($str, 'UTF-8', mb_detect_encoding($str));
+            $str = htmlentities($str, ENT_NOQUOTES, 'UTF-8');
+            $str = preg_replace('`&([a-z]{1,2})(acute|uml|circ|grave|ring|cedil|slash|tilde|caron|lig);`i', '\\1', $str);
+            $str = html_entity_decode($str, ENT_NOQUOTES, 'UTF-8');
+            $str = preg_replace(array('`[^a-z0-9]`i','`[-]+`'), '-', $str);
+            $str = strtolower( trim($str, '-') );
+            $this->slug = $str;
+            return $str;
+        } else {
+            return $slug;
+        }
     }
 
     /**
