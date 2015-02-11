@@ -26,6 +26,8 @@ class IOSController extends Controller {
 	    public function commenterAction ($id) {
 
 		$request = $this->get('request');
+            $tdn3_commentaire_simple['texteCommentaire'] = $request->request->get('texteCommentaire', NULL);
+            $tdn3_commentaire_simple['abonne'] = $request->request->get('abonne', NULL);
 	    $em = $this->get('doctrine.orm.entity_manager');      
 		$rep_nanas = $em->getRepository('TDN\NanaBundle\Entity\Nana');
 		$rep_comms = $em->getRepository('TDN\CommentaireBundle\Entity\Commentaire');
@@ -36,7 +38,7 @@ class IOSController extends Controller {
 		// Instanciation du formulaire
 		$form = $this->createForm(new simpleCommentaireType, $comment);
 		if (true || $request->getMethod() === 'POST') {
-			$form->bindRequest($request);
+			$form->bindRequest($tdn3_commentaire_simple);
 			$idNana = $request->request->get('userID', NULL);
 			if (!is_null($idNana)) {
 				$usr = $rep_nanas->find();
@@ -53,7 +55,7 @@ class IOSController extends Controller {
 			// Instanciation du document commenté
 			$rep = $em->getRepository('TDN\DocumentBundle\Entity\Document');
 			// $doc = $rep->find($request->get('idDocument'));
-			$doc = $rep->find(10208);
+			$doc = $rep->find($id);
 			list($route, $rubrique, $params) = $doc->getURLElements();
 			$sourceURL = $this->generateURL($route, $params);
 

@@ -46,4 +46,13 @@
         <default key="_controller">CommentaireBundle:IOS:voter</default>
     </route>
 
+
+    <route id="Commentaire_WSSAdd" pattern="/ws/commentaire/{id}/commenter">
+        <default key="_controller">CommentaireBundle:IOS:commenter</default>
+    </route>
+
+    <route id="Commentaire_WSVote" pattern="/ws/commentaire/{idCommentaire}/voter">
+        <default key="_controller">CommentaireBundle:IOS:voter</default>
+    </route>
+
 </routes>
