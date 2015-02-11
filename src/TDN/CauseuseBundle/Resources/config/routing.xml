@@ -75,6 +75,11 @@
        <requirement key="_format">json</requirement>
     </route>
 
+    <route id="Causeuse_WSQuestion" pattern="/ws/question-de-nana/{id}/page.{_format}">
+        <default key="_controller">CauseuseBundle:IOS:iOSQuestion</default>
+        <requirement key="_format">html</requirement>
+    </route>
+
     <route id="Causeuse_iOSDernieresQuestions" pattern="/ios/dernieres-questions.{_format}">
         <default key="_controller">CauseuseBundle:IOS:iOSDernieresQuestions</default>
        <requirement key="_format">json</requirement>

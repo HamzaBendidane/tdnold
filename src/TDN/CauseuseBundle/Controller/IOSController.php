@@ -39,7 +39,40 @@ class IOSController extends IOSMainController {
     **/
     public function iOSQuestionAction ($id) {
 
-        return $this->_getOneContenu($this->_entite, $id);
+
+        /* Tableau qui va stocker toutes les données à remplacer dans le template twig */
+        $variables = array();
+
+        // Récupération de l'entity manager qui va nous permettre de gérer les entités.
+        $em = $this->get('doctrine.orm.entity_manager');
+        $urlManager = $this->get('tdn.document.url');
+
+        // Instanciation du Repository
+        $rep = $em->getRepository('TDN\CauseuseBundle\Entity\Question');
+        $question = $variables['question'] = $rep->find($id);
+
+        $reponses = $question->getFilReponses();
+        $variables['nbReponses'] = (empty($reponses)) ? 0 : $reponses->count();
+        $variables['totalVotes'] = 0;
+        foreach ($reponses as $r) {
+            $variables['totalVotes'] += $r->getLikes();
+        }
+
+        $auteur = $question->getLnAuteur();
+        $dateNaissance = $auteur->getDateNaissance();
+        $now = new \DateTime;
+        $variables['ageAuteur'] = $dateNaissance->diff($now)->format('%y');
+
+        $variables['paths'] = array(
+            'Article' => 'RedactionBundle_article',
+            'ConseilExpert' => 'ConseilExpert_conseil',
+            'Question' => 'CauseuseBundle_conversation',
+            'Video' => 'VideoBundle_video',
+            'Dossier' => 'DossierRedaction_dossier'
+        );
+
+        // Affichage de la page
+        return $this->render('CauseuseBundle:Page:questionNanasIOS.html.twig', $variables);
     }
 
     /**
