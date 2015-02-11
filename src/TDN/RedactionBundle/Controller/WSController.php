@@ -51,9 +51,32 @@ class WSController extends IOSMainController {
     * @return Response $response
     *
     **/
-    public function iOSArticleAction ($id) {
+    public function iOSArticleAction ($id)
+    {
 
-        return $this->_getOneContenu($this->_entite, $id);
+        $em = $this->get('doctrine.orm.entity_manager');
+        $repository = $em->getRepository('TDN\RedactionBundle\Entity\Article');
+
+        /* Tableau qui va stocker toutes les données à remplacer dans le template twig */
+        $variables = array();
+        $variables['rubrique'] = 'tdn';
+
+        $variables['article'] = $repository->find($id);
+
+
+        $variables['article']->updateHits();
+        $em->flush();
+
+
+        $variables['paths'] = array(
+            'Article' => 'RedactionBundle_article',
+            'ConseilExpert' => 'ConseilExpert_conseil',
+            'Question' => 'CauseuseBundle_conversation',
+            'Video' => 'VideoBundle_video',
+            'Dossier' => 'DossierRedaction_dossier'
+        );
+        // Affichage de la page
+        return $this->render('RedactionBundle:Default:articleIOS.html.twig', $variables);
 
     }
 

@@ -1,0 +1,50 @@
+{% block local_stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/css/commentaire.css') }}" type="text/css">
+{% endblock %}
+
+{% block contenu_principal %}
+<article id="article-wrapper" class="main article-redaction">
+
+  <!-- Contenu de l'article -->
+   <section class="contenu main-section">
+
+      <!-- Bloc pour l'affichage des métadonnées de l'article -->
+      <div id="metadata" class="metadata">
+         <p class="auteur">
+           <span class="standardEtiquette">Ecrit par </span> 
+            <a href="{{ path('NanaBundle_profil', { 'id' : article.lnAuteur.idNana }) }}" class="nom-auteur">{{article.lnAuteur.prenom ~ " " ~ article.lnAuteur.nom }} {#% for r in article.lnAuteur.roles %#}{#{ r.name }#}{#% endfor %#}</a>,<span class="standardEtiquette">le </span>  
+            <span class="date-publication">{{ article.datePublication |date('d/m/Y') }}</span>
+         </p>
+         <p>
+          <span class="standardEtiquette">Rubrique :</span>
+          {% if article.lnThematique is not null %}
+            <a href="{{path('Core_sommaire', {'slug': article.lnThematique.slug})}}">
+              <span class="rubrique-{{ rubriquePrincipale(article.lnThematique) }}">{{ article.lnThematique.titre }}
+            </a>
+          {% endif %}
+          {% for r in article.rubriques %}
+            <a href="{{path('Core_sommaire', {'slug': r.slug})}}">
+              <span class="rubrique-{{ rubriquePrincipale(r) }}">{{ r.titre }}
+            </a>
+          {% endfor %}
+          </span>
+         </p>
+      </div>
+
+      <!-- Bloc pour l'affichage du contenu de l'article -->
+      <div id="corps" class="corps">
+          {% if article.lnIllustration is not null%}
+            <img class="legacyIllustration" src="{{ illustration(article, 'SQUARE') }}" alt="{{ article.lnIllustration.alt }}" />
+          {% endif %}
+         <div class="chapo">{{ article.abstract|raw }}</div>
+
+      </div>
+
+
+
+      <!-- Bloc pour les commentaires -->
+      {% render 'CommentaireBundle:Public:flux' with {'id': article.idDocument } %}
+  </section>
+
+</article>
+{% endblock %}

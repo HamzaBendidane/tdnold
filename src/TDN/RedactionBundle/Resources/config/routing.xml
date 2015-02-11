@@ -21,7 +21,7 @@
     </route>
     <route id="Redaction_iOSArticlePage" pattern="/ws/article/{id}/page.{_format}">
         <default key="_controller">RedactionBundle:WS:iOSArticle</default>
-        <requirement key="_format">json</requirement>
+        <requirement key="_format">html</requirement>
     </route>
 
     <route id="Redaction_IOSBonsPlans" pattern="/ios/bons-plans">
