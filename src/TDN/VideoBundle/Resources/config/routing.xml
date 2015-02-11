@@ -127,6 +127,10 @@
         <default key="_controller">VideoBundle:IOS:iOSVideo</default>
        <requirement key="_format">json</requirement>
     </route>
+    <route id="Core_WSVideo" pattern="/ws/video/{id}/page.{_format}">
+        <default key="_controller">VideoBundle:IOS:iOSVideo</default>
+        <requirement key="_format">json</requirement>
+    </route>
 
     <route id="Core_iOSDernieresVideos" pattern="/ios/dernieres-videos.{_format}">
         <default key="_controller">VideoBundle:IOS:iOSDernieresVideos</default>

@@ -87,6 +87,8 @@ class AppsController extends Controller {
 
 	private function extractVideoData ($doc, $controleur) {
     	$items = array();
+
+        $items['id'] = intval($doc->getIdDocument());
         $items['titre'] = $this->safeString($doc->getTitre());
         $items['chapo'] = strip_tags($this->safeString($doc->getAbstract())); 
         $items['ptime'] = $doc->getDatePublication()->format('Y-m-d H:i:s');

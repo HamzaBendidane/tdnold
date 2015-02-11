@@ -83,6 +83,10 @@
         <default key="_controller">DocumentBundle:IOS:aime</default>
     </route>
 
+    <route id="Document_WSAime" pattern="/ws/aime/{id}">
+        <default key="_controller">DocumentBundle:IOS:aime</default>
+    </route>
+
     <!-- Anciennes URL v2 -->
 
     <route id="Document_rechercheLegacy" pattern="/{seed},search.{_format}">
