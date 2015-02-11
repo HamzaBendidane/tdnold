@@ -43,7 +43,7 @@
 
     <route id="ConseilExpert_WSConseil" pattern="/ws/conseil/{id}/page.{_format}">
         <default key="_controller">ConseilExpertBundle:IOS:iOSConseil</default>
-        <requirement key="_format">json</requirement>
+        <requirement key="_format">html</requirement>
     </route>
 
     <route id="Core_iOSDerniersConseils" pattern="/ios/derniers-conseils.{_format}">

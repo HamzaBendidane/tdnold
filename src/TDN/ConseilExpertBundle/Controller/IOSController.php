@@ -36,7 +36,25 @@ class IOSController extends IOSMainController {
     **/
     public function iOSConseilAction ($id) {
 
-        return $this->_getOneContenu($this->_entite, $id);
+        /* Tableau qui va stocker toutes les données à remplacer dans le template twig */
+        $variables = array();
+
+        // Récupération de l'entity manager qui va nous permettre de gérer les entités.
+        $em = $this->get('doctrine.orm.entity_manager');
+        $rep_conseils = $em->getRepository('TDN\ConseilExpertBundle\Entity\ConseilExpert');
+        $variables['conseil'] = $rep_conseils->find($id);
+
+        $variables['paths'] = array(
+            'Article' => 'RedactionBundle_article',
+            'ConseilExpert' => 'ConseilExpert_conseil',
+            'Question' => 'CauseuseBundle_conversation',
+            'Video' => 'VideoBundle_video',
+            'Dossier' => 'DossierRedaction_dossier'
+        );
+
+        // Affichage de la page
+        return $this->render('ConseilExpertBundle:Page:conseilIOS.html.twig', $variables);
+
     }
 
     /**
