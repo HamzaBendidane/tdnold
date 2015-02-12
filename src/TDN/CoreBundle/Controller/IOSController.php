@@ -287,6 +287,7 @@ class IOSController extends Controller {
     *
     **/
     protected function _iOSDerniersContenus (array $type) {
+
         $request = $this->get('request');
         $limite = (int)($request->query->get('limite') ?: self::NOMBRE_DOCUMENTS);
         $debut = (int)($request->query->get('debut') ?: self::NOMBRE_DOCUMENTS);

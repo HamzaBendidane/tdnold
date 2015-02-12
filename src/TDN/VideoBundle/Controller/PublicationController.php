@@ -192,7 +192,7 @@ class PublicationController extends Controller {
 		$video = $rep_video->find($id);
 		$rep_commentaires = $em->getRepository('TDN\CommentaireBundle\Entity\Commentaire');
 		$variables['commentaires'] = $rep_commentaires->findByFilDocument($id);
-		
+
 		$hebergeur = $video->getIdHebergeur();
 		switch ($hebergeur) {
 			case 'dailymotion':

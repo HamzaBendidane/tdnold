@@ -62,8 +62,9 @@ class IOSController extends IOSMainController {
        $items['vignette'] = $doc->getVignette(); 
        $items['duree'] = $doc->getDuree(); 
        $items['hebergeur'] = $doc->getIdHebergeur(); 
-       $items['idVideo'] = $doc->getIdVideo(); 
-       $items['code'] = str_replace("\"", "'", $doc->getCodeIntegration()); 
+       $items['idVideo'] = $doc->getIdVideo();
+        preg_match_all("/src=\"(.*)\" frameborder/is",$doc->getCodeIntegration(),$matches);
+       $items['code'] = $matches[1][0];
 
        return $items;
     }
