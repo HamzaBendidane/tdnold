@@ -38,6 +38,30 @@ class PublicController extends Controller
         return $this->render('CommentaireBundle:Flux:flux.html.twig', $variables);
     	// return new Response("<div>".count($comms)."</div>");
     }
+    public function fluxIOSAction($id) {
+
+        // $cache = new Memcache;
+        // $_cacheKey = md5('Commentaire:SQL:'.$id);
+
+        // Récupération de l'entity manager qui va nous permettre de gérer les entités.
+        $em = $this->get('doctrine.orm.entity_manager');
+        // Instanciation du formulaire
+        $form = $this->createForm(new simpleCommentaireType, new Commentaire);
+        $variables['form'] = $form->createView();
+
+        // récupération des commentaires
+        $rep_comms = $em->getRepository('TDN\CommentaireBundle\Entity\Commentaire');
+        $comms = $rep_comms->findBy(array('filDocument' => $id, 'statut' => 1));
+        foreach ($comms as $c) {
+            $variables['commentaires'][$c->getidThread()][$c->getIdReponse()][] = $c;
+        }
+        if (array_key_exists('commentaires', $variables)) {
+            krsort($variables['commentaires']);
+        }
+        $variables['idDocument'] = $id;
+        return $this->render('CommentaireBundle:Flux:fluxIOS.html.twig', $variables);
+        // return new Response("<div>".count($comms)."</div>");
+    }
 
     public function addAction () {
 
