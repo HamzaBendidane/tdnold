@@ -78,6 +78,9 @@
     <route id="Document_IOSRecherche" pattern="/ios/recherche">
         <default key="_controller">DocumentBundle:IOS:recherche</default>
     </route>
+    <route id="Document_WSRecherche" pattern="/ws/recherche">
+        <default key="_controller">DocumentBundle:IOS:recherche</default>
+    </route>
 
     <route id="Document_iOSAime" pattern="/ios/aime/{id}">
         <default key="_controller">DocumentBundle:IOS:aime</default>
