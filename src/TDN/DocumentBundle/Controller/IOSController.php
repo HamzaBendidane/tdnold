@@ -10,6 +10,8 @@ use TDN\CoreBundle\Entity\Journal;
 use TDN\CoreBundle\Controller\AppsController;
 
 use TDN\NanaBundle\Entity\Nana;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 class IOSController extends AppsController {
     
@@ -27,64 +29,54 @@ class IOSController extends AppsController {
 
         if (strlen($seed) > 2) {
 
-            $flux['contenus'] = array();
-            
             // Récupération de l'entity manager qui va nous permettre de gérer les entités.
             $em = $this->get('doctrine.orm.entity_manager');      
             $rep = $repository = $em->getRepository('TDN\RedactionBundle\Entity\Article');
             $resultatsRecherche = $rep->findBySeed($seed);
             if ($resultatsRecherche) foreach ($resultatsRecherche as $r) {
-                $flux['contenus']['articles'] = $this->extractHeader($r, 'RedactionBundle_article');     
+                $flux[] = $this->extractHeader($r, 'RedactionBundle_article');
             }
 
             $rep = $em->getRepository('TDN\RedactionBundle\Entity\SelectionShopping');
             $resultatsRecherche = $rep->findBySeed($seed);
             if ($resultatsRecherche) foreach ($resultatsRecherche as $r) {
-                $flux['contenus']['shopping'] = $this->extractHeader($r, 'Redaction_showSelection');     
+                $flux[] = $this->extractHeader($r, 'Redaction_showSelection');
             }
  
             $rep = $repository = $em->getRepository('TDN\ConseilExpertBundle\Entity\ConseilExpert');
             $resultatsRecherche = $rep->findBySeed($seed);
             if ($resultatsRecherche) foreach ($resultatsRecherche as $r) {
-                $flux['contenus']['conseils'] = $this->extractHeader($r, 'ConseilExpert_conseil');     
+                $flux[] = $this->extractHeader($r, 'ConseilExpert_conseil');
             }
  
  			$rep = $repository = $em->getRepository('TDN\VideoBundle\Entity\Video');
             $resultatsRecherche = $rep->findBySeed($seed);
             if ($resultatsRecherche) foreach ($resultatsRecherche as $r) {
-                $flux['contenus']['videos'] = $this->extractHeader($r, 'VideoBundle_video');     
+                $flux[] = $this->extractHeader($r, 'VideoBundle_video');
             }
 
 			$rep = $repository = $em->getRepository('TDN\CauseuseBundle\Entity\Question');
             $resultatsRecherche = $rep->findBySeed($seed);
             if ($resultatsRecherche) foreach ($resultatsRecherche as $r) {
-                $flux['contenus']['questions'] = $this->extractHeader($r, 'CauseuseBundle_conversation');     
+                $flux[] = $this->extractHeader($r, 'CauseuseBundle_conversation');
             }
 
             $rep = $repository = $em->getRepository('TDN\DossierRedactionBundle\Entity\Dossier');
             $resultatsRecherche = $rep->findBySeed($seed);
             if ($resultatsRecherche) foreach ($resultatsRecherche as $r) {
-                $flux['contenus']['dossiers'] = $this->extractHeader($r, 'DossierRedaction_dossier');     
+                $flux[] = $this->extractHeader($r, 'DossierRedaction_dossier');
             }
 
             $rep = $repository = $em->getRepository('TDN\ConcoursBundle\Entity\Concours');
             $resultatsRecherche = $rep->findBySeed($seed);
             if ($resultatsRecherche) foreach ($resultatsRecherche as $r) {
-                $flux['contenus']['concours'] = $this->extractHeader($r, 'Concours_show');     
+                $flux[] = $this->extractHeader($r, 'Concours_show');
             }
 
         } else {
             $flux['reponse'] = 'ERRSEED';
         }
-
-        $flux = preg_replace("/\\\\u([a-f0-9]{4})/e", "iconv('UCS-4LE','UTF-8',pack('V', hexdec('U$1')))", json_encode($flux));
-        $flux_resultats = str_replace('\\', '', $flux);
-        $flux = json_encode(json_decode($flux_resultats));
-
-        $response = new Response($flux);
-        $response->headers->set('Content-Type', 'application/json');
-        $response->headers->set('Accept-Charset', 'utf-8');
-        return $response;
+        return new JsonResponse($flux);
     }
 
     /**
