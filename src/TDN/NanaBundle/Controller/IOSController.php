@@ -427,7 +427,6 @@ class IOSController extends Controller {
         $usr = $rep_nana->find($id);
 
         // Le profil était-il déjà complet
-        $ancienProfilComplet = $this->isProfileComplete($usr);
         // Formulaire pour changer d'avatar
         $avatar = new Image;
         $form_avatar = $this->createForm(new simpleImageType(), $avatar);
@@ -443,19 +442,16 @@ class IOSController extends Controller {
 
             $em->flush();
 
-            // Post-traitement de l'image
             $avatar = $usr->getLnAvatar()->getFichier();
             $source = $this->container->getParameter('media_root').$dossier.$avatar;
             $err = $imageProcessor->square($source, 300, 'sqr_');
             $err = $imageProcessor->downScale($source, 700, 'height');
 
-            $points = $this->container->getParameter('action_points');
-            if ($this->isProfileComplete($usr) && !$ancienProfilComplet) {
-                $usr->updatePopularite($points['completer_profil']);
-            }
+            $ack = "OK";
+        }else {
+            $ack = "NOK";
         }
 
-        return new JsonResponse(array('OK'));
-
+        return new JsonResponse(array('reponse' => $ack));
     }
 }
