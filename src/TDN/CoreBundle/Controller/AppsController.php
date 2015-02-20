@@ -113,10 +113,12 @@ class AppsController extends Controller {
 	}
 
     protected function extractHeader ($doc, $controleur) {
+        
         $items = array();
         $items['id'] = $doc->getIdDocument();
         $items['titre'] = $this->safeString($doc->getTitre());
         $items['rubrique'] = $doc->getLnThematique()->getTitre();
+        $items['chapo'] = strip_tags($this->safeString($doc->getAbstract()));
         $items['couleur'] = $doc->getLnThematique()->getCouleur();
         if ($doc->getLnIllustration() instanceof Image) {
             $_ill = $doc->getLnIllustration();
