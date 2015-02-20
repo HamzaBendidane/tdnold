@@ -415,6 +415,9 @@ class IOSController extends Controller {
 
     public function avatarAction ($id) {
 
+
+        //$usr= $this->get('security.context')->getToken()->getUser();
+
         $request = $this->get('request');
 
         $variables['rubrique'] = 'tdn';

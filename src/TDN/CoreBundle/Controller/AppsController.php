@@ -113,7 +113,7 @@ class AppsController extends Controller {
 	}
 
     protected function extractHeader ($doc, $controleur) {
-        
+
         $items = array();
         $items['id'] = $doc->getIdDocument();
         $items['titre'] = $this->safeString($doc->getTitre());

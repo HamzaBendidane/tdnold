@@ -26,8 +26,8 @@ class IOSController extends Controller {
 	    public function commenterAction ($id) {
 
 		$request = $this->get('request');
-            $tdn3_commentaire_simple['texteCommentaire'] = $request->request->get('texteCommentaire', NULL);
-            $tdn3_commentaire_simple['abonne'] = $request->request->get('abonne', NULL);
+            $tdn3_commentaire_simple['texteCommentaire'] = $request->get('texteCommentaire', NULL);
+            $tdn3_commentaire_simple['abonne'] = $request->get('abonne', NULL);
 
 	    $em = $this->get('doctrine.orm.entity_manager');      
 		$rep_nanas = $em->getRepository('TDN\NanaBundle\Entity\Nana');
