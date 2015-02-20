@@ -3,6 +3,7 @@
 namespace TDN\NanaBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 use TDN\NanaBundle\Entity\Nana;
@@ -409,5 +410,52 @@ class IOSController extends Controller {
         $reponse->setContent(json_encode(array('reponse' => $ack)));
         $reponse->headers->set('Content-Type', 'application/json');
         return $reponse;
+    }
+
+
+    public function avatarAction ($id) {
+
+        $request = $this->get('request');
+
+        $variables['rubrique'] = 'tdn';
+
+        // Récupération de l'entity manager qui va nous permettre de gérer les entités.
+        $em = $this->get('doctrine.orm.entity_manager');
+        $imageProcessor = $this->get('tdn.image_processor');
+        $rep_nana = $em->getRepository('TDN\NanaBundle\Entity\Nana');
+
+        $usr = $rep_nana->find($id);
+
+        // Le profil était-il déjà complet
+        $ancienProfilComplet = $this->isProfileComplete($usr);
+        // Formulaire pour changer d'avatar
+        $avatar = new Image;
+        $form_avatar = $this->createForm(new simpleImageType(), $avatar);
+        $form_avatar->bind($request);
+
+        if ($form_avatar->isValid()) {
+            // Création du nouvel avatar
+            $now = new \DateTime;
+            $dossier = '/profils/'.$usr->getIdNana().'/';
+            $avatar->init($dossier, $usr);
+            // Mise à jour du profil
+            $usr->setLnAvatar($avatar);
+
+            $em->flush();
+
+            // Post-traitement de l'image
+            $avatar = $usr->getLnAvatar()->getFichier();
+            $source = $this->container->getParameter('media_root').$dossier.$avatar;
+            $err = $imageProcessor->square($source, 300, 'sqr_');
+            $err = $imageProcessor->downScale($source, 700, 'height');
+
+            $points = $this->container->getParameter('action_points');
+            if ($this->isProfileComplete($usr) && !$ancienProfilComplet) {
+                $usr->updatePopularite($points['completer_profil']);
+            }
+        }
+
+        return new JsonResponse(array('OK'));
+
     }
 }

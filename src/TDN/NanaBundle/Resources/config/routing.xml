@@ -278,5 +278,9 @@
         <default key="_controller">NanaBundle:WS:passwordReset</default>
     </route>
 
+    <route id="Nana_avatar" pattern="/ws/avatar/{id}">
+        <default key="_controller">NanaBundle:IOS:avatar</default>
+    </route>
+
 
 </routes>
