@@ -420,41 +420,35 @@ class IOSController extends Controller {
 
         $request = $this->get('request');
 
+        $avatar = $request->get('avatar');
+
         $variables['rubrique'] = 'tdn';
 
-        // Récupération de l'entity manager qui va nous permettre de gérer les entités.
+       /* // Récupération de l'entity manager qui va nous permettre de gérer les entités.
         $em = $this->get('doctrine.orm.entity_manager');
         $imageProcessor = $this->get('tdn.image_processor');
         $rep_nana = $em->getRepository('TDN\NanaBundle\Entity\Nana');
 
         $usr = $rep_nana->find($id);
 
-        // Le profil était-il déjà complet
-        // Formulaire pour changer d'avatar
-        $avatar = new Image;
-        $form_avatar = $this->createForm(new simpleImageType(), $avatar);
-        $form_avatar->bind($request);
 
-        if ($form_avatar->isValid()) {
-            // Création du nouvel avatar
-            $now = new \DateTime;
-            $dossier = '/profils/'.$usr->getIdNana().'/';
-            $avatar->init($dossier, $usr);
-            // Mise à jour du profil
-            $usr->setLnAvatar($avatar);
+        // Création du nouvel avatar
+        $now = new \DateTime;
+        $dossier = '/profils/'.$usr->getIdNana().'/';
+        $avatar->init($dossier, $usr);
+        // Mise à jour du profil
+        $usr->setLnAvatar($avatar);
 
-            $em->flush();
+        $em->flush();
 
-            $avatar = $usr->getLnAvatar()->getFichier();
-            $source = $this->container->getParameter('media_root').$dossier.$avatar;
-            $err = $imageProcessor->square($source, 300, 'sqr_');
-            $err = $imageProcessor->downScale($source, 700, 'height');
+        $avatar = $usr->getLnAvatar()->getFichier();
+        $source = $this->container->getParameter('media_root').$dossier.$avatar;
+        $err = $imageProcessor->square($source, 300, 'sqr_');
+        $err = $imageProcessor->downScale($source, 700, 'height');
+*/
+        $ack = "OK";
 
-            $ack = "OK";
-        }else {
-            $ack = "NOK";
-        }
 
-        return new JsonResponse(array('reponse' => $ack));
+        return new JsonResponse(array('reponse' => $ack,'img'=>$avatar));
     }
 }
