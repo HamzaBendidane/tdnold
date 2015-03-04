@@ -66,6 +66,10 @@
         <requirement key="slug">[0-9|a-z|-]+</requirement>
       </route>
 
+    <route id="VideoBundleIOS_video" pattern="/ws/videohtml/{id}">
+        <default key="_controller">VideoBundle:Publication:videoIos</default>
+    </route>
+
     <route id="Video_proposer" pattern="/videos/proposer">
         <default key="_controller">VideoBundle:Publication:videoProposer</default>
     </route>

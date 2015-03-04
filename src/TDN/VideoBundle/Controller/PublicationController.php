@@ -255,4 +255,77 @@ class PublicationController extends Controller {
 		// Affichage de la page
 		return $this->render('VideoBundle:Page:video.html.twig', $variables);
 	}
+
+    public function videoIosAction ($id) {
+        /* Tableau qui va stocker toutes les données à remplacer dans le template twig */
+        $variables = array();
+        // Récupération de l'entity manager qui va nous permettre de gérer les entités.
+        $em = $this->get('doctrine.orm.entity_manager');
+        // Instanciation du Repository
+        $rep_video = $em->getRepository('TDN\VideoBundle\Entity\Video');
+        $video = $rep_video->find($id);
+        $rep_commentaires = $em->getRepository('TDN\CommentaireBundle\Entity\Commentaire');
+        $variables['commentaires'] = $rep_commentaires->findByFilDocument($id);
+
+        $hebergeur = $video->getIdHebergeur();
+        switch ($hebergeur) {
+            case 'dailymotion':
+            case '2':
+                $params = $video->getParams();
+                $params = json_decode($params);
+                $variables['codeIntegration'] = $video->getCodeIntegration();
+                $variables['codeIntegration'] = str_replace('480', '360', $variables['codeIntegration']);
+                $variables['codeIntegration'] = str_replace('360', '203', $variables['codeIntegration']);
+                $minutes = floor($video->getDuree()/60);
+                $secondes = $video->getDuree() - ($minutes * 60);
+                $variables['duree'] = $minutes."' ".$secondes."\"";
+                break;
+            case 'vimeo':
+            case '1':
+                $ID = $video->getIdVideo();
+                $variables['codeIntegration'] = "<iframe src='http://player.vimeo.com/video/$ID' width='360' frameborder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>";
+                break;
+            case 'youtube':
+            case '0':
+                $ID = $video->getIdVideo();
+                $variables['codeIntegration'] = "<iframe width='360' height='270' src='https://www.youtube.com/embed/$ID?rel=0' frameborder='0' allowfullscreen></iframe>";
+                break;
+            default:
+                $variables['codeIntegration'] = stripslashes($video->getCodeIntegration());
+        }
+
+        $video->updateHits();
+        $em->flush();
+
+        $_rubriques = $video->getRubriques();
+        $variables['rubriqueEntity'] = $_rubriques[0];
+        $variables['canonical'] = $this->generateURL('VideoBundle_video',
+            array('id' => $video->getIdDocument(),
+                'slug' => $video->getSlug(),
+                'rubrique' => $_rubriques[0]->getSlug())
+        );
+        $variables['meta_description'] = strip_tags($video->getAbstract());
+        $variables['video'] = $video;
+
+        $variables['paths'] = array(
+            'Article' => 'RedactionBundle_article',
+            'ConseilExpert' => 'ConseilExpert_conseil',
+            'Question' => 'CauseuseBundle_conversation',
+            'Video' => 'VideoBundle_video',
+            'Dossier' => 'DossierRedaction_dossier'
+        );
+
+        // Documents proches (pour aller plus loin)
+        $rep_tags = $em->getRepository('TDN\DocumentBundle\Entity\Tag');
+        $sims = $rep_tags->findSimilars($id);
+
+        $rep_docs = $em->getRepository('TDN\DocumentBundle\Entity\Document');
+        $variables['similaires'] = array();
+        foreach($sims as $s) {
+            $variables['similaires'][] = $rep_docs->find($s['id']);
+        }
+
+        // Affichage de la page
+        return $this->render('VideoBundle:Page:videoios.html.twig', $variables);
+    }
 }
