@@ -161,11 +161,14 @@ class WSController extends Controller {
     public function updateProfilAction ($id) {
 
         $request = $this->get('request');
+        $avatar = $request->get('avatar');
+
 
         // Récupération de l'entity manager qui va nous permettre de gérer les entités.
         $newID = -1;
 
         $em = $this->get('doctrine.orm.entity_manager');
+        $imageProcessor = $this->get('tdn.image_processor');
         $rep_nana = $repository = $em->getRepository('TDN\NanaBundle\Entity\Nana');
 
         if (
@@ -189,6 +192,22 @@ class WSController extends Controller {
                         $ack = 'ERRDOUBLE';
                     }else {
 
+
+                        $dossier = dirname(__FILE__).'/../../../../web/uploads/documents/profils/'.$nana->getIdNana().'/';
+
+                        $this->base64_to_jpeg($avatar,$dossier.'avatar.jpg');
+
+
+                        $avatar = new Image;
+                        $avatar->init($dossier, $nana);
+                        $avatar->setFichier('avatar.jpg');
+
+
+                        $nana->setLnAvatar($avatar);
+
+                        $em->flush();
+
+
                         $nana->setEmail($request->get('email'));
                         $nana->setNom($request->get('name'));
                         $nana->setPrenom($request->get('surname'));
@@ -196,6 +215,8 @@ class WSController extends Controller {
                         $nana->setVille($request->get('city'));
                         $nana->setNewsletter($request->get('newsletter'));
                         $nana->setBiographie($request->get('bio'));
+                        $nana->setAvatarId(12345);
+
 
                         try {
                             $em->flush();
@@ -210,7 +231,16 @@ class WSController extends Controller {
         }
         return new JsonResponse(array('reponse' => $ack , 'token' => $id));
     }
+    function base64_to_jpeg($base64_string, $output_file) {
+        $ifp = fopen($output_file, "wb");
 
+        $data = explode(',', $base64_string);
+
+        fwrite($ifp, base64_decode($data[1]));
+        fclose($ifp);
+
+        return $output_file;
+    }
     /**
      *
      * myProfilAction

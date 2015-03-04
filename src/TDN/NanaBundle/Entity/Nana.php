@@ -274,6 +274,18 @@ class Nana implements AdvancedUserInterface, \Serializable
     
         return $this;
     }
+    /**
+     * Set prenom
+     *
+     * @param string $prenom
+     * @return Nana
+     */
+    public function setAvatarId($id)
+    {
+        $this->avatar_id = $id;
+
+        return $this;
+    }
 
     /**
      * Get prenom
