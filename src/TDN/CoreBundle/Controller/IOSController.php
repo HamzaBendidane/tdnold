@@ -98,6 +98,7 @@ class IOSController extends Controller {
         $items['couleur'] = $doc->getLnThematique()->getCouleur();
         $items['principale'] = $doc->getLnThematique()->getTitre();
         $items['likes'] = $doc->getLikes();
+        $items['date'] = $doc->getDatePublication()->format('Y-m-d H:i:s');;
         $items['commentaires'] = count($doc->getCommentaires());
         $_hasVignette = false;
         if ($doc instanceof Video) {
