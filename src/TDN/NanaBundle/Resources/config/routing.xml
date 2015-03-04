@@ -52,6 +52,7 @@
         <default key="_controller">NanaBundle:Public:showMyProfil</default>
     </route>
 
+
     <route id="NanaBundle_myProfilUpdate" pattern="/my-tdn/profil/update">
         <default key="_controller">NanaBundle:Public:updateProfil</default>
     </route>
@@ -76,6 +77,9 @@
         <default key="_controller">NanaBundle:Public:showProfil</default>
     </route>
 
+    <route id="NanaBundle_profil" pattern="/ws/profil/{id}">
+        <default key="_controller">NanaBundle:Public:showIosProfil</default>
+    </route>
     <route id="NanaBundle_follow" pattern="/follow/{nana}">
         <default key="_controller">NanaBundle:Public:follow</default>
     </route>

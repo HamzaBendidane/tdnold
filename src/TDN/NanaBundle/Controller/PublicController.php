@@ -63,6 +63,8 @@ class PublicController extends Controller {
         return false;
     }
 
+
+
     public function showMyProfilAction () {
 
         // Récupération de l'entity manager qui va nous permettre de gérer les entités.
@@ -254,6 +256,94 @@ class PublicController extends Controller {
             }
 
             return $this->render('NanaBundle:Public:completeProfil.html.twig', $vars);
+        }
+    }
+
+    public function showIosProfilAction ($id) {
+
+        $variables = array();
+        $vars['rubrique'] = "tdn";
+
+        $whoami = $this->container->get('security.context')->getToken()->getUser();
+        // Récupération de l'entity manager qui va nous permettre de gérer les entités.
+        $em = $this->get('doctrine.orm.entity_manager');
+        $rep_nana = $repository = $em->getRepository('TDN\NanaBundle\Entity\Nana');
+        $rep_journal = $repository = $em->getRepository('TDN\CoreBundle\Entity\Journal');
+        $vars['me'] = $rep_nana->find($id);
+
+        if ($vars['me']->getActive() == 0) {
+            return $this->render('NanaBundle:Public:inactiveProfil.html.twig', $vars);
+        } else {
+            // $vars['countHobbies'] = $vars['me']->getHobbies()->count();
+            $vars['countGaleriePerso'] = $vars['me']->getGaleriePerso()->count();
+            $vars['my_hobbies'] = $vars['me']->getLnHobbies();
+            $vars['countHobbies'] = count($vars['my_hobbies']);
+
+            $vars['productions'] = array();
+            $rep_doc = $em->getRepository('TDN\RedactionBundle\Entity\Article');
+            $vars['productions']['articles'] = $rep_doc->findBy(
+                array('lnAuteur' => $vars['me']->getIdNana(),
+                    'statut' => 'ARTICLE_PUBLIE'),
+                array('datePublication' => 'DESC'),
+                20,0
+            );
+            $rep_doc = $em->getRepository('TDN\ConseilExpertBundle\Entity\ConseilExpert');
+            $vars['productions']['demandes'] = $rep_doc->findBy(
+                array('lnAuteur' => $vars['me']->getIdNana(),
+                    'statut' => 'CONSEIL_PUBLIE'),
+                array('datePublication' => 'DESC'),
+                20,0
+            );
+            $rep_doc = $em->getRepository('TDN\ConseilExpertBundle\Entity\ConseilExpert');
+            $vars['productions']['conseils'] = $rep_doc->findBy(
+                array('lnExpert' => $vars['me']->getIdNana(),
+                    'statut' => 'CONSEIL_PUBLIE'),
+                array('datePublication' => 'DESC'),
+                20,0
+            );
+            $rep_doc = $em->getRepository('TDN\CauseuseBundle\Entity\Question');
+            $vars['productions']['questions'] = $rep_doc->findBy(
+                array('lnAuteur' => $vars['me']->getIdNana(),
+                    'statut' => 'QUESTION_PUBLIEE'),
+                array('datePublication' => 'DESC'),
+                20,0
+            );
+            $rep_doc = $em->getRepository('TDN\CauseuseBundle\Entity\Reponse');
+            $vars['productions']['reponses'] = $rep_doc->findBy(
+                array('lnAuteur' => $vars['me']->getIdNana(),
+                    'statut' => 'REPONSE_PUBLIEE'),
+                array('datePublication' => 'DESC'),
+                20,0
+            );
+            $rep_doc = $em->getRepository('TDN\BreveBundle\Entity\Breve');
+            $vars['productions']['breves'] = $rep_doc->findBy(
+                array('lnAuteur' => $vars['me']->getIdNana()),
+                array('datePublication' => 'DESC'),
+                20,0
+            );
+            $rep_doc = $em->getRepository('TDN\CommentaireBundle\Entity\Commentaire');
+            $vars['productions']['commentaires'] = $rep_doc->findBy(
+                array('filAuteur' => $vars['me']->getIdNana()),
+                array('datePublication' => 'DESC'),
+                20,0
+            );
+
+            $vars['likes'] = $rep_journal->likes($vars['me']->getIdNana());
+
+            // $x = $whoami->getIdNana();
+            // if ($x == 1) {
+            //     print_r(count($follows));
+            //     foreach($follows as $f) print_r($f->getIdNana());
+            // }
+
+            if ($whoami instanceof Nana) {
+                $follows = $whoami->getFollows();
+                $vars['alreadyFollowed'] = in_array($vars['me'], $follows->toArray());
+            } else {
+                $vars['alreadyFollowed'] = false;
+            }
+
+            return $this->render('NanaBundle:Public:completeProfilIos.html.twig', $vars);
         }
     }
 
