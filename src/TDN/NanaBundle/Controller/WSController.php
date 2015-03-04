@@ -195,7 +195,7 @@ class WSController extends Controller {
 
                         $dossier = dirname(__FILE__).'/../../../../web/uploads/documents/profils/'.$nana->getIdNana().'/';
 
-                        $this->base64_to_jpeg($avatar,$dossier.'avatar.jpg');
+                        $this->base64_to_jpeg($avatar,$dossier.'sqr_avatar.jpg');
 
 
                         $avatar = new Image;
