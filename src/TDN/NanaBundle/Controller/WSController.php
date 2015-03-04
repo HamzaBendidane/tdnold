@@ -218,6 +218,12 @@ class WSController extends Controller {
                         $nana->setAvatarId(12345);
 
 
+                        $avatar = $nana->getLnAvatar()->getFichier();
+                        $source = $this->container->getParameter('media_root').$dossier.$avatar;
+                        $err = $imageProcessor->square($source, 300, 'sqr_');
+                        $err = $imageProcessor->downScale($source, 700, 'height');
+
+
                         try {
                             $em->flush();
                             $ack = "ACK";
@@ -234,9 +240,8 @@ class WSController extends Controller {
     function base64_to_jpeg($base64_string, $output_file) {
         $ifp = fopen($output_file, "wb");
 
-        $data = explode(',', $base64_string);
+        fwrite($ifp, base64_decode($base64_string));
 
-        fwrite($ifp, base64_decode($data[1]));
         fclose($ifp);
 
         return $output_file;
